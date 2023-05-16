@@ -1,2 +1,3 @@
-# webproject3
-mvc-react web project
+# mvc-react web project
+
+> dotnet restore //Due to bin and obj being ignored
