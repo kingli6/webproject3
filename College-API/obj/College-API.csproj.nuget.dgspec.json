@@ -1,25 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "/home/jonathan/Documents/Programming/schoolwebproject3/webproject3/College-API/College-API.csproj": {}
+    "D:\\Programming\\Webproject 3\\webproject3\\College-API\\College-API.csproj": {}
   },
   "projects": {
-    "/home/jonathan/Documents/Programming/schoolwebproject3/webproject3/College-API/College-API.csproj": {
+    "D:\\Programming\\Webproject 3\\webproject3\\College-API\\College-API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/jonathan/Documents/Programming/schoolwebproject3/webproject3/College-API/College-API.csproj",
+        "projectUniqueName": "D:\\Programming\\Webproject 3\\webproject3\\College-API\\College-API.csproj",
         "projectName": "College-API",
-        "projectPath": "/home/jonathan/Documents/Programming/schoolwebproject3/webproject3/College-API/College-API.csproj",
-        "packagesPath": "/home/jonathan/.nuget/packages/",
-        "outputPath": "/home/jonathan/Documents/Programming/schoolwebproject3/webproject3/College-API/obj/",
+        "projectPath": "D:\\Programming\\Webproject 3\\webproject3\\College-API\\College-API.csproj",
+        "packagesPath": "C:\\Users\\jonat\\.nuget\\packages\\",
+        "outputPath": "D:\\Programming\\Webproject 3\\webproject3\\College-API\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/home/jonathan/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\jonat\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -80,7 +86,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/7.0.105/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     }
