@@ -2,6 +2,7 @@
 using College_API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,23 +10,19 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace College_API.Data.Migrations
 {
     [DbContext(typeof(CollegeDatabaseContext))]
-    partial class CollegeDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230524112302_added users and education relationship")]
+    partial class addedusersandeducationrelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
 
-            modelBuilder.Entity("College_API.Models.Course", b =>
+            modelBuilder.Entity("College_API.Models.Education", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("CourseName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("CourseNumber")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
@@ -37,6 +34,12 @@ namespace College_API.Data.Migrations
                     b.Property<string>("Duration")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("EducationName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("EducationNumber")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("ImagePath")
                         .HasColumnType("TEXT");
 
@@ -45,28 +48,7 @@ namespace College_API.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Courses");
-                });
-
-            modelBuilder.Entity("College_API.Models.EnrolledStudents", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("CourseId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CourseId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("EnrolledStudents");
+                    b.ToTable("Educations");
                 });
 
             modelBuilder.Entity("College_API.Models.User", b =>
@@ -77,6 +59,9 @@ namespace College_API.Data.Migrations
 
                     b.Property<string>("Address")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("EducationId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Email")
                         .HasColumnType("TEXT");
@@ -92,36 +77,25 @@ namespace College_API.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EducationId");
+
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("College_API.Models.EnrolledStudents", b =>
-                {
-                    b.HasOne("College_API.Models.Course", "Course")
-                        .WithMany("EnrolledStudents")
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("College_API.Models.User", "User")
-                        .WithMany("EnrolledCourses")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Course");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("College_API.Models.Course", b =>
-                {
-                    b.Navigation("EnrolledStudents");
                 });
 
             modelBuilder.Entity("College_API.Models.User", b =>
                 {
-                    b.Navigation("EnrolledCourses");
+                    b.HasOne("College_API.Models.Education", "Education")
+                        .WithMany("Users")
+                        .HasForeignKey("EducationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Education");
+                });
+
+            modelBuilder.Entity("College_API.Models.Education", b =>
+                {
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

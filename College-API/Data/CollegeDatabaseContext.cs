@@ -5,7 +5,8 @@ namespace College_API.Data
 {
     public class CollegeDatabaseContext : DbContext
     {
-        public DbSet<Education> Educations => Set<Education>();
+        public DbSet<User> Users => Set<User>();
+        public DbSet<Course> Courses => Set<Course>();
 
         public CollegeDatabaseContext(DbContextOptions options) : base(options) { }
     }

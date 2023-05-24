@@ -6,22 +6,22 @@ using Microsoft.EntityFrameworkCore;
 namespace College_API.Controllers
 {
     [ApiController]
-    [Route("api/v3/education")]
-    public class EducationController : ControllerBase
+    [Route("api/v3/course")]
+    public class CourseController : ControllerBase
     {
         private readonly CollegeDatabaseContext _context;
 
-        public EducationController(CollegeDatabaseContext context)
+        public CourseController(CollegeDatabaseContext context)
         {
             _context = context;
         }
 
-        [HttpGet("GetAllEducation")]
-        public async Task<ActionResult<List<Education>>> GetAllEducation()
+        [HttpGet("GetAllCourse")]
+        public async Task<ActionResult<List<Course>>> GetAllCourse()
         {
             try
             {
-                var educationList = await _context.Educations.ToListAsync();
+                var educationList = await _context.Courses.ToListAsync();
                 return Ok(educationList);
             }
             catch (System.Exception ex)
@@ -30,11 +30,11 @@ namespace College_API.Controllers
             }
         }
         [HttpPost("AddCourse")]
-        public async Task<ActionResult<Education>> AddEducation(Education education)
+        public async Task<ActionResult<Course>> AddCourse(Course education)
         {
             try
             {
-                await _context.Educations.AddAsync(education);
+                await _context.Courses.AddAsync(education);
                 if (await _context.SaveChangesAsync() > 0)
                     return StatusCode(201);
                 return StatusCode(500, "failed to add to DB");
