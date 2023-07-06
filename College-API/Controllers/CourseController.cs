@@ -15,7 +15,22 @@ namespace College_API.Controllers
         {
             _context = context;
         }
+        /*
+            Task 1 List of http functions
+                -crud users, +++ 
 
+            Task ? 
+            Task ? front end? razor pages? react, svelt?
+             TASK 4 students website. Or Admin page
+                    Admin page:
+                        create users
+                        delete users
+
+                        create +++ teacher, courses, send emails?+++
+            Task 5 
+
+
+        */
         [HttpGet("GetAllCourse")]
         public async Task<ActionResult<List<Course>>> GetAllCourse()
         {
