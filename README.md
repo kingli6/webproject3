@@ -6,10 +6,22 @@
 Task 5 Know what to start on.
 
 Crud on both courses and users
-have user list in course?
+	-have user list in course? yes? but it doesn't work and I'll solve it later
+
 Find other peoples projects?
+	-I can try to find Robin and Milad
+	https://github.com/milad055/Schoolprojekt
+	https://github.com/robinskoogh/BookStore
 
 Git hub skill where i make branches and delete them...
+
+10 Monday
+Ways to move forward...
+	-ignore the errors of not being able to create a new object (thats huge)
+	-remove i collection
+	-use automapper, viewmodel all that... and not have i collection...
+
+	-jump to authentication
 
 09 Sunday
 
