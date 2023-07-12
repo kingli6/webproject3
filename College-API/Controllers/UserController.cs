@@ -23,7 +23,21 @@ namespace College_API.Controllers
         public async Task<ActionResult<List<User>>> GetAllUsers()
         {
             var response = await _context.Users.ToListAsync();
-            return Ok(response);
+            var userList = new List<UserViewModel>();
+            foreach (var user in response)
+            {
+                userList.Add(
+                    new UserViewModel
+                    {
+                        UserId = user.Id,
+                        UserName = string.Concat(user.FirstName, " ", user.LastName),
+                        Email = user.Email,
+                        PhoneNumber = user.PhoneNumber,
+                        Address = user.Address
+                    }
+                );
+            }
+            return Ok(userList);
         }
         [HttpGet("byuser/{userName}")]
         public async Task<ActionResult<User>> GetUserByName(string userName)
