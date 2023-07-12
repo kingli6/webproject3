@@ -54,7 +54,16 @@ namespace College_API.Controllers
             var response = await _context.Users.FindAsync(id);
             if (response is null)
                 return NotFound($"couldn't find id: {id} to delete");
-            return Ok(response);
+
+            var user = new UserViewModel
+            {
+                UserId = response.Id,
+                UserName = string.Concat(response.FirstName, " ", response.LastName),
+                Email = response.Email,
+                PhoneNumber = response.PhoneNumber,
+                Address = response.Address
+            };
+            return Ok(user);
         }
         [HttpPost()]
         public async Task<ActionResult<User>> AddUser(PostUserViewModel user)

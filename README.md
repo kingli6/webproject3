@@ -875,4 +875,104 @@ How to connect controller to login info? With a function...?
 		upgrade the world
 	*/
 
+
+--------------------------------------GIT/VSCODE cheat sheet?.-------------------------------
+
+
+
+
+//starts VS-Code
+	//I should learn GitBash
+		/// -cat 				"to open a file?"
+		/// -ls or dir or pwd	"to open the folder to display files."
+		///-ls -a 				"Show all files, or hidden files"
+		/// -code . 		"to open the project with vs-code"
+		/// rm -rf filename	rm means remove, -rf? hidden files?
+		/// .gitignore	"add this file and add the folders you want it ignored when uploading. ex /bin, /obj" -timestamp 2:36:00 [Webb utveckling-20220427_090136-Meeting Recording.mp4]
+		///	-o 			"relocated or assign locaion for creating files. We do this when initating the first data migrations.?????????????? find out if this is correct
+		/// -touch filename.txt		"?? does this create a new file?" YES
+		/// -code .		"Starts VS-code"!!
+
+	// GitHub tips			https://www.atlassian.com/git/tutorials/learn-git-with-bitbucket-cloud
+		/// -git clone https://github.com/MichaelGustavsson/ITHS-STHLM-Westcoast-Cars.git	"To clone a repo"
+		/// -git init		"Creates a new repo locally?"
+		/// -git add . 	"To assign all files with . at the end
+			/// -git rm -r ../react-app/		"not sure what -r does, but this removed the map"
+		/// -git commit -m "message"		"apostrof to add a message with spaces."
+		/// -git status	to see status
+		/// -git log
+		/// -git push		"to push things up, IF YOU*VE already set up things"
+		///"check in (push) something to the repo and check out(pull) to your computer." ///Prespective is on Github. checkin (push), checkout (pull)
+		///"commit is to check in LOCALLY" "and then you push.
+		/// -git stash	"Save changes but similar to pressing ctrl + x. So you're clipping out. You need to "-git add ." before you can stash it."
+		/// -git stash pop	 "pasting it?"
+		/// -git checkout branchName
+		/// -git reset --hard		"undoes changes so you move back to the previous commit"
+		/// -git branch future-plans     "Create a branch called future-plans
+		/// -git merge future-plans		"Be in main, and merge main with future-plans"
+		// .editorconfig		https://github.com/JohanSaisa/GT/blob/main/.editorconfig
+		///"This file needs to be in Git-repo so all the commits are formatted. Also you skip needing to commit
+		///when someone has a space somewhere."
+		/// rm -rf .git	"this deletes the git folder. So you can re-pull the repo."
+		# top-most EditorConfig file
+		root = true
+
+		[*]
+		indent_style = tab
+		indent_size = 2
+		insert_final_newline = true
+		end_of_line = lf
+
+		# Visual Studio demands 2-spaced project files
+		# Tabs are not legal whitespace for YAML files
+		[*.{csproj,json,props,targets,xslt,yaml,yml}]
+		indent_style = space
+		indent_size = 2
+
+
+	// VS-code 		https://github.com/dahlbyk/posh-git
+		/// duplicate line		-shift + alt + arrow down
+		/// change multiple items simultaniously	-ctrl + D and you should be on the item that you want to replace.
+		/// for terminal		-ctr + shift + ?  ????
+		/// "command line?"	-ctrl + shift + p "for command line? not sure what it's called."
+		/// To generate Build and debug funtions in VS-code (.vscode folder)"
+			"ctrl + shift + P and type  >> generate //and choose the option.".///	 (.net: Generate Assestes for build and debug)
+		/// build				-dotnet build
+		/// run project		-dotnet run	"You must be located where there is a csproj file."
+		/// hot-reload		-dotnet watch run
+		/// hide files		"in file-preferences-setting, type exclude. Add Patern "
+		/// edit multiple lines 	-use mouse wheel, press and drag(vertically)
+		///  dotnet ef database drop --force	& dotnet ef database update
+
+
+	// API project tips
+		///locate port or web adress for the project "applicationURL"
+			"it's located under folder Properties, -> launchSettings.json"
+		///Nullable enabled/dissabled and ImplicitUsing.
+			"In csproj file, under <PropertyGroup>, you can enable/disable nullable values."
+			"also wth of implicit using, we don't need using statements anymore"
+		///Code for ef migrations
+			">>dotnet ef migrations add "Added make and vehicle relationship" -o "Data/Migrations"
+			"dotnet ef database drop --force" followed by "dotnet ef database update"
+		///if you are lacking certificate for api's to talk to your other api's?
+			"-dotnet dev-certs https --trust" 20220505_130015 1:20:00
+
+	////Made an error while creating the HttpGet("{id}"). I forgot the curly bracers. and the error was null exception.
+
+-----------------------------------------------------------------------------------------------------------------
+
+//		MVC code notes
+
+-	GetValue<string>("baseUrl")	///Extracts the value with the specified key and converts it to type T.
+										///Returns: The converted value. [20220505_130015] 1:57:00
+
+-	public classConstructor (IConfiguration config) ///the way to bring in a item from appsettings.Development.json in your class.
+	/// is this a injection?
+
+
+
+
+
+
+
  -->
