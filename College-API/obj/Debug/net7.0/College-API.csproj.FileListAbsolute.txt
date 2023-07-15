@@ -136,3 +136,5 @@ D:\Programming\Webproject 3\webproject3\College-API\obj\Debug\net7.0\refint\Coll
 D:\Programming\Webproject 3\webproject3\College-API\obj\Debug\net7.0\College-API.pdb
 D:\Programming\Webproject 3\webproject3\College-API\obj\Debug\net7.0\College-API.genruntimeconfig.cache
 D:\Programming\Webproject 3\webproject3\College-API\obj\Debug\net7.0\ref\College-API.dll
+D:\Programming\Webproject 3\webproject3\College-API\bin\Debug\net7.0\AutoMapper.dll
+D:\Programming\Webproject 3\webproject3\College-API\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
