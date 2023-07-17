@@ -14,8 +14,9 @@ namespace College_API.Interfaces
         public Task<UserViewModel?> GetUserAsync(string userName);
         public Task<UserViewModel?> GetUserEmailAsync(string userEmail);
         public Task AddUserAsync(PostUserViewModel model);
-        public Task UpdateUser(int id, PostUserViewModel model);
-        public Task DeleteUser(int id);
+        public Task UpdateUserAsync(int id, PostUserViewModel model);
+        public Task UpdateUserAsync(int id, PatchUserViewModel model);
+        public Task DeleteUserAsync(int id);
         public Task<bool> SaveAllAsync();
     }
 }

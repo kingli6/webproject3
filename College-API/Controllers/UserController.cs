@@ -65,6 +65,7 @@ namespace College_API.Controllers
                 return NotFound($"couldn't find name: {userName} in database");
             return Ok(response);
         }
+        //[HttpGet("byemail/{userEmail}")] or find a list of users specific to something? Course applied?
 
         [HttpPost()]
         public async Task<ActionResult> AddUser(PostUserViewModel model)
@@ -102,7 +103,7 @@ namespace College_API.Controllers
         {
             try //220503_09 50:33
             {
-                await _userRepo.UpdateUser(id, model);
+                await _userRepo.UpdateUserAsync(id, model);
                 if (await _userRepo.SaveAllAsync())
                 {
                     return NoContent(); // Status code 204
@@ -129,10 +130,28 @@ namespace College_API.Controllers
             // return NoContent();
         }
 
+        [HttpPatch("{id}")] //to update phone and adress of user...
+        public async Task<ActionResult> UpdateUser(int id, PatchUserViewModel model)
+        {
+            try
+            {
+                await _userRepo.UpdateUserAsync(id, model);
+
+                if (await _userRepo.SaveAllAsync())
+                    return NoContent();
+
+                return StatusCode(500, "An error occured when updating user data");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteUser(int id)
         {
-            await _userRepo.DeleteUser(id);
+            await _userRepo.DeleteUserAsync(id);
 
             if (await _userRepo.SaveAllAsync())
                 return NoContent();

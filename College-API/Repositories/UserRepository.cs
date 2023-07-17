@@ -70,7 +70,7 @@ namespace College_API.Repositories
 
         }
 
-        public async Task UpdateUser(int id, PostUserViewModel model)
+        public async Task UpdateUserAsync(int id, PostUserViewModel model)
         {
             var user = await _context.Users.FindAsync(id);
 
@@ -87,8 +87,17 @@ namespace College_API.Repositories
 
             _context.Users.Update(user);
         }
+        public async Task UpdateUserAsync(int id, PatchUserViewModel model)
+        {
+            var user = await _context.Users.FindAsync(id);
+            if (user is null)
+                throw new Exception($"Could not find user with id: {id}");
 
-        public async Task DeleteUser(int id)    //we changed void to Task 220503_09 56:21
+            user.Address = model.Address;
+            user.PhoneNumber = model.PhoneNumber;
+            _context.Users.Update(user);
+        }
+        public async Task DeleteUserAsync(int id)    //we changed void to Task 220503_09 56:21
         {
             var response = await _context.Users.FindAsync(id);
             if (response is not null)
