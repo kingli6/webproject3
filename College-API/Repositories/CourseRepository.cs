@@ -1,10 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using College_API.Data;
 using College_API.Interfaces;
+using College_API.Models;
 using College_API.ViewModels;
 
 namespace College_API.Repositories
@@ -19,9 +16,10 @@ namespace College_API.Repositories
             _context = context;
         }
 
-        public Task AddCourseAsync(PostCourseViewModel model)
+        public async Task AddCourseAsync(PostCourseViewModel model)
         {
-            throw new NotImplementedException();
+            var course = _mapper.Map<Course>(model);
+            await _context.Courses.AddAsync(course);
         }
 
         public Task<List<CourseViewModel>> ListAllCourseAsync()

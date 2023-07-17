@@ -1,5 +1,4 @@
 using AutoMapper;
-using College_API.Data;
 using College_API.Interfaces;
 using College_API.Models;
 using College_API.ViewModels;
