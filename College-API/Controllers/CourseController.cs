@@ -1,5 +1,7 @@
 using College_API.Data;
+using College_API.Interfaces;
 using College_API.Models;
+using College_API.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,15 +12,20 @@ namespace College_API.Controllers
     public class CourseController : ControllerBase
     {
         private readonly CollegeDatabaseContext _context;
-        public CourseController(CollegeDatabaseContext context) { _context = context; }
+        private readonly ICourseRepository _courseRepo;
+        public CourseController(CollegeDatabaseContext context, ICourseRepository courseRepo)
+        {
+            _context = context;
+            _courseRepo = courseRepo;
+        }
 
         [HttpGet("GetAllCourses")]
         public async Task<ActionResult<List<Course>>> ListAllCourses()
         {
             try
             {
-                var courseList = await _context.Courses.ToListAsync();
-                return Ok(courseList);
+                var list = await _courseRepo.ListAllCourseAsync();
+                return Ok(list);
             }
 
             catch (System.Exception ex)
@@ -26,6 +33,7 @@ namespace College_API.Controllers
                 return StatusCode(404, "Tabel doesn't exist. " + "Error msg: " + ex.Message);
             }
         }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCourseById(int id)
         {
@@ -47,8 +55,13 @@ namespace College_API.Controllers
         }
 
         [HttpPost("AddCourse")]
-        public async Task<ActionResult<Course>> AddCourse(Course course)
+        public async Task<ActionResult<Course>> AddCourse(PostCourseViewModel model)
         {
+            await _courseRepo.AddCourseAsync(model);
+            if (await _courseRepo.SaveAllAsync())
+                return StatusCode(201);
+
+            return StatusCode(500, "Error occured during saving of Course");
             // var courseToAdd = new Course
             // {
             //     CourseNumber = course.CourseNumber,
@@ -80,7 +93,7 @@ namespace College_API.Controllers
             //     Console.WriteLine(ex.Message);
             //     return StatusCode(500, "Internal server error");
             // }
-            return Ok();
+            // return Ok();
         }
 
         [HttpPut("{id}")]

@@ -1,8 +1,10 @@
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using College_API.Data;
 using College_API.Interfaces;
 using College_API.Models;
 using College_API.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace College_API.Repositories
 {
@@ -22,9 +24,9 @@ namespace College_API.Repositories
             await _context.Courses.AddAsync(course);
         }
 
-        public Task<List<CourseViewModel>> ListAllCourseAsync()
+        public async Task<List<CourseViewModel>> ListAllCourseAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Courses.ProjectTo<CourseViewModel>(_mapper.ConfigurationProvider).ToListAsync();
         }
 
         public Task<CourseViewModel> GetCourseAsync(int id)
@@ -55,9 +57,9 @@ namespace College_API.Repositories
         {
             throw new NotImplementedException();
         }
-        public Task<bool> SaveAllAsync()
+        public async Task<bool> SaveAllAsync()
         {
-            throw new NotImplementedException();
+            return await _context.SaveChangesAsync() > 0;
         }
 
     }

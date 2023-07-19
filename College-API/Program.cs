@@ -16,6 +16,7 @@ builder.Services.AddDbContext<CollegeDatabaseContext>(options =>
 // Dependency injection for our own Interfaces and classes
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 //Automapper
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);

@@ -61,9 +61,25 @@ namespace College_API.Repositories
         }
         public async Task AddUserAsync(PostUserViewModel model)
         {
+
             var userToAdd = _mapper.Map<User>(model);
             await _context.Users.AddAsync(userToAdd);
 
+        }
+
+        public async Task AddUserToCourseAsync(int id)//TODO
+        {
+            /*Adding a user to a course
+    Find the course
+        Find the user
+    add it in
+*/
+            var user = await _context.Users.FindAsync(id);
+            if (user is null)
+            {
+                throw new Exception($"We couldn't find a user with id: {id}");
+            }
+            throw new NotImplementedException();
         }
 
         public async Task UpdateUserAsync(int id, PostUserViewModel model)
