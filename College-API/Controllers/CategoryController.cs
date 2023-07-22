@@ -75,11 +75,51 @@ namespace College_API.Controllers
             }
         }
         [HttpPut("ReplaceCategory/{id}")]
-        public async Task<IActionResult> ReplaceCategory(int id) //testing IActionResult
+        public async Task<IActionResult> ReplaceCategory(int id, PutCategoryViewModel model) //testing IActionResult
         {
-            return NoContent();
-        }
+            try
+            {
+                await _categoryRepo.UpdateCategoryAsync(id, model);
 
+                if (await _categoryRepo.SaveAllAsync())
+                {
+                    return NoContent();
+                }
+
+                return StatusCode(500, $"Failed to save category with (id = {id})");
+            }
+            catch (NotFoundException)
+            {
+                return StatusCode(404, $"Category with id = {id} doesn't exist");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+        [HttpPatch("UpdateCategory/{id}")]
+        public async Task<IActionResult> UpdateCategory(int id, PostCategoryViewModel model)
+        {
+            try
+            {
+                await _categoryRepo.UpdateCategoryAsync(id, model);
+
+                if (await _categoryRepo.SaveAllAsync())
+                {
+                    return StatusCode(200, $"Category {id} updated!");
+                }
+
+                return StatusCode(500, $"Failed to save changes (id = {id})");
+            }
+            catch (NotFoundException)
+            {
+                return StatusCode(404, $"Category with id = {id} doesn't exist");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteCategory(int id)// //testing IActionResult
         {

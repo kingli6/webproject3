@@ -54,6 +54,7 @@ namespace College_API.Controllers
             return Ok();
         }
 
+        //PROBLEM TODO a new category is added when a course is created... 
         [HttpPost("AddCourse")]
         public async Task<ActionResult<Course>> AddCourse(PostCourseViewModel model)
         {

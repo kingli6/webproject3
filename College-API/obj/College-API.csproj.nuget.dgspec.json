@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Programming\\Webproject 3\\webproject3\\College-API\\College-API.csproj": {}
+    "d:\\Programming\\Webproject 3\\webproject3\\College-API\\College-API.csproj": {}
   },
   "projects": {
-    "D:\\Programming\\Webproject 3\\webproject3\\College-API\\College-API.csproj": {
+    "d:\\Programming\\Webproject 3\\webproject3\\College-API\\College-API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Programming\\Webproject 3\\webproject3\\College-API\\College-API.csproj",
+        "projectUniqueName": "d:\\Programming\\Webproject 3\\webproject3\\College-API\\College-API.csproj",
         "projectName": "College-API",
-        "projectPath": "D:\\Programming\\Webproject 3\\webproject3\\College-API\\College-API.csproj",
+        "projectPath": "d:\\Programming\\Webproject 3\\webproject3\\College-API\\College-API.csproj",
         "packagesPath": "C:\\Users\\jonat\\.nuget\\packages\\",
-        "outputPath": "D:\\Programming\\Webproject 3\\webproject3\\College-API\\obj\\",
+        "outputPath": "d:\\Programming\\Webproject 3\\webproject3\\College-API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -25,7 +25,6 @@
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -48,6 +47,10 @@
               "target": "Package",
               "version": "[12.0.1, )"
             },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[7.0.9, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[7.0.5, )"
@@ -69,6 +72,10 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.4.0, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.32.0, )"
             }
           },
           "imports": [
