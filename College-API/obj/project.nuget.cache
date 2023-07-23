@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "mUvnT67fEfrzXh06VU3Wfm2i4uBNG3C2R9pPGwS68ATsh6Ef45XUUmJ/HDZHTFYGwyT2OxKzkTgt+WdwVFhAvg==",
+  "dgSpecHash": "5dhiB1VjGoJnI+sgaIE4+oV5m/cXHXL/SY7Dk7z8HFdqubecXNZVgREVcmxlTDahLCTmQ3+u3tjjx9iLIVOXWQ==",
   "success": true,
-  "projectFilePath": "d:\\Programming\\Webproject 3\\webproject3\\College-API\\College-API.csproj",
+  "projectFilePath": "D:\\Programming\\Webproject 3\\webproject3\\College-API\\College-API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\jonat\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\jonat\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

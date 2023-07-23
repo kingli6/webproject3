@@ -1,8 +1,11 @@
+using System.Text;
 using College_API.Data;
 using College_API.Helpers;
 using College_API.Interfaces;
 using College_API.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +23,38 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 //Automapper
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
+
+//Authentication configuration
+builder.Services.AddAuthentication(options =>
+{
+    //defaultAuthenticationScheme and DefaultChallengeScheme
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.ASCII.GetBytes(builder.Configuration.GetValue<string>("apiKey"))
+        ),
+        ValidateLifetime = true,
+        ValidateAudience = false,
+        ValidateIssuer = false,
+        ClockSkew = TimeSpan.Zero
+    };
+});
+
+//Configure and create policies
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Admins", policy => policy.RequireClaim("Admin"));
+});
+
+
+
+
+
 /////////////////////////////////////////////////////////////
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -36,7 +71,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

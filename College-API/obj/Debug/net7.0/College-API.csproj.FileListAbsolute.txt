@@ -138,3 +138,11 @@ D:\Programming\Webproject 3\webproject3\College-API\obj\Debug\net7.0\College-API
 D:\Programming\Webproject 3\webproject3\College-API\obj\Debug\net7.0\ref\College-API.dll
 D:\Programming\Webproject 3\webproject3\College-API\bin\Debug\net7.0\AutoMapper.dll
 D:\Programming\Webproject 3\webproject3\College-API\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+D:\Programming\Webproject 3\webproject3\College-API\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Programming\Webproject 3\webproject3\College-API\bin\Debug\net7.0\Microsoft.IdentityModel.Abstractions.dll
+D:\Programming\Webproject 3\webproject3\College-API\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\Programming\Webproject 3\webproject3\College-API\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll
+D:\Programming\Webproject 3\webproject3\College-API\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.dll
+D:\Programming\Webproject 3\webproject3\College-API\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\Programming\Webproject 3\webproject3\College-API\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
+D:\Programming\Webproject 3\webproject3\College-API\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll

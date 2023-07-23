@@ -2514,11 +2514,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "d:\\Programming\\Webproject 3\\webproject3\\College-API\\College-API.csproj",
+      "projectUniqueName": "D:\\Programming\\Webproject 3\\webproject3\\College-API\\College-API.csproj",
       "projectName": "College-API",
-      "projectPath": "d:\\Programming\\Webproject 3\\webproject3\\College-API\\College-API.csproj",
+      "projectPath": "D:\\Programming\\Webproject 3\\webproject3\\College-API\\College-API.csproj",
       "packagesPath": "C:\\Users\\jonat\\.nuget\\packages\\",
-      "outputPath": "d:\\Programming\\Webproject 3\\webproject3\\College-API\\obj\\",
+      "outputPath": "D:\\Programming\\Webproject 3\\webproject3\\College-API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -2532,6 +2532,7 @@
         "net7.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

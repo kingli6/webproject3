@@ -1,4 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 using College_API.ViewModels.AuthViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -10,18 +11,36 @@ namespace College_API.Controllers
     [Route("api/auth")]
     public class AuthController : ControllerBase
     {
-        [HttpPost()]
-        public ActionResult Authenticate(LoginViewModel model)
+        private readonly IConfiguration _config;
+        public AuthController(IConfiguration config)
         {
-            if (model.UserName == "Joe" && model.Password == "password!")
-                return Ok();
-            return Unauthorized();
+            _config = config;
+
         }
 
-        private string CreateJwtToken(string userName)
+        [HttpPost("login")]
+        public ActionResult Login(LoginViewModel model)
         {
-            var key = Encoding.ASCII.GetBytes("slkj#Xzsalslk.-,jfsö^#¤sdf");
+            if (model.UserName == "Joe" && model.Password == "password!")
+            {
+                return Ok(new
+                {
+                    access_token = CreateJwtToken(model.UserName)
+                });
+            }
+            return Unauthorized();
+        }
+        //[Authorize("Administrator")]
+        private string CreateJwtToken(string userName)
+        {// jwt.io  to control the token
+            var key = Encoding.ASCII.GetBytes(_config.GetValue<string>("apiKey")!);
+            var claims = new List<Claim>{
+                new Claim(ClaimTypes.Name, userName),
+                new Claim("Admin", "true"),
+                new Claim(ClaimTypes.Email, "joe@gmail.com")
+            };
             var jwt = new JwtSecurityToken(
+                claims: claims,
                 notBefore: DateTime.Now,
                 expires: DateTime.Now.AddDays(1),
                 signingCredentials: new SigningCredentials(
