@@ -4,17 +4,32 @@ using College_API.Helpers;
 using College_API.Interfaces;
 using College_API.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container.////////////////////////////////////////////////////////////
 
 // Create database connection
 builder.Services.AddDbContext<CollegeDatabaseContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("Sqlite"))
 );
+//Identity management and which datacontext should be used; to store users, roles and claims
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(
+    options =>
+    {
+        options.Password.RequireLowercase = true;
+        options.Password.RequireUppercase = true;
+        options.Password.RequiredLength = 6;
+        options.Password.RequireNonAlphanumeric = false;
+        options.User.RequireUniqueEmail = true;
+        options.Lockout.MaxFailedAccessAttempts = 5;
+        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(7);
+    }
+).AddEntityFrameworkStores<CollegeDatabaseContext>();
+
 
 // Dependency injection for our own Interfaces and classes
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -36,7 +51,7 @@ builder.Services.AddAuthentication(options =>
     {
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.ASCII.GetBytes(builder.Configuration.GetValue<string>("apiKey"))
+            Encoding.ASCII.GetBytes(builder.Configuration.GetValue<string>("apiKey")!)
         ),
         ValidateLifetime = true,
         ValidateAudience = false,
@@ -55,7 +70,7 @@ builder.Services.AddAuthorization(options =>
 
 
 
-/////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -63,7 +78,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline. 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
