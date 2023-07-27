@@ -16,11 +16,23 @@ namespace College_API.Controllers
         private readonly IConfiguration _config;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-        public AuthController(IConfiguration config, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        private readonly RoleManager<IdentityRole> _roleManager;
+        public AuthController(IConfiguration config, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager)
         {
+            _roleManager = roleManager;
             _signInManager = signInManager;
             _userManager = userManager;
             _config = config;
+        }
+        [HttpPost("create-role")]// 220504_13 2:34:00
+        public async Task<IActionResult> CreateRole([FromQuery] string roleName)
+        {
+            if (!await _roleManager.RoleExistsAsync(roleName))
+            {
+                var result = await _roleManager.CreateAsync(new IdentityRole(roleName));
+                if (!result.Succeeded) return BadRequest(result.Errors);
+            }
+            return StatusCode(201);
         }
 
         [HttpPost("register")]
@@ -39,6 +51,7 @@ namespace College_API.Controllers
                 if (model.IsAdmin)
                 {
                     await _userManager.AddClaimAsync(user, new Claim("Admin", "true"));
+                    await _userManager.AddToRoleAsync(user, "Administrators");  //220504_13.. 2:33:00
                 }
                 await _userManager.AddClaimAsync(user, new Claim("User", "true"));
                 await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Name, user.UserName));
@@ -101,6 +114,9 @@ namespace College_API.Controllers
             // };
 
             var userClaims = await _userManager.GetClaimsAsync(user);//220504_13..1:35:00
+            var roles = await _userManager.GetRolesAsync(user);
+            userClaims.ToList().AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
+
             var jwt = new JwtSecurityToken(
                 claims: userClaims,//claims,
                 notBefore: DateTime.Now,

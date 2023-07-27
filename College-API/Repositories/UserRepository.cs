@@ -25,7 +25,7 @@ namespace College_API.Repositories
 
         public async Task<UserViewModel?> GetUserAsync(int id)
         {
-            return await _context.Users.Where(c => c.Id == id)
+            return await _context.Users.Where(c => c.Id == id.ToString())
                 .ProjectTo<UserViewModel>(_mapper.ConfigurationProvider)
                 .SingleOrDefaultAsync();
             // return await _context.Users.Where(c => c.Id == id).Select(user => new UserViewModel
