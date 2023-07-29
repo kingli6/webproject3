@@ -5,6 +5,10 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "College-API", "College-API\College-API.csproj", "{06DAF6F5-32E0-4181-ABA2-E43493AFB0A8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Clients", "Clients", "{E3E0F838-2C97-4ED9-937D-C81221408751}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcApp", "Clients\MvcApp\MvcApp.csproj", "{35C56120-3836-4130-9E68-852042963F4A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,12 @@ Global
 		{06DAF6F5-32E0-4181-ABA2-E43493AFB0A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06DAF6F5-32E0-4181-ABA2-E43493AFB0A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06DAF6F5-32E0-4181-ABA2-E43493AFB0A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35C56120-3836-4130-9E68-852042963F4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35C56120-3836-4130-9E68-852042963F4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35C56120-3836-4130-9E68-852042963F4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35C56120-3836-4130-9E68-852042963F4A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{35C56120-3836-4130-9E68-852042963F4A} = {E3E0F838-2C97-4ED9-937D-C81221408751}
 	EndGlobalSection
 EndGlobal

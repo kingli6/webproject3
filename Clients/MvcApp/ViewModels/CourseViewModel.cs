@@ -1,6 +1,6 @@
-using College_API.Models;
+using System.Text.Json.Serialization;
 
-namespace College_API.ViewModels
+namespace MvcApp.ViewModels
 {
     public class CourseViewModel
     {
@@ -11,6 +11,5 @@ namespace College_API.ViewModels
         public string? Description { get; set; }
         public string? Details { get; set; }
         public string? ImagePath { get; set; }
-        // public ICollection<User>? Users { get; set; } = new List<User>();
     }
 }
