@@ -38,9 +38,6 @@ namespace College_API.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("CourseNumber")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -61,8 +58,6 @@ namespace College_API.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
 
                     b.ToTable("Courses");
                 });
@@ -86,6 +81,9 @@ namespace College_API.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PhoneNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("RegisterDate")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -285,17 +283,6 @@ namespace College_API.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("College_API.Models.Course", b =>
-                {
-                    b.HasOne("College_API.Models.Category", "Category")
-                        .WithMany("Courses")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -345,11 +332,6 @@ namespace College_API.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("College_API.Models.Category", b =>
-                {
-                    b.Navigation("Courses");
                 });
 #pragma warning restore 612, 618
         }

@@ -51,66 +51,67 @@ namespace College_API.Repositories
 
         public async Task<ActionResult<ViewModels.UserViewModel>> RegisterAdminAsync(RegisterUserViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return StatusCode(500, ModelState);
-            }
+            throw new NotImplementedException();
+            // if (!ModelState.IsValid)
+            // {
+            //     return StatusCode(500, ModelState);
+            // }
 
-            var user = new User
-            {
-                Email = model.Email!.ToLower(),
-                UserName = model.Email.ToLower(),
-                RegisterDate = DateTime.Now
-            };
+            // var user = new User
+            // {
+            //     Email = model.Email!.ToLower(),
+            //     // UserName = model.Email.ToLower(),
+            //     RegisterDate = DateTime.Now
+            // };
 
-            var result = await _userManager.CreateAsync(user, model.Password!);
+            // var result = await _userManager.CreateAsync(user, model.Password!);
 
-            if (result.Succeeded)
-            {
-                // Check if Administrator role exists, else create it.
-                if (!await _roleManager.RoleExistsAsync("Administrator"))
-                {
-                    var adminRole = new IdentityRole("Administrator");
-                    await _roleManager.CreateAsync(adminRole);
-                }
-                // Add roles/claims to user.
-                await _userManager.AddToRoleAsync(user, "Administrator");
-                await _userManager.AddClaimAsync(user, new Claim("Administrator", "true"));
-                await _userManager.AddClaimAsync(user, new Claim("User", "true"));
-                await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Name, user.UserName));
-                await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Email, user.Email));
+            // if (result.Succeeded)
+            // {
+            //     // Check if Administrator role exists, else create it.
+            //     if (!await _roleManager.RoleExistsAsync("Administrator"))
+            //     {
+            //         var adminRole = new IdentityRole("Administrator");
+            //         await _roleManager.CreateAsync(adminRole);
+            //     }
+            //     // Add roles/claims to user.
+            //     await _userManager.AddToRoleAsync(user, "Administrator");
+            //     await _userManager.AddClaimAsync(user, new Claim("Administrator", "true"));
+            //     await _userManager.AddClaimAsync(user, new Claim("User", "true"));
+            //     await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Name, user.UserName));
+            //     await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Email, user.Email));
 
-                // if (_signInManager.Options.SignIn.RequireConfirmedEmail)
-                // {
-                //     // Generate email verification link.
-                //     var confirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                //     // Encode token.
-                //     confirmationToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(confirmationToken));
+            //     // if (_signInManager.Options.SignIn.RequireConfirmedEmail)
+            //     // {
+            //     //     // Generate email verification link.
+            //     //     var confirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            //     //     // Encode token.
+            //     //     confirmationToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(confirmationToken));
 
-                //     var baseUrl = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}{_httpContextAccessor.HttpContext.Request.PathBase}"; // API base URL.
-                //     var confirmationLink = baseUrl + $"/ConfirmEmail?userId={user.Id}&token={confirmationToken}";
-                //     var subject = "Verifiera ditt konto hos Omställningsstudiestöd.";
-                //     var message =
-                //         $"Välkommen till Omställningsstudiestöd!<br><br><br>" +
-                //         $"Ditt konto är nu registrerat och kan användas så fort det har verifierats.<br>" +
-                //         $"Verifiera ditt konto genom att <a href='{HtmlEncoder.Default.Encode(confirmationLink)}'>klicka här</a>.<br><br><br>" +
-                //         $"Med vänliga hälsningar Omställningsstudiestöd.";
-                //     await _emailSender.SendEmailAsync(user.Email, subject, message);
-                // }
+            //     //     var baseUrl = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}{_httpContextAccessor.HttpContext.Request.PathBase}"; // API base URL.
+            //     //     var confirmationLink = baseUrl + $"/ConfirmEmail?userId={user.Id}&token={confirmationToken}";
+            //     //     var subject = "Verifiera ditt konto hos Omställningsstudiestöd.";
+            //     //     var message =
+            //     //         $"Välkommen till Omställningsstudiestöd!<br><br><br>" +
+            //     //         $"Ditt konto är nu registrerat och kan användas så fort det har verifierats.<br>" +
+            //     //         $"Verifiera ditt konto genom att <a href='{HtmlEncoder.Default.Encode(confirmationLink)}'>klicka här</a>.<br><br><br>" +
+            //     //         $"Med vänliga hälsningar Omställningsstudiestöd.";
+            //     //     await _emailSender.SendEmailAsync(user.Email, subject, message);
+            //     // }
 
-                var userVM = _mapper.Map<UserViewModel>(user);
+            //     var userVM = _mapper.Map<UserViewModel>(user);
 
-                return StatusCode(201, userVM);
-            }
-            else
-            {
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("User registration", error.Description);
-                }
+            //     return StatusCode(201, userVM);
+            // }
+            // else
+            // {
+            //     foreach (var error in result.Errors)
+            //     {
+            //         ModelState.AddModelError("User registration", error.Description);
+            //     }
 
-                return StatusCode(500, ModelState);
-            }
+            //     return StatusCode(500, ModelState);
+            // }
         }
     }
 }

@@ -3,10 +3,10 @@ using College_API.Models;
 
 namespace College_API.ViewModels.RegisterUserViewModel
 {
-    public class UserViewModel : User
+    public class UserViewModel
     {
         public string? Id { get; set; }
-        public string? Username { get; set; }
+        public string? UserName { get; set; }
 
         [EmailAddress(ErrorMessage = "Felaktig e-postadress")]
         public string? Email { get; set; }

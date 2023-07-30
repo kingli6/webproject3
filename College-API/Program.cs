@@ -91,4 +91,20 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+//LoadData
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+try
+{
+    var context = services.GetRequiredService<CollegeDatabaseContext>();
+    await context.Database.MigrateAsync();
+    await LoadData.LoadCourses(context);
+    await LoadData.LoadUsers(context);
+}
+catch (Exception ex)
+{
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "An error occured while migrating loadData");
+}
+
 app.Run();

@@ -1,0 +1,16 @@
+[
+  {
+    "FirstName": "John",
+    "LastName": "Doe",
+    "Email": "johndoe@test.com",
+    "PhoneNumber": "888 999 888",
+    "Address": "Street 298, Stockholm"
+  },
+  {
+    "FirstName": "Linda",
+    "LastName": "Lane",
+    "Email": "linda.lane@fakemail.com",
+    "PhoneNumber": "888 999 888",
+    "Address": "Street 298, London"
+  }
+]

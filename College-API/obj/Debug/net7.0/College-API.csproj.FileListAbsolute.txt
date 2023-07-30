@@ -153,3 +153,5 @@ D:\Programming\Webproject 3\webproject3\College-API\bin\Debug\net7.0\Microsoft.E
 D:\Programming\Webproject 3\webproject3\College-API\bin\Debug\net7.0\Microsoft.Extensions.Identity.Stores.dll
 D:\Programming\Webproject 3\webproject3\College-API\bin\Debug\net7.0\Microsoft.Extensions.Options.dll
 D:\Programming\Webproject 3\webproject3\College-API\bin\Debug\net7.0\System.Security.Permissions.dll
+D:\Programming\Webproject 3\webproject3\College-API\bin\Debug\net7.0\Data\course.json
+D:\Programming\Webproject 3\webproject3\College-API\bin\Debug\net7.0\Data\user.json
