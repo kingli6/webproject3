@@ -1,11 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text.Json;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using MvcApp.Models;
 using MvcApp.ViewModels;
 
@@ -34,10 +27,22 @@ namespace MvcApp.Controllers
                 throw;
             }
         }
-        [HttpGet("{id}")]
-        public IActionResult Details(int id)
+        [HttpGet("Details/{id}")]
+        public async Task<IActionResult> Details(int id)
         {
-            return View("Details");
+            ViewBag.CourseId = id;
+            var baseUrl = _config.GetValue<string>("baseUrl");
+            var url = $"{baseUrl}/courses/{id}";
+
+            using var http = new HttpClient();
+            var response = await http.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+                Console.WriteLine("Details method didn't work, couldn't find the course with id: " + id);
+
+            var course = await response.Content.ReadFromJsonAsync<CourseViewModel>();
+
+            return View("Details", course ?? new CourseViewModel());
         }
 
 

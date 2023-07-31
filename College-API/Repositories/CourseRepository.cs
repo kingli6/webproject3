@@ -29,9 +29,11 @@ namespace College_API.Repositories
             return await _context.Courses.ProjectTo<CourseViewModel>(_mapper.ConfigurationProvider).ToListAsync();
         }
 
-        public Task<CourseViewModel> GetCourseAsync(int id)
+        public async Task<CourseViewModel?> GetCourseAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Courses.Where(c => c.Id == id)
+            .ProjectTo<CourseViewModel>(_mapper.ConfigurationProvider)
+            .SingleOrDefaultAsync();
         }
 
         public Task<CourseViewModel?> GetCourseAsync(string CourseName)

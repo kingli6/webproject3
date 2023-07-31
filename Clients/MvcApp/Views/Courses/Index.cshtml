@@ -2,18 +2,24 @@
 @{
     ViewData["Title"] = "Available Courses";
 }
-<h1>@ViewData["Title"]</h1>
+<h1 class="page-title">@ViewData["Title"]</h1>
 
 <article>
-    <section>
+    <section class="gallery-wrapper">
         @* <div>Hey @ViewData["CourseID"]</div> *@
-        <h3>Check our available courses</h3>
-        @foreach (var course in Model){
-            <div>
-                <a asp-controller="Courses" asp-action="Details">@course.CourseNumber @course.Name</a>
-                <p>@course.Duration</p>
-                <p>@course.Description</p>
+        @foreach (var course in Model!){
+            <div class="gallery-card">
+                <h3><a asp-controller="Courses"  asp-action="Details" asp-route-id="@course.CourseId"> Course Nr: @course.CourseNumber | @course.Name</a></h3>
+                <p>Duration: @course.Duration</p>
+                <p>Description: @course.Description</p>
             </div>
         }
+         @* asp-route-id="@course.CourseId" *@
     </section>
 </article>
+
+@* 220510_13.. 48:00 *@
+@* <div class="modal">  
+    <button class="close-modal">&times;</button>
+    <div class="modal-container">Here is something more to see!</div>
+</div> *@

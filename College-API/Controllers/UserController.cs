@@ -51,7 +51,7 @@ namespace College_API.Controllers
         {
             var response = await _userRepo.GetUserAsync(id);
             if (response is null)
-                return NotFound($"couldn't find id: {id} to delete");
+                return NotFound($"couldn't find id: {id} in database");
 
             return Ok(response);
         }

@@ -1,3 +1,4 @@
+using College_API.CustomExceptions;
 using College_API.Data;
 using College_API.Interfaces;
 using College_API.Models;
@@ -35,8 +36,20 @@ namespace College_API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetCourseById(int id)
+        public async Task<ActionResult> GetCourseById(int id)
         {
+            try
+            {
+                return Ok(await _courseRepo.GetCourseAsync(id));
+            }
+            catch (NotFoundException)
+            {
+                return StatusCode(404, $"Course with id = {id} doesn't exist");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
             // var result = await _context.Courses.Select(v => new
             // {
             //     Id = v.Id,
@@ -51,7 +64,6 @@ namespace College_API.Controllers
 
             // }).SingleOrDefaultAsync(c => c.Id == id);
             // return Ok(result);
-            return Ok();
         }
 
         //PROBLEM TODO a new category is added when a course is created... 
