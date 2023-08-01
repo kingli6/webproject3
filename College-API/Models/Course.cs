@@ -12,7 +12,7 @@ namespace College_API.Models
         public string? Description { get; set; }
         // Detaljer (här finns information om vilka moduler/delar kursen går igenom)
         public string? Details { get; set; }
-        public string? ImagePath { get; set; }
+        // public string? ImagePath { get; set; }
         // public Category Category { get; set; } = new Category();
         // public string? ImageUrl { get; set; }
         // public ICollection<EnrolledStudents> EnrolledStudents { get; set; } = new List<EnrolledStudents>();

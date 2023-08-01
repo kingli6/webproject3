@@ -49,10 +49,21 @@ namespace MvcApp.Controllers
             }
 
         }
-
+        //why is this method needed?
         [HttpGet("Create")]
-        public IActionResult Create(string x)
+        public IActionResult Create()
         {
+            var course = new CreateCourseViewModel();
+            return View("Create", course);
+        }
+
+        [HttpPost("Create")]
+        public async Task<IActionResult> Create(CreateCourseViewModel course)   //don't use model as a variable name since in MVC there is key word "model" is being used
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Create", course);
+            }
             return View("Create");
         }
 

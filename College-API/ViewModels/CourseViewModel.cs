@@ -10,7 +10,7 @@ namespace College_API.ViewModels
         public string? Duration { get; set; }
         public string? Description { get; set; }
         public string? Details { get; set; }
-        public string? ImagePath { get; set; }
+        // public string? ImagePath { get; set; }
         // public ICollection<User>? Users { get; set; } = new List<User>();
     }
 }
