@@ -8,9 +8,12 @@ namespace MvcApp.Controllers
     public class CoursesController : Controller
     {
         private readonly IConfiguration _config;
+        private readonly CourseServiceModel _courseService;
+
         public CoursesController(IConfiguration config)
         {
             _config = config;
+            _courseService = new CourseServiceModel(_config);   //220511_12.. 2:04.00
         }
 
         public async Task<IActionResult> Index()
@@ -32,8 +35,8 @@ namespace MvcApp.Controllers
         {
             try
             {
-                var courseService = new CourseServiceModel(_config);
-                var course = await courseService.FindCourse(id);
+                // var courseService = new CourseServiceModel(_config);
+                var course = await _courseService.FindCourse(id);
 
                 return View("Details", course);
             }
@@ -64,9 +67,13 @@ namespace MvcApp.Controllers
             {
                 return View("Create", course);
             }
-            return View("Create");
-        }
+            // var courseService = new CourseServiceModel(_config);
+            if (await _courseService.CreateCourse(course))
+                return View("CourseSavedConfirmation");
 
+            return View("Create", course);// Should send a unsuccessful page if it fails.
+
+        }
 
     }
 }

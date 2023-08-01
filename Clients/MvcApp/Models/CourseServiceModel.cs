@@ -56,6 +56,25 @@ namespace MvcApp.Models
 
             return course ?? new CourseViewModel();
         }
+
+        public async Task<bool> CreateCourse(CreateCourseViewModel course)
+        {
+            using var http = new HttpClient();
+            var baseUrl = _config.GetValue<string>("baseUrl");
+            var url = $"{baseUrl}/courses/AddCourse";
+
+            var response = await http.PostAsJsonAsync(url, course);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                string reason = await response.Content.ReadAsStringAsync();
+                Console.WriteLine(reason);
+                return false;
+            }
+            return true;
+
+
+        }
     }
 
 

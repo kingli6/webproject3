@@ -29,7 +29,7 @@ namespace MvcApp.ViewModels
 
 
         [Required(ErrorMessage = "Course Details is required")]
-        [Display(Name = "Detail")]
+        [Display(Name = "Details")]
         public string? Details { get; set; }
         // public string? ImagePath { get; set; }
     }
