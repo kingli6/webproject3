@@ -1,4 +1,19 @@
+@model MvcApp.ViewModels.CourseViewModel    //which namesapce it is in...
 
-<h1 class="page-title">@ViewData["Title"]</h1>
-<p>Does this work?</p>
-<p></p>
+@section styles{
+    <link rel="stylesheet" href="~/css/course-detail-page.css">
+}
+
+<article class="course-detail">
+    <h1 class="page-title">@Model!.Name</h1>
+    <section class="course-description">
+        <h4>Course ID: @Model.CourseId</h4>
+        <h4>Duration: @Model.Duration</h4>
+        <h3>Description</h3>
+        <div>@Model.Description</div>
+        <hr>
+        <h3>Details</h3>
+        <p>@Model.Details</p>
+        <a class="go-back" asp-action="Index"><i class="fa-solid fa-left-long"></i> Back to Our Courses</a>
+    </section>
+</article>

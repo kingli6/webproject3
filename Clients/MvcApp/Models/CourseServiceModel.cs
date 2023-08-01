@@ -41,5 +41,22 @@ namespace MvcApp.Models
 
             return courses ?? new List<CourseViewModel>();  //return courses, if null, return an empty CourseViewModel
         }
+        public async Task<CourseViewModel> FindCourse(int id)
+        {
+            var baseUrl = _config.GetValue<string>("baseUrl");
+            var url = $"{baseUrl}/courses/{id}";
+
+            using var http = new HttpClient();
+            var response = await http.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+                Console.WriteLine("Details method didn't work, couldn't find the course with id: " + id);
+
+            var course = await response.Content.ReadFromJsonAsync<CourseViewModel>();
+
+            return course ?? new CourseViewModel();
+        }
     }
+
+
 }

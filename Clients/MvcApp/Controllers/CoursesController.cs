@@ -30,19 +30,30 @@ namespace MvcApp.Controllers
         [HttpGet("Details/{id}")]
         public async Task<IActionResult> Details(int id)
         {
-            ViewBag.CourseId = id;
-            var baseUrl = _config.GetValue<string>("baseUrl");
-            var url = $"{baseUrl}/courses/{id}";
+            try
+            {
+                var courseService = new CourseServiceModel(_config);
+                var course = await courseService.FindCourse(id);
 
-            using var http = new HttpClient();
-            var response = await http.GetAsync(url);
+                return View("Details", course);
+            }
+            catch (Exception ex)
+            {
+                //We should return a errorpage with information
+                //return View("Error", errorObject);
+                //Or create a ViewBad t ex ViewBag.ErrorMessage = ???
+                // return view Details and look if error message has any information
+                //don't forget to control the ErrorMessage property is in the ViewBag boject
+                System.Console.WriteLine(ex.Message);
+                return View("Error");
+            }
 
-            if (!response.IsSuccessStatusCode)
-                Console.WriteLine("Details method didn't work, couldn't find the course with id: " + id);
+        }
 
-            var course = await response.Content.ReadFromJsonAsync<CourseViewModel>();
-
-            return View("Details", course ?? new CourseViewModel());
+        [HttpGet("Create")]
+        public IActionResult Create(string x)
+        {
+            return View("Create");
         }
 
 

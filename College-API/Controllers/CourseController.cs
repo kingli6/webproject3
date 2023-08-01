@@ -109,10 +109,27 @@ namespace College_API.Controllers
             // return Ok();
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateCourse(int id)
+        [HttpPut("RepalceCourse/{id}")]
+        public async Task<ActionResult> UpdateCourse(int id, PostCourseViewModel model)
         {
-            return NoContent();
+            try
+            {
+                await _courseRepo.UpdateCourseAsync(id, model);
+
+                if (await _courseRepo.SaveAllAsync())
+                    return NoContent();
+
+                return StatusCode(500, $"Failed to save course with id: {id}");
+            }
+            catch (NotFoundException)
+            {
+
+                return StatusCode(404, $"Course with id = {id} doesn't exist");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
     }

@@ -1,5 +1,6 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using College_API.CustomExceptions;
 using College_API.Data;
 using College_API.Interfaces;
 using College_API.Models;
@@ -46,9 +47,21 @@ namespace College_API.Repositories
             throw new NotImplementedException();
         }
 
-        public Task UpdateCourseAsync(int id, PostCourseViewModel model)
+        public async Task UpdateCourseAsync(int id, PostCourseViewModel model)
         {
-            throw new NotImplementedException();
+            if (model is null)
+                throw new BadRequestException();
+
+            var response = await _context.Courses.FindAsync(id);
+            if (response is null)
+                throw new NotFoundException();
+
+            response.CourseNumber = model.CourseNumber!;
+            response.Name = model.Name;
+            response.Duration = model.Duration;
+            response.Description = model.Description;
+            response.Details = model.Details;
+            _context.Courses.Update(response);
         }
 
         public Task UpdateCourseAsync(int id, PatchCourseViewModel model)
