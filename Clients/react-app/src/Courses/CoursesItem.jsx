@@ -1,9 +1,9 @@
-function CoursesItem() {
+function CoursesItem({ course }) {
   return (
     <tr>
-      <td>Names</td>
-      <td>Place</td>
-      <td>Animal</td>
+      <td>{course.CourseNumber}</td>
+      <td>{course.Name}</td>
+      <td>{course.Duration}</td>
       <td>Things</td>
     </tr>
   );
