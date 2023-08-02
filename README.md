@@ -31,190 +31,12 @@ https://www.notion.so/07f326a24db34eec8f9f7bea2c7f22b4?v=6a8d9729ff0a46a48758fbc
 
 
 
+		/
 
 
 
-//-----------------PROJECT MVC, Razor, React--------------------------------------------------------
 
-vid 11
-[20220505_130015 30:00]
-//We are building a MVC model and not Razor pages, so we deleted the css file, js file and erase everything except the @RenderBody() in the sharedLayout page.
-	06:06 adding fonts to the library (Poppins and Roboto are simple)
-//We have a controller(Vehicles), in it a method called index(). We create a View-file that will run the Index() method
-	"So that file will be called Index.cshtml". 23:00. "We create a new Razor page file but delete the razorpage code and controller extention"
-			"-since we are using a MVC project." With CS-code, we don't have any handholding so we have to create all the files ourselves.
-//with @ _Layout.cshtml (the main page) we can add the different tabs in the page [32:00]
-	"short hand for createing elements" ul>li>a "will create unordered list, a list and inside a link"
-//HttpClient(); [35:00] Using Tag helper in the cshtml file to conntect to the controller.
-	asp-controller="Vehicles" asp-action="Index"
-
-Connecting to the API 40:00
-	///We add our Get-method [41:19]
-	[51:38]using var http = new HttpClient(); var response = await http.GetAsync(url);
-	///url is "https://localhost:####/api/v1/vehicles/list
-	///Talk about Garbage collector
-//We run into an error when we try Debugger
-	We solve it by running the api and the mvcApp in different VS-code. Due to mapstructure mechanics,
-	the debugger runs everything at once. 58:00
-	"You can run the debugger .NET Core Attach but you need to type something to make it work, its an extension maybe?" 1:26:00
-1:20:00 Back from break. HTTPS development certificate
-	If you don't have this, you can run the Terminal as Admin and type
-	-dotnet dev-certs https --trust
-//Second debugger run 1:30:00
-//Creating a View Model 1:31:00 to take in the data thats coming in.
-	The data thats coming in is screwed and since it doesn't match our viewModel properties, we need to fix it. 1:37:30
-"Model folder in MvcApp is for classes which has methods that talks to the REST api"1:45:00
-		Is that affärs logik, in the presentation picture?
-///Instead of using in Courses Controller
-	var options = new JsonSerializerOptions
-      {
-        PropertyNameCaseInsensitive = true
-      };
-	///You can use in the CoursesViewModel.cs, but it will clutter the file. 1:48:300
-    [JsonPropertyName("CoursesId")]
-
-//Moving the logic above to the right place, which is the Model folder. 1:52:00
-//creating baseUrl in appsettings.Development.json so it can be reused. 1:55:00
-	_baseUrl = $"{_config.GetValue<string>("baseUrl")}/course";
-
-//Using Repository Pattern by creating a CourseFunctionsModel file under Model folder, and having the functions
-that has to do with talking to the API in there. 2:00:00 around here
-
-			//Theory.
-				///Michael is showing 2:30:000 how you can send ViewData from the Controller [ ] This could be worth experimenting
-			In controller: ViewBag.Message = "Passa på at köpa...";  In View file: <div>Dagens meddelande är: @ViewBag.Message</div>
-			2:35:00///In Program.cs you adjust how the routing is done.
-				app.MapControllerRoute(
-					name: "default",
-					pattern: "{controller=Home}/{action=Index}/{id?}");
-
-					/// You can use HTTP tag above the methods or Class file where you change the name of the default route.
-					[Route("[controller]")] above the class CourseController, can be changed.
-					"If you dont have any Http tag above a method, by default it's [HttpGet]"
-			Razor notes @ symbol can be used in different ways. 2:45:00
-
-2:58:00	//We are adding a £ tag in the View file to tell where the data is coming from
-	@model IEnumerable<MvcApp.ViewModels.CourseViewModel>
-	///We fill in the view file with @ tag helpers to bring in the data. I don't fully follow here. [ ]
-//We need to have HTTP tags above the methods to diffrentiate them. ??? asp-action="Details" didn't help...
-		<a asp-controller="Courses" asp-action="Details">@course.Title</a>
-		///asp-controller="Courses" means it will look at CoursesController. ///You don't need to type COntroller.
-		///asp-action will search for the method name, BUT why didn't it work?
-
-3:12:00 //BAD practice. You must send in the return View("what the method name is", object)
-
-vid 12
-[20220510_090125]
-05:30 ish, in app.development.json, we can change the port number where the project starts.
-29:00	To be able to run the debugger with both projects in the main folder, you need to remove .vscode folder everywhere
-except the main project folder.
-In the launch.json folder. We are changing "program": "${workspaceFolder}/WCC-API/bin/Debug/net6.0/WCC-API.dll", to
-											"program": "${workspaceFolder}/Clients/MvcApp/bin/Debug/net6.0/MvcApp.dll",
-									In "env": we'll add another line, so it looks like this
-									"env": {"ASPNETCORE_ENVIRONMENT": "Development",
-											"ASPNETCORE_URLS": "https://localhost:5000"}
-	We also add another element for API project, where there is two difference.
-	  "program": "${workspaceFolder}/WCC-API/bin/Debug/net6.0/WCC-API.dll", and
-	  "ASPNETCORE_URLS": "https://localhost:5001"							Look at 35:30
-
-In the task.json folder. We are changing         "${workspaceFolder}/WCC-API/WCC-API.csproj", to "${workspaceFolder}",
-													So removing the path and leaving the root folder.
-
--------------"This way you can run different projects together in the debug mode"--------------
-A bit confusing, but we are changing the element with API to 5001 and changing the development.json in the MVC-APP to 5001...
-
-50:12 To know which port number you need to have in MVCapp, run the API project with dotnet watch run, and use that port
-56:00	If you want to add in data automatically, you can follow here.
-	///After filling in the code 1:06:00
-	"dotnet ef database drop --force" and "dotnet ef database update"
-//----------------------HTML and CSS----------------------// 1:36:00
-1:49:00 creating nav bar. //obs! navbar needs to be id="navbar" and not class...1:52:10
-2:10:00	We used fonts from Font-Awesome ///step 1 Choose a logo https://fontawesome.com/search?s=solid%2Cbrands
-	///step 2.https://cdnjs.com/libraries Search for Font-awesome
-2:43:00	//Building the Course list page, trying to add img to the list.
-2:58:00 //Fixing gallery-wrapper. with display: grid; grid-template-columns: repeat(4, 1fr);
-
-vid 13
-20220510_130556 Continuing css----------------------------------------------
-	17:30	aspect ratio calculator. working with img is hard in webapplication. //Tip: Get pictures that are 2000-5000 px big.
-    23:00 WHich picture format to use? If its a foto: jpg, a drawn thingy: png, Else svg?
-		33:00 never re-use id on the same page twice id="navbar"
-35:00 Using javascript to have a pop up effect when you click on a container
-	 &nbsp; non breaking space?`45:25
-1:26:00 still building the pop up effect on items. 1:31:30 Explanation. Error with JS, needed to remove a line below at line 31.
-1:49:00 Css for the pop up effect
-		2:34:10 creating a button
-	3:00:00 Moving css code to another file, and using @RenderSection("styles", false) in the @ _Layout.cshtml
-		"similarly for scripts"
-
-vid 14
-20220511_100737 --------------------------------
-We are creating the Details page. 18:00	You need [HttpGet("Details/{id}")] above the method.
-"TIP Before building the method or JavaScript, try testing if you can reach the site!!!"
-27:20 slice(0, -1) javaScript method where you take a string and choose which part you want to keep and which to remove.
-			0 means starting from 0 index, and -1 is removing the last index.
-45:00	Working on Details method.
-
-
-	//Fast forwarding
-[1:38:30] Needing Json serializer settings so program can read incoming data
-[1:55:00] We create a model class VehicleServiceModel where we put in the hosting link and Json serializer through constructor so we can call it in the methods.
-[2:23:50] PRESENTATION on MVc model? The timestamp will show you what Action methods can return
-[2:35:00] Setting up app.MapCOntrollerRoute in Program.cs to automatically route to a certain place?
-
-[20220510_090125 27:33] How to set up the debugger MVC model and API from an external project?
-
-[20220510_090125] Building the website by setting up the front page. and things explained above.
-
-[20220510_130556] Lots of JS and css
-
-[20220511_100737] Adding functions to the site. Like opening item, flexible resolution(mobile, pad, large screen)
-
-[20220511_125700] search functions and more. AT [2:28:00] We start the JS app.!!
-
-[20220512_090134] Starts by talking about the project, maybe continues with the jsAPp and Razor pages starts at [2:31:00]
- - js the definitive guide 7th edition
- learning javascript Ethan Brown, JAva script design patterns Addy Osmani
-
-[20220517_090026]	Razor pages [1:56:00] Creating Add car function
-
-[20220517_130531] [41:32] We are convinced that react is the shit. And it starts here
-
-
-
-		//REACT
-		///	-npx create-react-app .		"The dot . meanns make the project inside the folder called react-app? YES
-		/// -npm install 		//You need to have node_modules in your project. BUT I DID. Couldn't get the website to launch without it
-		///	NOT NEEDED UNLESS...-npm i -g npx 	"-g means to install the name npx" i means..
-		///	-npm start
-		///
-		/// Had an issue with "npm" not working(windows) ERROR: global, local deprecated...https://github.com/npm/cli/issues/4980
-			///solved it by following the link above.
-// FInd jobs close to you and see what they need <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-
-[20220517_130531]
-1:26:00 installing react app in a client folder.
-	>rm -rf nameOfTheFolder		//this deletes the folder
-    >mkdir react-app
-    >npx create-react-app .
-
-[1:43 40]	Two extensions to help with code. Jest and Jasmine [1:52: 20] Extension neede ES7: ES7 React/Redux/GraphQL/React-Native snippets
-	//Jasmine - Behavior-Driven JavaScript
-// after deleting things, we are coding in src Folder, in index.js [1:55:00]
-	//Babel - tranforms JS to "real" js? Turn JS to another format, like scriptJS
-// We create a new file called App.jsx, there we are the html things,
-	// where we export and then import into index.js in the same src Folder.
-	// [2:11:00] SO you can import inside another file.
-
-// Creating CSS [2:41:00]. //Making things dynamic, as in using properties
-// from data?[2:51:00]  // [2:58:35] Placing in huge data and calling
-	//it in VehicleList.jsx  // Short summary [3:11:50]
-3:11:00 How components work. Is it better to use .map on a parent component instead of sending it down?
-	A. We create a simple, empty component (<Vehicle_list />), in there there are tons of code and a head and body table that will show a list of vehicles. We'll have a simple component to display the repetetive vehicle list.
-    //Since I don't care much for mastering programming with code, I should be able to maintain it for a job, its the entry to IT. What will I move to? Writing? managing people? Manager! A guy from Uppasala university named it as soon as he heard me explain what I like. Managers are quite dumb?
-    https://github.com/MichaelGustavsson?tab=repositories
-
+vid 19
 [20220518_091607 09:50] React Router
 // ESLint. [17:00] Helps you with javascript coding. [21:00] Repetition
 	///Font awesome is mentioned to bring fonts.
@@ -255,7 +77,7 @@ builder.Services.AddCors(options => {
 		///If you see just square breackets, it means it's expecting an array
 2:24:00 using useState
 
-
+vid 20
 [20220518_130639] [06:21] installing router with -npm install react-router-dom	//document object model.
 	///this is to be able to navigate to a new page. [21:30] importing it in App.jx
 //[28:30] coding in Home.jsx -it's the homepage.  Introducing <> JSX fragment or React.Fragment.	Note. return ()  you need brackets if you are using more than one element.
@@ -431,11 +253,272 @@ const saveVehicle = async (vehicle) => {		//the above function didn't have anyth
 
 
 
+vid 18 0809
+[20220517_130531]
+[41:32] We are convinced that react is the shit. And it starts here
+53:00 installing node
+1:29:00 installing react app
+/REACT
+		///	-npx create-react-app .		"The dot . meanns make the project inside the folder called react-app? YES
+		/// -npm install 		//You need to have node_modules in your project. BUT I DID. Couldn't get the website to launch without it
+		///	NOT NEEDED UNLESS...-npm i -g npx 	"-g means to install the name npx" i means..
+		///	-npm start
+		///
+		/// Had an issue with "npm" not working(windows) ERROR: global, local deprecated...https://github.com/npm/cli/issues/4980
+			///solved it by following the link above.
+// FInd jobs close to you and see what they need <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>rm -rf nameOfTheFolder		//this deletes the folder
+    >mkdir react-app
+    >npx create-react-app .
+
+1:41:00 Explanations for what all files do
+	package.json is aslo called npm package file.
+[1:43 40]	Two extensions to help with code. Jest and Jasmine
+[1:53: 20] Extension neede ES7: ES7 React/Redux/GraphQL/React-Native snippets
+	//Jasmine - Behavior-Driven JavaScript
+[1:55:00]// after deleting things, we are coding in src Folder, in index.js
+2:00:00	babeljs.io//Babel - tranforms JS to "real" js? Turn JS to another format, like scriptJS
+// We create a new file called App.jsx, there we are the html things,
+	// where we export and then import into index.js in the same src Folder.
+
+2:11:00]	// [ SO you can import inside another file.
+
+[2:41:00]// Creating CSS . //Making things dynamic, as in using properties
+[2:51:00]// from data?  // [2:58:35] Placing in huge data and calling
+[3:11:50]	//it in VehicleList.jsx  // Short summary
+3:11:00 How components work. Is it better to use .map on a parent component instead of sending it down?
+	A. We create a simple, empty component (<Vehicle_list />), in there there are tons of code and a head and body table that will show a list of vehicles. We'll have a simple component to display the repetetive vehicle list.
+    //Since I don't care much for mastering programming with code, I should be able to maintain it for a job, its the entry to IT. What will I move to? Writing? managing people? Manager! A guy from Uppasala university named it as soon as he heard me explain what I like. Managers are quite dumb?
+    https://github.com/MichaelGustavsson?tab=repositories
 
 
 
+vid 17
+[1:56:00][20220517_090026]	Razor pages  Creating Add car function
 
+vid 16
+[20220512_090134] Starts by talking about the project, maybe continues with the jsAPp and Razor pages starts at [2:31:00]
+ - js the definitive guide 7th edition
+ learning javascript Ethan Brown, JAva script design patterns Addy Osmani
 
+vid 15
+[20220511_125700] search functions and more. AT
+19:00 creating HttpPost method
+//NOTE //don't use model as a variable name "model" since in MVC it is being used as a ley word
+36:00 //you don't need to add asp-controller=" " if you are getting it from the same somethingsomething..
+42:00 using a tag in the view model to alter the name of the property so you can have a unique/diff name for display. RegNo can be turned to RegistrationNr on the web
+		[Display(Name = RegistrationNr)]
+1:31:00 sudo class? css based on the condition of an element. ex hover
+			.btn:hover {
+			  background: #888;
+			  color: #333;
+			  font-weight: bold;
+			}
+1:41:00 TIP. Before you complete the whole method, you can create how it will look like when completed, before building the method
+	 [HttpPost("Create")]
+        public async Task<IActionResult> Create(CreateCourseViewModel course)   //don't use model as a variable name since in MVC there is key word "model" is being used
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Create", course);
+            }
+            return View("CourseSavedConfirmation");
+        }
+2:08:00 completed post method. Starting of how to creat a global css variable for color.
+2:16:00 moving css to another file.
+2:27:00 We start the JS app.!!
+2:31:0 install live server
+
+vid 14
+20220511_100737 --------------------------------
+We are creating the Details page. 18:00	You need [HttpGet("Details/{id}")] above the method.
+"TIP Before building the method or JavaScript, try testing if you can reach the site!!!"
+27:20 slice(0, -1) javaScript method where you take a string and choose which part you want to keep and which to remove.
+			0 means starting from 0 index, and -1 is removing the last index.
+45:00	Working on Details method.
+49:00  GOt an error:	Operator '??' cannot be applied to operands of type 'Task<CourseViewModel?>' and 'CourseViewModel'
+		//Due to course variable missing a await...
+		method for detail method.
+1:13:00 css for detail page
+
+[1:38:30] Needing Json serializer settings so program can read incoming data
+[1:55:00] We create a model class VehicleServiceModel where we put in the hosting link and Json serializer through constructor so we can call it in the methods.
+[2:23:50] PRESENTATION on MVc model? The timestamp will show you what Action methods can return
+[2:35:00] Setting up app.MapCOntrollerRoute in Program.cs to automatically route to a certain place?
+
+vid 13
+20220510_130556 Continuing css----------------------------------------------
+	17:30	aspect ratio calculator. working with img is hard in webapplication. //Tip: Get pictures that are 2000-5000 px big.
+    23:00 WHich picture format to use? If its a foto: jpg, a drawn thingy: png, Else svg?
+		33:00 never re-use id on the same page twice id="navbar"
+35:00 Using javascript to have a pop up effect when you click on a container
+	 &nbsp; non breaking space?`45:25
+1:26:00 still building the pop up effect on items. 1:31:30 Explanation. Error with JS, needed to remove a line below at line 31.
+1:49:00 Css for the pop up effect
+		2:34:10 creating a button
+	3:00:00 Moving css code to another file, and using @RenderSection("styles", false) in the @ _Layout.cshtml
+		"similarly for scripts"
+3:12:00 how to place a javascript file in the right index file.
+
+vid 12
+[20220510_090125]
+05:30 ish, in app.development.json, we can change the port number where the project starts.
+29:00	To be able to run the debugger with both projects in the main folder, you need to remove .vscode folder everywhere
+except the main project folder.
+In the launch.json folder. We are changing
+			"program": "${workspaceFolder}/WCC-API/bin/Debug/net6.0/WCC-API.dll", to
+			"program": "${workspaceFolder}/Clients/MvcApp/bin/Debug/net6.0/MvcApp.dll",
+					In "env": we'll add another line, so it looks like this
+					"env": {"ASPNETCORE_ENVIRONMENT": "Development",
+							"ASPNETCORE_URLS": "https://localhost:5000"}
+	We also add another element for API project, where there is two difference.
+	  "program": "${workspaceFolder}/WCC-API/bin/Debug/net6.0/WCC-API.dll", and
+	  "ASPNETCORE_URLS": "https://localhost:5001"							Look at 35:30
+
+In the task.json folder. We are changing         "${workspaceFolder}/WCC-API/WCC-API.csproj", to "${workspaceFolder}",
+													So removing the path and leaving the root folder.
+
+-------------"This way you can run different projects together in the debug mode"--------------
+A bit confusing, but we are changing the element with API to 5001 and changing the development.json in the MVC-APP to 5001...
+49:00 In MvcApp, in appsettings.Development.json, you change the port to 5001 when you want to debug, otherwise have the default or where the web site is run on.
+"YOU CAN have the same ip port for debug, then you need to make sure you're not running the program while debugging..."
+
+52:30 NOTE: Run the api first (debugging), then the client
+50:12 To know which port number you need to have in MVCapp, run the API project with dotnet watch run, and use that port
+
+"LOAD DATA"
+56:00	If you want to add in data automatically, you can follow here.
+	///After filling in the code 1:06:00
+	"dotnet ef database drop --force" and "dotnet ef database update"
+
+1:39:00 ViewBag is dynamic and ViewData is like a dictionary?
+//----------------------HTML and CSS----------------------// 1:36:00
+1:49:00 creating nav bar. //obs! navbar needs to be id="navbar" and not class...1:52:10
+	ul>li*4>a creates a list of a tags
+1:55:00 	rem means relative to default value, 3 rem is 3* default
+2:05:00 CSS babyyyyyy
+2:10:00	We used fonts from Font-Awesome ///step 1 Choose a logo https://fontawesome.com/search?s=solid%2Cbrands
+	///step 2.https://cdnjs.com/libraries Search for Font-awesome
+	"How to place a logo, do the above steps"
+2:19:00 Tip! Keep your css organised. Have your elements up, and classes below.
+2:32:00 Creating a link to Våra bilar
+2:42:00 Why isn't the image link working?
+2:43:00	//Building the Course list page, trying to add img to the list.
+2:58:00 //Fixing gallery-wrapper. with display: grid; grid-template-columns: repeat(4, 1fr);
+
+vid 11
+[20220505_130015 30:00]
+	//We are building a MVC model and not Razor pages, so we deleted the css file, js file and erase everything except the @RenderBody() in the sharedLayout page.
+	https://fonts.google.com/specimen/Poppins?query=poppins
+	06:06 adding fonts to the library (Poppins and Roboto are simple)
+	10:30 Adding the css styling to the _Layout.cshtml file
+	<link rel="stylesheet" href="~/css/styles.css">
+	19:40 //We have a controller(Vehicles), in it a method called index(). We create a View-file that will run the Index() method
+	"So that file will be called Index.cshtml". 23:00. "We create a new Razor page file but delete the razorpage code and controller extention"
+			"-since we are using a MVC project." With CS-code, we don't have any handholding so we have to create all the files ourselves.
+	[32:00]//with @ _Layout.cshtml (the main page) we can add the different tabs in the page
+	33:00 adding a nav tab with a link a-tag in _Layout.cshtml
+	                <li><a asp-controller="Courses" asp-action="Index">Courses</a></li>
+
+	"short hand for createing elements" ul>li>a "will create unordered list, a list and inside a link"
+	[35:00]//HttpClient(); [35:00] Using Tag helper in the cshtml file to conntect to the controller.
+	asp-controller="Vehicles" asp-action="Index"
+
+Connecting to the API 40:00
+	///We add our Get-method [41:19]
+	[51:38]using var http = new HttpClient();
+	var response = await http.GetAsync(url);
+	///url is "https://localhost:####/api/v1/vehicles/list
+	///Talk about Garbage collector
+	57:39 "Under the map .vscode > launch.json > you can change in which order things are run"
+	1:01:00 "How to debug and look at what's coming in"
+//We run into an error when we try Debugger
+	We solve it by running the api and the mvcApp in different VS-code. Due to mapstructure mechanics,
+	the debugger runs everything at once. 58:00
+	"You can run the debugger .NET Core Attach but you need to type something to make it work, its an extension maybe?" 1:26:00
+1:20:00 Back from break. HTTPS development certificate
+	If you don't have this, you can run the Terminal as Admin and type
+	-dotnet dev-certs https --trust
+//Second debugger run 1:30:00
+1:31:00 //Creating a View Model 1:31:00 to take in the data thats coming in.
+	The data thats coming in is screwed and since it doesn't match our viewModel properties, we need to fix it. 1:37:30
+1:45:00 "Model folder in MvcApp is for classes which has methods that talks to the REST api"1:45:00
+		Is that affärs logik, in the presentation picture?
+///Instead of using in Courses Controller
+	var options = new JsonSerializerOptions
+      {
+        PropertyNameCaseInsensitive = true
+      };
+								///You can use in the CoursesViewModel.cs, but it will clutter the file. 1:48:300
+								[JsonPropertyName("CoursesId")]	//so we don't use this
+
+1:54:00 using VehicleServiceModel to JsonSerializerOptions and returning the base url for the method.
+1:52:00 //Moving the logic above to the right place, which is the Model folder. 1:52:00
+1:55:00 //creating baseUrl in appsettings.Development.json so it can be reused. 1:55:00
+	_baseUrl = $"{_config.GetValue<string>("baseUrl")}/course";
+
+//Using Repository Pattern by creating a CourseFunctionsModel file under Model folder, and having the functions
+that has to do with talking to the API in there. 2:00:00 around here
+
+			//Theory.
+				///Michael is showing 2:30:000 how you can send ViewData from the Controller [ ] This could be worth experimenting
+			In controller: ViewBag.Message = "Passa på at köpa...";  In View file: <div>Dagens meddelande är: @ViewBag.Message</div>
+			2:35:00///In Program.cs you adjust how the routing is done.
+				app.MapControllerRoute(
+					name: "default",
+					pattern: "{controller=Home}/{action=Index}/{id?}");
+
+					/// You can use HTTP tag above the methods or Class file where you change the name of the default route.
+					[Route("[controller]")] above the class CourseController, can be changed.
+					"If you dont have any Http tag above a method, by default it's [HttpGet]"
+			Razor notes @ symbol can be used in different ways. 2:45:00
+	//CoursesController
+		public async Task<IActionResult> Index()
+			{
+				try
+				{
+					// ViewData["CourseID"] = "A million ID's";
+					var courseService = new CourseServiceModel(_config);
+					var courses = await courseService.ListAllCourse();
+					return View(courses);
+				}
+				catch (System.Exception)
+				{
+					throw;
+				}
+			}
+
+	//Courses>Index.cshtml
+			@model IEnumerable<MvcApp.ViewModels.CourseViewModel>
+
+			@{
+				ViewData["Title"] = "Available Courses";
+			}
+			<h1>@ViewData["Title"]</h1>
+
+			<article>
+				<section>
+					@* <div>Hey @ViewData["CourseID"]</div> //this is commented out *@
+					<h3>Check our available courses</h3>
+					@foreach (var course in Model){
+						<div>
+							<a asp-controller="Courses" asp-action="Details">@course.CourseNumber @course.Name</a>
+							<p>@course.Duration</p>
+							<p>@course.Description</p>
+						</div>
+					}
+				</section>
+			</article>
+
+2:58:00	//We are adding a @ tag in the View file to tell where the data is coming from
+	@model IEnumerable<MvcApp.ViewModels.CourseViewModel>
+	///We fill in the view file with @ tag helpers to bring in the data. I don't fully follow here. [ ]
+//We need to have HTTP tags above the methods to diffrentiate them. ??? asp-action="Details" didn't help...
+		<a asp-controller="Courses" asp-action="Details">@course.Title</a>
+		///asp-controller="Courses" means it will look at CoursesController. ///You don't need to type COntroller.
+		///asp-action will search for the method name, BUT why didn't it work?
+3:09:0	with [HttpGet("{id})], the methods stay unique, otherwise they are the same (ERROR AmbiguousMatchException)
+3:12:00 //BAD practice. You must send in the return View("what the method name is", object)
 
 
 vid 10
@@ -460,6 +543,10 @@ netify.com - where you can host your website (react or html/css)
 	"för att bli en duktig utvecklar måste man förstå, inte som de googlande utvecklare"
 //Deletes folders and content from js and css [2:49:00]. At [2:59] he adds the Html: 5 semantic? in the _Layout.cshtml
 	@RenderBody()
+2:43:00 How to publish 	>dotnet publish
+2:49:00 Start deleting unwanted files
+2:56:00 editing _Layout.cshtml
+	use autocomplete "html5" to auto complete html template.
 
 Vid 9
 20220505_090110 	There was discussion on [authenication] tag not working.
@@ -970,4 +1057,6 @@ How to connect controller to login info? With a function...?
 		keep your promises
 		stay cheerful and constructive
 		upgrade the world
+	*/
+
 	*/ -->
