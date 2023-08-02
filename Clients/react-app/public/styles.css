@@ -9,9 +9,15 @@ font-family: 'Roboto', sans-serif; */
   padding: 0;
   box-sizing: border-box;
 }
+body {
+  position: fixed;
+  color: #333;
+  position: relative;
+  height: 100vh;
+}
 body,
 textarea {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Lato', 'Roboto', sans-serif;
 }
 
 main {
@@ -20,8 +26,9 @@ main {
 
 h1 {
   color: #f4f4f4;
-  font-size: xx-large;
   font-style: italic;
+  font-size: 2rem;
+  padding: 1rem 0;
 }
 
 h2 {
@@ -30,11 +37,32 @@ h2 {
 
 input,
 textarea {
-  border: #888 solid 1px;
+  border: var(--border-color) solid 1px;
   padding: 0.3rem 0.4rem;
   border-radius: 5px;
+  outline: none !important;
 }
 
+table {
+  border-collapse: collapse;
+  background-color: var(--table-background-color);
+  width: 100%;
+  min-width: 600px;
+}
+
+thead {
+  background-color: var(--dark-color);
+  color: var(--light-color);
+}
+th {
+  text-align: left;
+  padding: 0.6rem 0.7rem;
+}
+
+td {
+  padding: 0.3rem 0.7rem;
+  border-bottom: solid 1px var(--separator-color);
+}
 #navbar {
   display: flex;
   justify-content: space-between;
@@ -60,6 +88,7 @@ textarea {
 
 #navbar ul {
   display: flex;
+  flex-direction: row;
   list-style: none;
 }
 
@@ -68,8 +97,103 @@ textarea {
   font-weight: 400;
 }
 
+.page-title {
+  text-align: center;
+  color: var(--primary-color);
+  padding: 2rem 0 1rem 0;
+}
 .text-primary {
   color: var(--primary-color);
+}
+.buttons {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0 0 0;
+}
+.btn {
+  display: inline-block;
+  background: #333;
+  color: #f4f4f4;
+  padding: 0.4rem 2rem;
+  cursor: pointer;
+  text-decoration: none;
+  width: 200px;
+  max-width: 300px;
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
+  border: none;
+  outline: none !important;
+  box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.6);
+}
+
+.btn:hover {
+  box-shadow: 0 0 0 0;
+  font-weight: bold;
+}
+.go-back {
+  padding: 1rem;
+  font-size: 1.2rem;
+  text-decoration: none;
+  color: var(--primary-color);
+  margin: 1rem 0;
+}
+
+.form-container {
+  max-width: 600px;
+  margin: auto;
+  border: #888 solid 1px;
+  border-radius: 10px;
+  box-shadow: 0 0 6px 1px rgba(0, 0, 0, 0.6);
+  background-color: var(--light-color);
+}
+
+.form-container h4 {
+  background: rgb(110, 160, 95);
+  color: #f4f4f4;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 0.6rem;
+}
+
+.form-control {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.form-control input,
+textarea {
+  width: 250px;
+}
+.delete {
+  color: var(--danger-color);
+  cursor: pointer;
+}
+
+.edit {
+  color: var(--primary-color);
+  cursor: pointer;
+}
+.instructions {
+  padding: 1rem;
+  background-color: var(--table-background-color);
+  color: var(--primary-text-color);
+  border: var(--border-color) solid 1px;
+  opacity: 0.6;
+  box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.5);
+}
+
+.instructions-title {
+  font-size: 2rem;
+  text-align: center;
+  color: var(--title-color);
 }
 .gallery-wrapper {
   display: grid;
@@ -99,13 +223,6 @@ textarea {
   padding-top: 0.3rem;
 }
 
-.page-title {
-  display: flex;
-  justify-content: left;
-  color: var(--primary-color);
-  padding: 2rem 0 1rem 0;
-}
-
 @media (max-width: 500px) {
   .gallery-wrapper {
     grid-template-columns: repeat(1, 1fr);
@@ -125,65 +242,4 @@ textarea {
   .gallery-wrapper {
     width: 80%;
   }
-}
-
-.btn {
-  display: inline-block;
-  background: #333;
-  color: #f4f4f4;
-  padding: 0.4rem 2rem;
-  cursor: pointer;
-  text-decoration: none;
-  font-size: 0.8rem;
-  margin-top: 0.3rem;
-  border: none;
-  outline: none !important;
-}
-
-.btn:hover {
-  background: #888;
-  color: #333;
-  font-weight: bold;
-}
-
-.go-back {
-  padding: 1rem;
-  font-size: 1.2rem;
-  text-decoration: none;
-  color: var(--primary-color);
-  margin: 1rem 0;
-}
-
-.form-container {
-  max-width: 600px;
-  margin: auto;
-  border: #888 solid 1px;
-  box-shadow: 0 0 6px 1px rgba(0, 0, 0, 0.6);
-}
-
-.form-container h4 {
-  background: rgb(110, 160, 95);
-  color: #f4f4f4;
-  padding: 0.5rem;
-  text-align: center;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-  gap: 0.6rem;
-  width: 100%;
-}
-
-.form-control {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.form-control input,
-textarea {
-  width: 250px;
 }

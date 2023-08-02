@@ -2,6 +2,14 @@
   --primary-color: rgb(110, 160, 95);
   --secondary-color: rgb(65, 94, 56);
   --primary-text-color: #333;
-  --secondary-text-color: #333;
+  --secondary-text-color: #5f9ea0;
   --border-color: #888;
+  --dark-color: #212121;
+  --light-color: #f4f4f4;
+  --backgorund-color: 2b2a2a;
+  --nav-bar-color: #333;
+  --table-background-color: #fff;
+  --separator-color: #c9c6c6;
+  --danger-color: ab0909;
+  --title-color: #5f9ea0;
 }
