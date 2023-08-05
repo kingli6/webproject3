@@ -1,5 +1,8 @@
 //My first component - App.jsx
-import CoursesList from './Courses/CourseList';
+import CoursesList from './components/Courses/CourseList';
+
+import './utilities.css';
+import './styles.css';
 
 function App() {
   return (

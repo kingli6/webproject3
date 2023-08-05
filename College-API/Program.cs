@@ -76,6 +76,19 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//Rules for which users have permission to access our api?
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("College-APICors",
+    policy =>
+    {
+        policy.AllowAnyHeader();
+        policy.AllowAnyMethod();
+        policy.WithOrigins("http://localhost:3000");// Allow the React app's origin
+    });
+});
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline. 
@@ -87,6 +100,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
+
+// Use the CORS policy before authorization
+app.UseCors("College-APICors");
+
 app.UseAuthorization();
 
 app.MapControllers();
