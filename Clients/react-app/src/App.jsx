@@ -1,3 +1,6 @@
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Home from './components/home/Home';
+import Navbar from './components/navbar/Navbar';
 //My first component - App.jsx
 import CoursesList from './components/Courses/CourseList';
 
@@ -6,10 +9,15 @@ import './styles.css';
 
 function App() {
   return (
-    <main>
-      <h1 className="page-title">Hey! From App.jsx component page</h1>
-      <CoursesList />
-    </main>
+    <Router>
+      <Navbar />
+      <main>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/courseList" element={<CoursesList />} />
+        </Routes>
+      </main>
+    </Router>
   );
 }
 
