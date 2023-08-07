@@ -18,7 +18,7 @@ function CourseList() {
       console.log('Opps.. couldnt find any courses or something went wrong!!!');
 
     const data = await response.json();
-    console.log(data);
+    //console.log(data);
     setCourses(data);
     // try {
     //   const response = await fetch(url);

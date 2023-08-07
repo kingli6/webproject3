@@ -1,25 +1,52 @@
 import { useState } from 'react';
 
 function AddCourse() {
-  const [courseNum, setCourseNum] = useState('');
-
+  const [useCourseNum, setCourseNum] = useState('');
+  const [useCourseName, setCourseName] = useState('');
+  const [useDuration, setDuration] = useState('');
+  const [useDescription, setDescription] = useState('');
+  const [useDetails, setDetails] = useState('');
+  let course = {
+    courseNumber: useCourseNum, //if both variables have the same name, you can simply use it once 220518_13 1:45:00
+    name: useCourseName,
+    duration: useDuration,
+    description: useDescription,
+    details: useDetails,
+  };
   const onHandlerCourseNumTextChange = (e) => {
-    console.log('texten är ändrad');
-    console.log(e);
-    setCourseNum();
+    //220518_13 1:45:00
+    console.log('texten är ändrad', e.target.value);
+    setCourseNum(e.target.value);
+  };
+  const onHandlerCourseNameTextChange = (e) => {
+    setCourseName(e.target.value);
+  };
+  const onHandlerDurationTextChange = (e) => {
+    setDuration(e.target.value);
+  };
+  const onHandlerDescriptionTextChange = (e) => {
+    setDescription(e.target.value);
+  };
+  const onHandlerDetailsTextChange = (e) => {
+    setDetails(e.target.value);
+  };
+  const handleSaveCourse = (e) => {
+    //220518_13 1:45:00
+    e.preventDefault(); //don't act (form) in the standard way when we submit(to empty field, reload page, etc).
+    console.log(course);
   };
   return (
     <>
-      <h1 clasNames="page-title">Add a new course</h1>
+      <h1 className="page-title">Add a new course</h1>
       <section className="form-container">
-        <h4>Course somethingsomething</h4>
+        <h4>Create new course</h4>
         <section className="form-wrapper">
-          <form className="form" method="post">
+          <form className="form" onSubmit={handleSaveCourse}>
             <div className="form-control">
               <label htmlFor="">Course Number</label>
               <input
                 onChange={onHandlerCourseNumTextChange}
-                value="courseNumber"
+                value={useCourseNum}
                 type="text"
                 id="courseNumber"
                 name="courseNumber"
@@ -27,19 +54,39 @@ function AddCourse() {
             </div>
             <div className="form-control">
               <label htmlFor="name">Name</label>
-              <input type="text" id="name" name="name" />
+              <input
+                onChange={onHandlerCourseNameTextChange}
+                type="text"
+                id="name"
+                name="name"
+              />
             </div>
             <div className="form-control">
               <label htmlFor="duration">Duration</label>
-              <input type="text" id="duration" name="duration" />
+              <input
+                onChange={onHandlerDurationTextChange}
+                type="text"
+                id="duration"
+                name="duration"
+              />
             </div>
             <div className="form-control">
               <label htmlFor="description">Description</label>
-              <input type="text" id="description" name="description" />
+              <input
+                onChange={onHandlerDescriptionTextChange}
+                type="text"
+                id="description"
+                name="description"
+              />
             </div>
             <div className="form-control">
               <label htmlFor="details">Course Details</label>
-              <textarea type="text" id="details" name="details"></textarea>
+              <textarea
+                onChange={onHandlerDetailsTextChange}
+                type="text"
+                id="details"
+                name="details"
+              ></textarea>
             </div>
             <button type="submit" className="btn">
               Save

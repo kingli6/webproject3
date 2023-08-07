@@ -7,7 +7,7 @@ function Navbar() {
         <li>
           <NavLink to="/">Home</NavLink>
           <NavLink to="/courseList">Courses</NavLink>
-          <NavLink to="/addcourse">Add Course</NavLink>
+          <NavLink to="/addCourse">Add Course</NavLink>
         </li>
       </ul>
       <h1 className="logo">
