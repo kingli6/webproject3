@@ -6,13 +6,7 @@ function AddCourse() {
   const [useDuration, setDuration] = useState('');
   const [useDescription, setDescription] = useState('');
   const [useDetails, setDetails] = useState('');
-  let course = {
-    courseNumber: useCourseNum, //if both variables have the same name, you can simply use it once 220518_13 1:45:00
-    name: useCourseName,
-    duration: useDuration,
-    description: useDescription,
-    details: useDetails,
-  };
+
   const onHandlerCourseNumTextChange = (e) => {
     //220518_13 1:45:00
     console.log('texten är ändrad', e.target.value);
@@ -33,13 +27,40 @@ function AddCourse() {
   const handleSaveCourse = (e) => {
     //220518_13 1:45:00
     e.preventDefault(); //don't act (form) in the standard way when we submit(to empty field, reload page, etc).
+    const course = {
+      courseNumber: useCourseNum, //if both variables have the same name, you can simply use it once 220518_13 1:45:00
+      name: useCourseName,
+      duration: useDuration,
+      description: useDescription,
+      details: useDetails,
+    };
+
     console.log(course);
+    saveCourse(course);
+  };
+
+  const saveCourse = async (course) => {
+    const url = `${process.env.REACT_APP_BASEURL}/courses/AddCourse`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(course),
+    });
+    console.log('Here is the response:');
+    console.log(response);
+    if (response.status >= 200 && response.status <= 299) {
+      console.log('Course is saved');
+    } else {
+      console.log('something went wrong while saving course');
+    }
   };
   return (
     <>
-      <h1 className="page-title">Add a new course</h1>
+      <h1 className="page-title">Add Course</h1>
       <section className="form-container">
-        <h4>Create new course</h4>
+        <h4>Create New Course</h4>
         <section className="form-wrapper">
           <form className="form" onSubmit={handleSaveCourse}>
             <div className="form-control">

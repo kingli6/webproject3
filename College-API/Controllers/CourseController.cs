@@ -12,11 +12,9 @@ namespace College_API.Controllers
     [Route("api/v3/courses")]
     public class CourseController : ControllerBase
     {
-        private readonly CollegeDatabaseContext _context;
         private readonly ICourseRepository _courseRepo;
-        public CourseController(CollegeDatabaseContext context, ICourseRepository courseRepo)
+        public CourseController(ICourseRepository courseRepo)
         {
-            _context = context;
             _courseRepo = courseRepo;
         }
 
@@ -70,11 +68,21 @@ namespace College_API.Controllers
         [HttpPost("AddCourse")]
         public async Task<ActionResult<Course>> AddCourse(PostCourseViewModel model)
         {
-            await _courseRepo.AddCourseAsync(model);
-            if (await _courseRepo.SaveAllAsync())
-                return StatusCode(201);
+            try
+            {
+                await _courseRepo.AddCourseAsync(model);
+                if (await _courseRepo.SaveAllAsync())
+                    return StatusCode(201);
 
-            return StatusCode(500, "Error occured during saving of Course");
+                return StatusCode(500, "Error occured during saving of Course");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+
+
             // var courseToAdd = new Course
             // {
             //     CourseNumber = course.CourseNumber,

@@ -4,6 +4,7 @@ import Navbar from './components/navbar/Navbar';
 import AddCourse from './components/Courses/AddCourse';
 //My first component - App.jsx
 import CoursesList from './components/Courses/CourseList';
+import EditCourse from './components/Courses/EditCourse';
 
 import './utilities.css';
 import './styles.css';
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/courseList" element={<CoursesList />} />
           <Route path="/addCourse" element={<AddCourse />} />
+          <Route path="/editCourse/:id" element={<EditCourse />} />
         </Routes>
       </main>
     </Router>

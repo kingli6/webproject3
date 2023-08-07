@@ -11,7 +11,7 @@ function CourseList() {
   }, []);
 
   const loadCourse = async () => {
-    const baseUrl = process.env.REACT_APP_BASEURL + '/courses/GetAllCourses'; //${process.env.REACT_APP_BASEURL}
+    const baseUrl = process.env.REACT_APP_BASEURL + '/courses/GetAllCourses';
     const response = await fetch(baseUrl);
 
     if (!response.ok)

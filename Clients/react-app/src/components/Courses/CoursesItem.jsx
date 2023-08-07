@@ -1,6 +1,10 @@
+import { useNavigate } from 'react-router-dom';
+
 function CoursesItem({ course }) {
+  const navigate = useNavigate();
+
   function onEditClickHandler() {
-    console.log(`'should update course${course.CourseNumber}`);
+    navigate(`/editCourse/${course.courseId}`);
   }
 
   const onDeleteClickHandler = () => {
