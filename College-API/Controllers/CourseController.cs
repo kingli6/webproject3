@@ -117,7 +117,7 @@ namespace College_API.Controllers
             // return Ok();
         }
 
-        [HttpPut("RepalceCourse/{id}")]
+        [HttpPut("ReplaceCourse/{id}")]
         public async Task<ActionResult> UpdateCourse(int id, PostCourseViewModel model)
         {
             try
