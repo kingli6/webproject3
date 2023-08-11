@@ -7,8 +7,18 @@ Feel free to contact me for information.
 
     Download the repo
     In the vscode terminal, while inside College-API folder, type:
-     -dotnet restore
-     -dotnet build
+     -dotnet restore	//to recreate system required files locally.
+     -dotnet build		// to test if there are errors in the project.
+     -dotnet run or -dotnet watch run //to start the api project
+
+    To view all the backend api endpoints (with swagger). When the webpage pops up when you start the project, add "/swagger" to the end of the link.
+    Ex: http://localhost:5223/swagger
+
+    React
+     -npm install 		// to install npm locally so you can start the project
+     -npm start			// to start the project
+
+    While
 
     If you still get errors, or unable to run, you might need to install the buget packages manually
     AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1"
@@ -31,19 +41,361 @@ https://www.notion.so/07f326a24db34eec8f9f7bea2c7f22b4?v=6a8d9729ff0a46a48758fbc
 
 
 
-		/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+vid 20
+[20220518_130639]
+[06:21] installing router with -npm install react-router-dom	//document object model.
+ [21:30] 	///this is to be able to navigate to a new page. [21:30] importing it in App.jx
+		import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+	26:00 explanation of Routes
+[28:30]// coding in Home.jsx -it's the homepage.  Introducing <> JSX fragment or React.Fragment.	Note. return ()  you need brackets if you are using more than one element.
+//In App.js, we are including different pages with Router, routes and route [38:16]
+31:00 TIP "If you have many things in the return statment, use a ( ) bracket"
+	Also, you can use <> </>  JSX Fragment
+ 35:00 creating different paths or links. with <Routes>
+	<Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/courseList" element={<CoursesList />} />
+        </Routes>
+										//Using functions
+										function VehicleList() {
+											const vehiclesRegNo = [
+											{regNo: '66'}, {regNo: '61'}, {regNo: '32'},	//is this an array of string? or objects?
+											];
+											return(
+												<table>...</table>
+											);
+										}
+
+										//We are assinging the data (regNo) to a new const newList
+										const newList = vehiclesRegNo.map((objectsOrX) => {
+											return objectsOrX;	//newList will become an array of objects if you return the whole thing. It's dynamic
+										});						// if you return objectsOrX.RegNo then it will become a list of string.
+
+										//Example 2	Here we instantiate a new type with a property vehicleItemProperty to hold all the things inside vehiclesRegNo.
+										{vehiclesRegNo.map( (propName) => (
+											<VehicleItem vehicleItemProperty={propName} Key={propName.regNo}/>
+											)
+										)}
+										vehiclesRegNo.map // vehicles has a lot of car objects. vehiclesRegNo is
+													 // an array of objects. map is an advanced for loop
+													 // that loops through the entire list.
+										variableName 	//... accessing what's inside, so it's a property
+
+										VehicleItem vehicleItemProperty	// here we create a new instance of VehicleItem.
+															// "egenskapen" is what he calls VehicleItemProperty.
+															// is vehicleItemProperty the name? No, It's a Dynamic property.
+															// Which we can use as argument else where.
+
+										[40:43]//Example 3 A function that recieves VehicleItemProperty [40:43]
+										function VehicleItem({ vehicleItemProperty }) {
+											return(
+											<tr>
+											<td>{vehicleItemProperty.regNo}</td>
+											</tr>
+										);?}
+										//OR we can use props to access everything without knowing what's in it.
+										function VehicleItem(props) {	// props can be used to get EVERYTHING in VehicleItem.
+											console.log(props);			// Or we can use function VehicleItem(vehicleItemProperty)
+										}
+										////////////////[1:46:00] How to use a function that creates an action on click in a page777777777777
+										const onEditClickHandler = () => {
+											console.log(`ska uppdatera bilen ${vehicle.regNo}`)	//'' and ´´ is different or `` shift click
+										};
+											//and you place the other part on a html element
+										<span onClick={onEditClickHandler}>	//if you place {onEditClickHandler()} the bracket () means do it all the time.
+
+										////////////////////////////////////////////////////////////////
+42:00 Building Navbar. //It should be placed below <Router> and above <main>
+		46:00"Don't bother typing the li and u tags. We''' be removing them"
+!NOTE!//he uses id='navbar' and className="text-primary"
+			id's for bigger parts/sections and className for miscellaneous
+37:40 Lär dig react ORDENTLIGT -Michael Gustavsson
+[41:00]Creating Navbar(){}	//theres a wrong way to do it (without using import { NavLink }
+	///With this we place two pages. A Start sida and lager fordon, which shows list of cars.
+[1:23:00]//CReating AddVehicle(){} [1:23:00]. With the form tags filled in AddVehicle.jsx, we include the route -link to the new page in App.jsx
+	///and add the button in the navbar to the new page.
+1:28:00 FORM Creating Put method.
+
+const [useCourseNum, setCourseNum] = useState('');	//<--
+
+  const onHandlerCourseNumTextChange = (e) => {
+    console.log('texten är ändrad');
+    console.log(e.target.value);
+    setCourseNum(e.target.value);	//
+  };
+
+	<div className="form-control">
+              <label htmlFor="">Course Number</label>
+              <input
+                onChange={onHandlerCourseNumTextChange}
+                value={useCourseNum}	//<--
+                type="text"
+                id="courseNumber"
+                name="courseNumber"
+		/>
+	</div>
+
+									[2:05:20]/////////////////// Sending vehicles to database/////////////
+								const saveVehicle = async (vehicle) => {		//the above function didn't have anything inside the ()
+									const url = `${process.env.REACT_APP_BASEURL}/vehicles`; //changing the link
+									const response = await fetch(url, {
+										method: 'POST',
+										headers: {
+											'Content-Type':'application/json',
+										},
+										body: JSON.stringify(vehicle),
+									});
+									console.log(response);
+
+									if(!response.status >= 200 && response.status <= 299){
+									console.log('Bilen är sparad');
+									console.log(await response.json());
+									} else {
+										console.log('Det gick fel någonstans');
+										console.log(await response.json());
+									}
+								};		//you do use semi colon here...
+
+
+  //In the console, we see "SyntheticBaseEvent" -"Det är häftiga saker detta" //I need to think in this way when I see complex functions.
+	//"Det man är ute efter är " target: input#regNo
+							<NavLink to='/add'>Lägg till</NavLink>
+						[1:33:0 ]//Data bindning	[1:33:0 ] First we build for "Registreringsnummer". Now we build the remaining [1:47:30]
+
+							<input value={regNo} type='text' id='regNo' name='regNo' />	//we want to get a input value={regNo} and we want to bind it.
+							<input onChange={onHandleRegNoTextChanged} value={regNo} type='text' id='regNo' name='regNo' />	//onChange={onHandleRegNoTextChanged} -this tracks what's being changed in the textbox??
+
+							//[1:33:30] we need to import useState and define addVehcile function
+							import { useState } from 'react';
+
+							function AddVehicle() {
+								const [regNo, setRegNo] = useState('');		//this makes regNo be accpeted at the value={regNo}
+
+								let vehicle = {			//we are creating a vehicle object
+									regNo: regNo		//since both have the same name, you can simply have it as regNo.
+								}
+
+								const onHandleRegNoTextChanged = (e) => {
+									console.log("Text är ändrar")
+									console.log(e.target.value); ///the console.log just displays it for us to see in the debugeer
+									setRegNo(e.target.value);	//this records what you type in the form.
+								}
+
+								const handleSaveVehicle = (e) => {
+									e.preventDefault();		//what does this do????
+
+									console.log(vehicle);
+								}
+
+								return (
+								<>
+								<label htmlFor=''>Registreringsnummer</label>
+								<input
+								onChange = {onHandleRegNoTextChanged}
+								value={regNo}
+								type='text'
+								id='regNo'
+								name='regNo'
+								/>
+								);
+							}
+					//Adding the rest of the properties [1:50:27]
+					[2:00:00]//Adding an img DEFAULT item to function AddVehicle().. [2:00:00]
+					[2:03:26] [2:05:20] // saveVehicle(vehicle) => { }		//to database [2:03:26] [2:05:20] there is code below
+
+
+					[2:04:00]//Loading a list of vehicles through Get method [http {"list"}] [2:04:00]
+					const loadVehicle = async () => {
+						const url = `${process.env.REACT_APP_BASEURL}/vehicles/list`; //we are using back ticks ``
+						const response = await fetch(url);
+
+						if(!response.ok){
+							console.log('Hittade inga bilar, eller så gick något fel');
+						}
+						setVehicles(await response.json());
+					}
+
+2:11:00 Method for sending data to the database.
+	Also where to see the incoming data in the console.
+Error -I am pasting the wrong address.. Not sure if it needs to be get all vehicles or link for the post method...
+						//we returned empty console.log(await response.json()); which gave an error.
+						"Find out why after the break!"[2:15:00]
+2:16:00 	We will not learn about how to set requirements on what to properties to have when sending a Post request.
+			And those information will be found in the API documentation.
+	ERROR I had an 404 error and not sure what I changed, but seems to work!?
+
+	const saveCourse = async (course) => {
+    const url = `${process.env.REACT_APP_BASEURL}/courses/AddCourse`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(course),
+    });
+	---------------------------
+	<form className="form" onSubmit={handleSaveCourse}>
+            <div className="form-control">
+              <label htmlFor="">Course Number</label>
+              <input
+                onChange={onHandlerCourseNumTextChange}
+                value={useCourseNum}
+                type="text"
+                id="courseNumber"
+                name="courseNumber"
+              />
+            </div>
+
+										[2:19:30] Quick explanation on how the methods are connected. saveVehicle and the above. [2:19:30]
+										2:31:43//Edit vehicles 2:31:43		process{a) create a EditVehicle.jsx file. You'll have funtions there and then export it.
+																			b) in App.jsx, you'll import it and add the <Route path='/edit/:id' element={<EditVehicle />} />}
+2:33:00 So far the Routes are looking like this
+		 <Router>
+      <Navbar />
+      <main>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/courseList" element={<CoursesList />} />
+          <Route path="/addCourse" element={<AddCourse />} />
+          <Route path="/editCourse/:id" element={<EditCourse />} />
+        </Routes>
+      </main>
+    </Router>
+										2:35:00//  import { useNavigate } from 'react-router-dom'; //we use this to navigate "kod mässigt?"
+	function onEditClickHandler() {
+		navigate(`/editCourse/${course.courseId}`);
+	  }
+
+2:39:00 Using incoming id to EDIT a object PUT method
+						import { useParams } from 'react-router-dom';
+2:42:00	initiate it :   const params = useParams();
+
+	useEffect(() => {
+		fetchCourse(params.id);
+	}, [params.id]);
+
+	const fetchCourse = async (id) => {
+    const url = `${process.env.REACT_APP_BASEURL}/courses/${id}`;		//we use the id that is from params
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      console.log("Couldn't find course, or something went wrong...");
+    }
+
+	const course = await response.json(); //<-- here we have the entire object, with id...
+    console.log(course);
+    setCourseId(course.courseId);
+    setCourseNum(course.courseNumber);
+    setCourseName(course.name);
+    setDuration(course.duration);
+    setDescription(course.description);
+    setDetails(course.details);
+  };
+										2:55:00		//	making the Put fucntion and the save function
+										[3:10:00]//Adding extra steps to hide or veiw data [3:10:00] Adding an ResponseVeiwModel in Vehicles-API,
+											//creating JsonSerializer in [HttpGet("list")] method
+										2:20:00?//Documentation for swagger 2:20:00? [ProducesResponseType(StatusCodes.Status200OK)]
+										2:33:00//<PropertyGroup> settings 2:33:00
+2:53:00 Putting together two properties or Joining them... ex: vehicleName: 'Volvo XC90'
+			setMake(vehicle.vehicleName.split(' ')[0]);
+			setModel(vehicle.vehicleName.split(' ')[0]);
+
+										2:53:00// Om Async await. tre olika sätt att kommunicera.
+2:55:00 Micheal shows the API endpoints.. not entirely :'(
+2:58:... We see how to use id to send the request. But it's a bit confusing.
+	After getting the object. A) we set it in useState.
+	B) we use it in value={useCourseId} in the html
+			<input
+              onChange={onHandlerCourseIdTextChange}
+              value={useCourseId}
+              type="hidden"
+              id="courseId"
+              name="courseId"
+            />
+
+	C) when onChange={onHandlerCourseIdTextChange}, if change happens, we store that in useState
+		const onHandlerCourseIdTextChange = (e) => {
+			setCourseId(e.target.value);
+		};
+
+	D) Finally, when save btn is pressed, we send the data
+		const handleSaveCourse = (e) => {
+			e.preventDefault(); //don't act (form) in the standard way when we submit(to empty field, reload page, etc).
+			const course = {
+			  courseNumber: useCourseNum, //if both variables have the same name, you can simply use it once 220518_13 1:45:00
+			  name: useCourseName,
+			  duration: useDuration,
+			  description: useDescription,
+			  details: useDetails,
+			};
+
+			console.log(course);
+			saveCourse(course);  //Ans: We don't need to send the object with id...
+		};
+
+		const saveCourse = async (course) => {
+			const url = `${process.env.REACT_APP_BASEURL}/courses/ReplaceCourse/${useCourseId}`;	//It's so easy to make error with the api link..
+			const response = await fetch(url, {
+			  method: 'PUT',
+			  headers: {
+				'Content-Type': 'application/json',
+			  },
+			  body: JSON.stringify(course),
+			});
+			console.log('Here is the response:');
+			console.log(response);
+			if (response.status >= 200 && response.status <= 299) {
+			  console.log('Course is saved');
+			} else {
+			  console.log('something went wrong while saving course');
+			}
+		};
+
+										3:04:00//MicroServices 3:04:00. Kuberneties is a deligating service/program that does the smart architect for you
+3:14:00 showing the right way to have backend code in Node js?
+	It needs to be a ResponseViewModel that is being returned
+3:26:00  I need many to many relationship between users and courses they are studying..
+- you should choose a category, choose a course, look at the detail, then register to the cours
+									3:27:00//Talking to external API 3:27:00
+
+
+
 
 
 
 
 vid 19
 [20220518_091607 09:50] React Router
+05:00 css, shows what changes he's made
 // ESLint. [17:00] Helps you with javascript coding. [21:00] Repetition
 	///Font awesome is mentioned to bring fonts.
 	//More explanation regarding how Javascript works [36:30]
 		"You can use props instead of a specific {object?}" with curly bracers, you break down and choose specific object
 // Adding a Component Folder [50:45]
-// [45:37] How to DEBUG with the browser
+[45:37] How to DEBUG with the browser
 1:15:00 creating the navbar
 // [1:15:30] Moving the css files from Public folder to src Folder (change the script or code from index in Public to App.js in src Folder
 1:21:00 right click the reload icon on the browser to empty cashe
@@ -54,10 +406,15 @@ vid 19
 	/// starting the API with -dotnet run
 	///You might have to change the port. Go into Properties and launchSetting.json
 1:33:00 cloning the react project from github.
+1:40:00 onClick event. On edit method
+
 Getting the api endpoints |Life cycle hook event
-	/// change the port to something else. 7247 and 5246?  <- This is how we let the react get data from mvc backend project
-// [1:51:00] Building function to bring the data //LOADING in the API data
+1:49:00	"IF YOU HAVE PORT PROBLEMS" in launchSettings.json
+	/// change the port to something else. 7247/7237 and 5246/5146?  <- This is how we let the react get data from mvc backend project
+[1:51:00]//  Building function to bring the data //LOADING in the API data
 	// we need a useEffect funtion to use the incoming url BUT YOU will get an error
+2:01:00 "We get an error" Failed to fetch...
+
 2:01:00] We add the JS port to the .net API by adding it in the Program.cs
 builder.Services.AddCors(options => {
 	options.AddPolicy("WestcoastCors", policy => {
@@ -65,6 +422,8 @@ builder.Services.AddCors(options => {
 		policy.WithOrigins("http://127.0.0.1:5500", "http://127.0.0.1:3002")
 	})
 })
+"Spent MANY hours on this error. My api didn't have an https, it just had an http. So the link I was calling from the react was wrong. "
+"answer was given in 2:36:00
 // Changing the link from hardcoding it to moving it to a proper place
 [2:08:30]"Placing it in .env" inside the root folder.  with REACT_APP_BASEURL
 
@@ -76,182 +435,6 @@ builder.Services.AddCors(options => {
 		"needs two function, the second function does a update-method."
 		///If you see just square breackets, it means it's expecting an array
 2:24:00 using useState
-
-vid 20
-[20220518_130639] [06:21] installing router with -npm install react-router-dom	//document object model.
-	///this is to be able to navigate to a new page. [21:30] importing it in App.jx
-//[28:30] coding in Home.jsx -it's the homepage.  Introducing <> JSX fragment or React.Fragment.	Note. return ()  you need brackets if you are using more than one element.
-//In App.js, we are including different pages with Router, routes and route [38:16]
-35:00 creating different paths or links. with <Routes>
-37:40 Lär dig react ORDENTLIGT -Michael Gustavsson
-[41:00]Creating Navbar(){}	//theres a wrong way to do it (without using import { NavLink }
-	///With this we place two pages. A Start sida and lager fordon, which shows list of cars.
-//CReating AddVehicle(){} [1:23:00]. With the form tags filled in AddVehicle.jsx, we include the route -link to the new page in App.jsx
-	///and add the button in the navbar to the new page.
-	<NavLink to='/add'>Lägg till</NavLink>
-//Data bindning	[1:33:0 ] First we build for "Registreringsnummer". Now we build the remaining [1:47:30]
-
-	<input value={regNo} type='text' id='regNo' name='regNo' />	//we want to get a input value={regNo} and we want to bind it.
-	<input onChange={onHandleRegNoTextChanged} value={regNo} type='text' id='regNo' name='regNo' />	//onChange={onHandleRegNoTextChanged} -this tracks what's being changed in the textbox??
-
-	//[1:33:30] we need to import useState and define addVehcile function
-	import { useState } from 'react';
-
-	function AddVehicle() {
-		const [regNo, setRegNo] = useState('');		//this makes regNo be accpeted at the value={regNo}
-
-		let vehicle = {			//we are creating a vehicle object
-			regNo: regNo		//since both have the same name, you can simply have it as regNo.
-		}
-
-		const onHandleRegNoTextChanged = (e) => {
-			console.log("Text är ändrar")
-			console.log(e.target.value); ///the console.log just displays it for us to see in the debugeer
-			setRegNo(e.target.value);	//this records what you type in the form.
-		}
-
-		const handleSaveVehicle = (e) => {
-			e.preventDefault();		//what does this do????
-
-			console.log(vehicle);
-		}
-
-		return (
-		<>
-		<label htmlFor=''>Registreringsnummer</label>
-		<input
-		onChange = {onHandleRegNoTextChanged}
-		value={regNo}
-		type='text'
-		id='regNo'
-		name='regNo'
-		/>
-		);
-	}
-//Adding the rest of the properties [1:50:27]
-//Adding an img DEFAULT item to function AddVehicle().. [2:00:00]
-// saveVehicle(vehicle) => { }		//to database [2:03:26] [2:05:20] there is code below
-	//we returned empty console.log(await response.json()); which gave an error.
-	"Find out why after the break!"[2:15:00]
-Quick explanation on how the methods are connected. saveVehicle and the above. [2:19:30]
-//Edit vehicles 2:31:43		process{a) create a EditVehicle.jsx file. You'll have funtions there and then export it.
-									b) in App.jsx, you'll import it and add the <Route path='/edit/:id' element={<EditVehicle />} />}
-// 2:35:00 import { useNavigate } from 'react-router-dom'; //we use this to navigate "kod mässigt?"
-		//2:55:00	making the Put fucntion and the save function
-//Adding extra steps to hide or veiw data [3:10:00] Adding an ResponseVeiwModel in Vehicles-API,
-	//creating JsonSerializer in [HttpGet("list")] method
-//Documentation for swagger 2:20:00? [ProducesResponseType(StatusCodes.Status200OK)]
-//<PropertyGroup> settings 2:33:00
-//2:53:00 Om Async await. tre olika sätt att kommunicera.
-//MicroServices 3:04:00. Kuberneties is a deligating service/program that does the smart architect for you
-//Talking to external API 3:27:00
-	.
-	.
-	.
-	.
-	.
-
-///////////////////////////JS EXAMPLE///////[40:43]
-
-//Using functions
-function VehicleList() {
-	const vehiclesRegNo = [
-	{regNo: '66'}, {regNo: '61'}, {regNo: '32'},	//is this an array of string? or objects?
-	];
-	return(
-		<table>...</table>
-	);
-}
-
-//We are assinging the data (regNo) to a new const newList
-const newList = vehiclesRegNo.map((objectsOrX) => {
-	return objectsOrX;	//newList will become an array of objects if you return the whole thing. It's dynamic
-});						// if you return objectsOrX.RegNo then it will become a list of string.
-
-//Example 2	Here we instantiate a new type with a property vehicleItemProperty to hold all the things inside vehiclesRegNo.
-{vehiclesRegNo.map( (propName) => (
-	<VehicleItem vehicleItemProperty={propName} Key={propName.regNo}/>
-	)
-)}
-vehiclesRegNo.map // vehicles has a lot of car objects. vehiclesRegNo is
-			 // an array of objects. map is an advanced for loop
-			 // that loops through the entire list.
-variableName 	//... accessing what's inside, so it's a property
-
-VehicleItem vehicleItemProperty	// here we create a new instance of VehicleItem.
-					// "egenskapen" is what he calls VehicleItemProperty.
-					// is vehicleItemProperty the name? No, It's a Dynamic property.
-					// Which we can use as argument else where.
-
-//Example 3 A function that recieves VehicleItemProperty [40:43]
-function VehicleItem({ vehicleItemProperty }) {
-	return(
-	<tr>
-	<td>{vehicleItemProperty.regNo}</td>
-	</tr>
-);?}
-//OR we can use props to access everything without knowing what's in it.
-function VehicleItem(props) {	// props can be used to get EVERYTHING in VehicleItem.
-	console.log(props);			// Or we can use function VehicleItem(vehicleItemProperty)
-}
-////////////////[1:46:00] How to use a function that creates an action on click in a page777777777777
-const onEditClickHandler = () => {
-	console.log(`ska uppdatera bilen ${vehicle.regNo}`)	//'' and ´´ is different or `` shift click
-};
-	//and you place the other part on a html element
-<span onClick={onEditClickHandler}>	//if you place {onEditClickHandler()} the bracket () means do it all the time.
-
-////////////////////////////////////////////////////////////////
-//Loading a list of vehicles through Get method [http {"list"}] [2:04:00]
-const loadVehicle = async () => {
-	const url = `${process.env.REACT_APP_BASEURL}/vehicles/list`; //we are using back ticks ``
-	const response = await fetch(url);
-
-	if(!response.ok){
-		console.log('Hittade inga bilar, eller så gick något fel');
-	}
-	setVehicles(await response.json());
-}
-/////////////////// Sending vehicles to database///////////// [2:05:20]
-const saveVehicle = async (vehicle) => {		//the above function didn't have anything inside the ()
-	const url = `${process.env.REACT_APP_BASEURL}/vehicles`; //changing the link
-	const response = await fetch(url, {
-		method: 'POST',
-		headers: {
-			'Content-Type':'application/json',
-		},
-		body: JSON.stringify(vehicle),
-	});
-	console.log(response);
-
-	if(!response.status >= 200 && response.status <= 299){
-	console.log('Bilen är sparad');
-	console.log(await response.json());
-	} else {
-		console.log('Det gick fel någonstans');
-		console.log(await response.json());
-	}
-};		//you do use semi colon here...
-
- ------------------------------------THE END---------------------------------------------------------
-  ------------------------------------THE END---------------------------------------------------------
-   ------------------------------------THE END---------------------------------------------------------
-    ------------------------------------THE END---------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 vid 18 0809
 [20220517_130531]
@@ -281,10 +464,33 @@ vid 18 0809
 // We create a new file called App.jsx, there we are the html things,
 	// where we export and then import into index.js in the same src Folder.
 
-2:11:00]	// [ SO you can import inside another file.
-
+2:16:00 Learning how to create a component that can be used inside App.jsx
+2:20:00 A Module has multiple components.
+2:35:00 Had an issue with a component cause I imported wrong.
 [2:41:00]// Creating CSS . //Making things dynamic, as in using properties
 [2:51:00]// from data?  // [2:58:35] Placing in huge data and calling
+3:00:00 used a array and used them in the component with .map function.
+3:04:00 But instead, we would like to send the whole array!
+3:10.00 Destructuring... {}//don't FORGET to add the curly bracers
+		Instead of porps, if you know whats coming in, you can call it by its name {don't FORGET to add the curly bracers}so you can skip using "props"
+
+		function CoursesItem(props) {
+  console.log(props);
+  return (
+    <tr>
+      <td>{props.course.CourseNumber}</td>
+      <td>{props.course.Name}</td>
+      <td>{props.course.Duration}</td>
+      <td>Things</td>
+    </tr>
+  );
+}
+
+export default CoursesItem;
+
+
+
+
 [3:11:50]	//it in VehicleList.jsx  // Short summary
 3:11:00 How components work. Is it better to use .map on a parent component instead of sending it down?
 	A. We create a simple, empty component (<Vehicle_list />), in there there are tons of code and a head and body table that will show a list of vehicles. We'll have a simple component to display the repetetive vehicle list.
@@ -1031,18 +1237,24 @@ YH mer -to help TH with 			60k students from yh
 ärande & Lia/utblidare/konsulter
 
 
+	https://www.tutorialspoint.com/javascript/index.htm
+	https://javascript.info/
+	https://www.w3schools.com/js/
+	https://www.javatpoint.com/javascript-tutorial
 
-Reminders
-----------------
-[ ] WHere the hell is this doc with the project info??
+	Måste ha böcker om JavaScript
+    JavaScript the Definitive Guide 7th Edition (Flanagan, O'Reilly)
+    Learning JavaScript (Ethan Brown)
+    JavaScript Design Patterns (Addy Osmani)
 
-Making sense of Identity
--------------------------------
-When you register, your sending in an email and pass.
-	You save that with a new IdentityUser. 		///How do I connect that to Kunder? Kunder needs to have claims that sets them apart from eachother
-	///Admin/student/Teacher. BUT How does it connect to the controller? Or
-How to connect controller to login info? With a function...?
+    C# Pro 9 with .NET 5(Andrew Troelsen + 1) https://www.adlibris.com/se/bok/pro-c-9-with-net-5-9781484269381
+    The Definitve Guide to HTML5(Adam Freeman) https://www.adlibris.com/se/bok/the-definitive-guide-to-html5-9781430239604
+    JavaScript the Definitive Guide Seventh Edition(David Flanagan) https://www.adlibris.com/se/bok/javascript---the-definitive-guide-9781491952023
 
+    JavaScript https://www.udemy.com/course/the-complete-javascript-course/
+    JavaScript https://www.udemy.com/course/modern-javascript-from-the-beginning/
+    React.js https://www.udemy.com/course/react-the-complete-guide-incl-redux/
+    React.js https://www.udemy.com/course/react-front-to-back-2022/
 
 
 
