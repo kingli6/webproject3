@@ -18,8 +18,6 @@ Feel free to contact me for information.
      -npm install 		// to install npm locally so you can start the project
      -npm start			// to start the project
 
-    While
-
     If you still get errors, or unable to run, you might need to install the buget packages manually
     AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1"
     Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.9"
