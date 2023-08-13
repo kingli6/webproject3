@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-function CoursesItem({ course }) {
+function CoursesItem({ course, handleDeleteCourse }) {
   const navigate = useNavigate();
 
   function onEditClickHandler() {
@@ -9,6 +9,7 @@ function CoursesItem({ course }) {
 
   const onDeleteClickHandler = () => {
     console.log(`We will delete course${course.CourseNumber}`);
+    handleDeleteCourse(course.courseId); //delegates 220519_09.. 1:20:00
   };
 
   return (

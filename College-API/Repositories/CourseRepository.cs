@@ -30,7 +30,7 @@ namespace College_API.Repositories
             return await _context.Courses.ProjectTo<CourseViewModel>(_mapper.ConfigurationProvider).ToListAsync();
         }
 
-        public async Task<CourseViewModel?> GetCourseAsync(int id)
+        public async Task<CourseViewModel> GetCourseAsync(int id)
         {
             return await _context.Courses.Where(c => c.Id == id)
             .ProjectTo<CourseViewModel>(_mapper.ConfigurationProvider)
@@ -52,9 +52,7 @@ namespace College_API.Repositories
             if (model is null)
                 throw new BadRequestException();
 
-            var response = await _context.Courses.FindAsync(id);
-            if (response is null)
-                throw new NotFoundException();
+            var response = await _context.Courses.FindAsync(id) ?? throw new NotFoundException();
 
             response.CourseNumber = model.CourseNumber!;
             response.Name = model.Name;
@@ -68,9 +66,13 @@ namespace College_API.Repositories
         {
             throw new NotImplementedException();
         }
-        public Task DeleteCourseAsync(int id)
+        public async Task DeleteCourseAsync(int id)
         {
-            throw new NotImplementedException();
+            var response = await _context.Courses.FindAsync(id);
+            if (response == null)
+                throw new NotFoundException();
+
+            _context.Courses.Remove(response);
         }
         public async Task<bool> SaveAllAsync()
         {

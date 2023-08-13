@@ -7,10 +7,10 @@ function CourseList() {
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
-    loadCourse();
+    loadCourses();
   }, []);
 
-  const loadCourse = async () => {
+  const loadCourses = async () => {
     const baseUrl = process.env.REACT_APP_BASEURL + '/courses/GetAllCourses';
     const response = await fetch(baseUrl);
 
@@ -37,6 +37,20 @@ function CourseList() {
     // }
   };
 
+  const deleteCourse = async (id) => {
+    console.log('deletes course with id' + id);
+    const url = `${process.env.REACT_APP_BASEURL}/courses/${id}`;
+    const response = await fetch(url, {
+      method: 'DELETE',
+    });
+    if (response.status >= 200 && response.status <= 299) {
+      console.log('Course is deleted');
+      loadCourses();
+    } else {
+      console.log('Something went wrong while deleting');
+    }
+  };
+
   return (
     <table>
       <thead>
@@ -61,6 +75,7 @@ function CourseList() {
             // Name={course.Name}
             // Duration={course.Duration}
             key={items.courseId}
+            handleDeleteCourse={deleteCourse}
           />
         ))}
       </tbody>

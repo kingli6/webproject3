@@ -19,14 +19,15 @@ Feel free to contact me for information.
      -npm start			// to start the project
 
     If you still get errors, or unable to run, you might need to install the buget packages manually
-    AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1"
-    Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.9"
-    Microsoft.AspNetCore.Identity" Version="2.2.0"
-    Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.9"
-    Microsoft.AspNetCore.OpenApi" Version="7.0.5"
-    Microsoft.EntityFrameworkCore" Version="7.0.9"
-    Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.9"
-    Microsoft.EntityFrameworkCore.Tools" Version="7.0.9
+
+    	AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1"
+    	Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.9"
+    	Microsoft.AspNetCore.Identity" Version="2.2.0"
+    	Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.9"
+    	Microsoft.AspNetCore.OpenApi" Version="7.0.5"
+    	Microsoft.EntityFrameworkCore" Version="7.0.9"
+    	Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.9"
+    	Microsoft.EntityFrameworkCore.Tools" Version="7.0.
 
 Following tutorials on "dotnet web api" or "dotnet core mvc" should let you get a good start
 As an example: https://www.youtube.com/watch?v=Fbf_ua2t6v4&t=97s

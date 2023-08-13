@@ -140,5 +140,25 @@ namespace College_API.Controllers
             }
         }
 
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteCourse(int id)
+        {
+            try
+            {
+                await _courseRepo.DeleteCourseAsync(id);
+                if (await _courseRepo.SaveAllAsync())
+                    return NoContent();
+
+                return StatusCode(500, $"Failed to delete course (id = {id})");
+            }
+            catch (NotFoundException)
+            {
+                return StatusCode(404, $"Coures with id = {id} doesn't exist");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }
