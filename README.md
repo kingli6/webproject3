@@ -1,4 +1,4 @@
-# Dotnet backend and react front end project
+# .Net Backend & React frontend Project
 
 A school website that allows users to create account, join courses, an admin site that can edit users.
 Feel free to contact me for information.
@@ -18,7 +18,7 @@ Feel free to contact me for information.
     When the webpage pops up when you start the project, add "/swagger" to the end of the link.
     Ex: http://localhost:5223/swagger
 
-#### React Front-end
+#### React Frontend
 
     Place yourself in ../Clients/react-app> folder, type: "npm install" (Obs; you need to have node installed prior to this. Check out a tutorial video on react to get all the prerequisites)
 
