@@ -5,29 +5,32 @@ Feel free to contact me for information.
 
 ### To get started
 
-    Download the repo
-    In the vscode terminal, while inside College-API folder, type:
-     -dotnet restore	//to recreate system required files locally.
-     -dotnet build		// to test if there are errors in the project.
-     -dotnet run or -dotnet watch run //to start the api project
+#### After downloading the repo, in vscode terminal, while inside ../webproject3/College-API> folder, type: "dotnet restore"
 
-    To view all the backend api endpoints (with swagger). When the webpage pops up when you start the project, add "/swagger" to the end of the link.
+    -dotnet restore						//to recreate system required files locally.
+    -dotnet build						// to test if there are errors in the project.
+    -dotnet run or -dotnet watch run 	//to start the api project
+
+#### To view all the backend api endpoints with swagger.
+
+    When the webpage pops up when you start the project, add "/swagger" to the end of the link.
     Ex: http://localhost:5223/swagger
 
-    React
-     -npm install 		// to install npm locally so you can start the project
-     -npm start			// to start the project
+#### React: Place yourself in ../Clients/react-app> folder, type: "npm install" (Obs; you need to have node installed prior to this. Check out a tutorial video on react to get all the prerequisites)
 
-    If you still get errors, or unable to run, you might need to install the buget packages manually
+    -npm install 		// to install npm locally so you can start the project
+    -npm start			// to start the project
 
-    	AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1"
-    	Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.9"
-    	Microsoft.AspNetCore.Identity" Version="2.2.0"
-    	Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.9"
-    	Microsoft.AspNetCore.OpenApi" Version="7.0.5"
-    	Microsoft.EntityFrameworkCore" Version="7.0.9"
-    	Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.9"
-    	Microsoft.EntityFrameworkCore.Tools" Version="7.0.
+#### If you still get errors, or unable to run, you might need to install the nuget packages manually
+
+    AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1"
+    Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.9"
+    Microsoft.AspNetCore.Identity" Version="2.2.0"
+    Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.9"
+    Microsoft.AspNetCore.OpenApi" Version="7.0.5"
+    Microsoft.EntityFrameworkCore" Version="7.0.9"
+    Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.9"
+    Microsoft.EntityFrameworkCore.Tools" Version="7.0.
 
 Following tutorials on "dotnet web api" or "dotnet core mvc" should let you get a good start
 As an example: https://www.youtube.com/watch?v=Fbf_ua2t6v4&t=97s
