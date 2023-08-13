@@ -10,7 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace College_API.Controllers
 {
     [ApiController]
-    [Route("api/auth")]
+    [Route("api/v3/auth")]
     public class AuthController : ControllerBase
     {
         private readonly IConfiguration _config;

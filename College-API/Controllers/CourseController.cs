@@ -3,6 +3,7 @@ using College_API.Data;
 using College_API.Interfaces;
 using College_API.Models;
 using College_API.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,7 @@ namespace College_API.Controllers
             _courseRepo = courseRepo;
         }
 
+        // [Authorize]
         [HttpGet("GetAllCourses")]
         public async Task<ActionResult<List<Course>>> ListAllCourses()
         {

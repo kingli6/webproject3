@@ -5,17 +5,19 @@ function Navbar() {
     <nav id="navbar">
       <ul>
         <li>
-          <NavLink to="/">Home</NavLink>
+          <NavLink to="/login">Log In</NavLink>
           <NavLink to="/courseList">Courses</NavLink>
           <NavLink to="/addCourse">Add Course</NavLink>
         </li>
       </ul>
-      <h1 className="logo">
-        <span className="text-primary">
-          <i className="fas fa-car"></i> Westcoast
-        </span>
-        College
-      </h1>
+      <NavLink to="/">
+        <h1 className="logo">
+          <span className="text-primary">
+            <i className="fa-solid fa-graduation-cap"></i> Westcoast
+          </span>
+          College
+        </h1>
+      </NavLink>
     </nav>
   );
 }

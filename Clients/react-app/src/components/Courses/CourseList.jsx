@@ -11,15 +11,24 @@ function CourseList() {
   }, []);
 
   const loadCourses = async () => {
-    const baseUrl = process.env.REACT_APP_BASEURL + '/courses/GetAllCourses';
-    const response = await fetch(baseUrl);
+    const token = JSON.parse(localStorage.getItem('token')); //220519_09   2:17:00
+    console.log(token);
+
+    const url = process.env.REACT_APP_BASEURL + '/courses/GetAllCourses';
+    const response = await fetch(url, {
+      method: 'GET',
+      header: {
+        Authorization: `bearer ${token}`, ////220519_09   2:20:00
+      },
+    });
 
     if (!response.ok)
       console.log('Opps.. couldnt find any courses or something went wrong!!!');
-
-    const data = await response.json();
+    else {
+      setCourses(await response.json());
+    }
+    // const data = await response.json();
     //console.log(data);
-    setCourses(data);
     // try {
     //   const response = await fetch(url);
 

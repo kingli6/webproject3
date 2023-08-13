@@ -99,11 +99,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseAuthentication();
+
 
 // Use the CORS policy before authorization
 app.UseCors("College-APICors");
 
+app.UseAuthentication(); //220519_09.. 2:23:00
 app.UseAuthorization();
 
 app.MapControllers();

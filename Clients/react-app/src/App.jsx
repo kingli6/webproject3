@@ -5,6 +5,7 @@ import AddCourse from './components/Courses/AddCourse';
 //My first component - App.jsx
 import CoursesList from './components/Courses/CourseList';
 import EditCourse from './components/Courses/EditCourse';
+import Login from './components/authentication/Login';
 
 import './utilities.css';
 import './styles.css';
@@ -19,6 +20,7 @@ function App() {
           <Route path="/courseList" element={<CoursesList />} />
           <Route path="/addCourse" element={<AddCourse />} />
           <Route path="/editCourse/:id" element={<EditCourse />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </main>
     </Router>
