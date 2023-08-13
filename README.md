@@ -5,18 +5,22 @@ Feel free to contact me for information.
 
 ### To get started
 
-#### After downloading the repo, in vscode terminal, while inside ../webproject3/College-API> folder, type: "dotnet restore"
+#### .Net API Backend
+
+    After downloading the repo, in vscode terminal, while inside ../webproject3/College-API> folder, type: "dotnet restore"
 
     -dotnet restore						//to recreate system required files locally.
     -dotnet build						// to test if there are errors in the project.
     -dotnet run or -dotnet watch run 	//to start the api project
 
-#### To view all the backend api endpoints with swagger.
+#### To view all the backend api endpoints with Swagger.
 
     When the webpage pops up when you start the project, add "/swagger" to the end of the link.
     Ex: http://localhost:5223/swagger
 
-#### React: Place yourself in ../Clients/react-app> folder, type: "npm install" (Obs; you need to have node installed prior to this. Check out a tutorial video on react to get all the prerequisites)
+#### React Front-end
+
+    Place yourself in ../Clients/react-app> folder, type: "npm install" (Obs; you need to have node installed prior to this. Check out a tutorial video on react to get all the prerequisites)
 
     -npm install 		// to install npm locally so you can start the project
     -npm start			// to start the project
