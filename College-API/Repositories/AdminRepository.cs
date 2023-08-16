@@ -34,6 +34,7 @@ namespace College_API.Repositories
             _config = config;
         }
 
+        //THIS IS CURRENTLY NOT UNDER USE
         public async Task<IActionResult> CreateRoleAsync(string roleName)
         {
             if (!await _roleManager.RoleExistsAsync(roleName))

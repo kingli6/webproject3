@@ -59,15 +59,21 @@ namespace College_API.Controllers
             }
         }
 
-        [HttpPost("create-role")]// 220504_13 2:34:00
-        public async Task<IActionResult> CreateRole([FromQuery] string roleName)
+        [HttpGet("GetAllUsers")]
+        public async Task<ActionResult<IEnumerable<SignInUserViewModel>>> GetAllUsersAsync()
         {
-            if (!await _roleManager.RoleExistsAsync(roleName))
+            try
             {
-                var result = await _roleManager.CreateAsync(new IdentityRole(roleName));
-                if (!result.Succeeded) return BadRequest(result.Errors);
+                return Ok(await _context.Users.ProjectTo<SignInUserViewModel>(_mapper.ConfigurationProvider).ToListAsync());
             }
-            return StatusCode(201);
+            catch (NotFoundException)
+            {
+                return StatusCode(404, "Table doesn't exsist in method GetAllusersAsync");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpPost("register")]
@@ -158,7 +164,7 @@ namespace College_API.Controllers
             // // }
             // // return Unauthorized();
         }
-        //[Authorize("Administrator")]
+
         private async Task<string> CreateJwtToken(IdentityUser user)
         {// jwt.io  to control the token
             var key = Encoding.ASCII.GetBytes(_config.GetValue<string>("apiKey")!);
@@ -200,21 +206,22 @@ namespace College_API.Controllers
         //     return new JwtSecurityTokenHandler().WriteToken(jwt);
         // }
 
-        [HttpGet("GetAllUsers")]
-        public async Task<ActionResult<IEnumerable<SignInUserViewModel>>> GetAllUsersAsync()
+        //Get all users doesn't show admins. Is it due to them being IdentityUser object?
+
+        [HttpPost("create-role")]// 220504_13 2:34:00
+        public async Task<IActionResult> CreateRole([FromQuery] string roleName)
         {
-            try
+            if (!await _roleManager.RoleExistsAsync(roleName))
             {
-                return Ok(await _context.Users.ProjectTo<SignInUserViewModel>(_mapper.ConfigurationProvider).ToListAsync());
+                var result = await _roleManager.CreateAsync(new IdentityRole(roleName));
+                if (!result.Succeeded) return BadRequest(result.Errors);
             }
-            catch (NotFoundException)
+            else
             {
-                return StatusCode(404, "Table doesn't exsist in method GetAllusersAsync");
+                return StatusCode(200, $"Role name with name '{roleName}' already exists.");
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+            return StatusCode(201, $"Role '{roleName}' created.");
+
         }
     }
 }

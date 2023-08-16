@@ -7,7 +7,7 @@ Feel free to contact me for information.
 
 #### .Net API Backend
 
-    After downloading the repo, in vscode terminal, while inside ../webproject3/College-API> folder, type: "dotnet restore"
+    After downloading the repo, place yourself in the terminal at ../webproject3/College-API> , type: "dotnet restore"
 
     -dotnet restore						//to recreate system required files locally.
     -dotnet build						// to test if there are errors in the project.
@@ -20,23 +20,13 @@ Feel free to contact me for information.
 
 #### React Frontend
 
-    Place yourself in ../Clients/react-app> folder, type: "npm install" (Obs; you need to have node installed prior to this. Check out a tutorial video on react to get all the prerequisites)
+    In the terminal, place yourself in ../Clients/react-app>
+    and type: "npm install" (Obs; you need to have Node installed prior to this. Check out a guide on react to install all the prerequisites)
 
     -npm install 		// to install npm locally so you can start the project
     -npm start			// to start the project
 
-#### If you still get errors, or unable to run, you might need to install the nuget packages manually
-
-    AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1"
-    Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.9"
-    Microsoft.AspNetCore.Identity" Version="2.2.0"
-    Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.9"
-    Microsoft.AspNetCore.OpenApi" Version="7.0.5"
-    Microsoft.EntityFrameworkCore" Version="7.0.9"
-    Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.9"
-    Microsoft.EntityFrameworkCore.Tools" Version="7.0.
-
-Following tutorials on "dotnet web api" or "dotnet core mvc" should let you get a good start
+Following tutorials on ".Net Web API" should let you get a good start
 As an example: https://www.youtube.com/watch?v=Fbf_ua2t6v4&t=97s
 
 <!--
