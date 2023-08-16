@@ -12,3 +12,4 @@ namespace College_API.ViewModels.RegisterUserViewModel
         public bool IsAdmin { get; set; } = false;
     }
 }
+//admin@email.com PassWord!1

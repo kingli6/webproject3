@@ -2,6 +2,8 @@ using AutoMapper;
 using College_API.Models;
 using College_API.ViewModels;
 using College_API.ViewModels.Category;
+using College_API.ViewModels.RegisterUserViewModel;
+using Microsoft.AspNetCore.Identity;
 
 namespace College_API.Helpers
 {
@@ -14,6 +16,9 @@ namespace College_API.Helpers
             CreateMap<User, UserViewModel>()
             .ForMember(dest => dest.UserId, options => options.MapFrom(src => src.Id))
             .ForMember(dest => dest.UserName, options => options.MapFrom(src => string.Concat(src.FirstName, " ", src.LastName)));
+            CreateMap<User, SignInUserViewModel>();
+            CreateMap<IdentityUser, SignInUserViewModel>();
+            CreateMap<PutSignInUserViewModel, IdentityUser>();
 
             CreateMap<PostCourseViewModel, Course>();
             CreateMap<Course, CourseViewModel>()

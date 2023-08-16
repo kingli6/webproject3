@@ -3,7 +3,7 @@ using College_API.Models;
 
 namespace College_API.ViewModels.RegisterUserViewModel
 {
-    public class UserViewModel
+    public class SignInUserViewModel
     {
         public string? Id { get; set; }
         public string? UserName { get; set; }

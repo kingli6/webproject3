@@ -1,10 +1,15 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using College_API.CustomExceptions;
+using College_API.Data;
 using College_API.ViewModels.AuthViewModels;
 using College_API.ViewModels.RegisterUserViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 namespace College_API.Controllers
@@ -17,13 +22,43 @@ namespace College_API.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        public AuthController(IConfiguration config, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager)
+        private readonly IMapper _mapper;
+        private readonly CollegeDatabaseContext _context;
+
+        public AuthController(CollegeDatabaseContext context, IMapper mapper, IConfiguration config, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager)
         {
             _roleManager = roleManager;
             _signInManager = signInManager;
             _userManager = userManager;
             _config = config;
+            _mapper = mapper;
+            _context = context;
         }
+
+        // admin1@email.com PassWord!1
+        // "user1@example.com",PassWord!1
+        //user@example.com, Password!1
+        //"userName": "joe@gmail.com", "password": "Password!1"
+        [HttpGet("getAllAdmins")]
+        public async Task<ActionResult<List<SignInUserViewModel>>> GetAllAdminsAsync()
+        {
+            try
+            {
+                var admins = await _userManager.GetUsersInRoleAsync("Administrators");
+                Console.WriteLine(admins);
+                var adminList = _mapper.ProjectTo<SignInUserViewModel>(admins.AsQueryable()).ToList();
+                return Ok(adminList);
+            }
+            catch (NotFoundException)
+            {
+                return StatusCode(404, "Table doesn't exsist for method GetAllAdminsAsync");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [HttpPost("create-role")]// 220504_13 2:34:00
         public async Task<IActionResult> CreateRole([FromQuery] string roleName)
         {
@@ -36,7 +71,7 @@ namespace College_API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<UserViewModel>> RegisterUser(RegisterUserViewModel model)
+        public async Task<ActionResult<SignInUserViewModel>> RegisterUser(RegisterUserViewModel model)
         {
             var user = new IdentityUser
             {
@@ -47,17 +82,23 @@ namespace College_API.Controllers
             var result = await _userManager.CreateAsync(user, model.Password!);
             if (result.Succeeded)
             {
+                if (!await _roleManager.RoleExistsAsync("Administrator"))
+                {
+                    var adminRole = new IdentityRole("Administrator");
+                    await _roleManager.CreateAsync(adminRole);
+                }
                 // creating a claim called Admin and setting IsAdmin to true    220504_13.. 1:25:00
                 if (model.IsAdmin)
                 {
                     await _userManager.AddClaimAsync(user, new Claim("Admin", "true"));
                     await _userManager.AddToRoleAsync(user, "Administrators");  //220504_13.. 2:33:00
+                    await _userManager.AddClaimAsync(user, new Claim("Administrator", "true"));
                 }
                 await _userManager.AddClaimAsync(user, new Claim("User", "true"));
                 await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Name, user.UserName));
                 await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Email, user.Email));
                 await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.NameIdentifier, user.Id));
-                var userData = new UserViewModel
+                var userData = new SignInUserViewModel
                 {
                     UserName = user.UserName,
                     Token = await CreateJwtToken(user)
@@ -73,10 +114,9 @@ namespace College_API.Controllers
                 return StatusCode(500, ModelState);
             }
         }
-        //user@example.com, Password!1
-        //"userName": "joe@gmail.com", "password": "Password!1"
+
         [HttpPost("login")]
-        public async Task<ActionResult<UserViewModel>> Login(LoginViewModel model)
+        public async Task<ActionResult<SignInUserViewModel>> Login(LoginViewModel model)
         {
             var user = await _userManager.FindByNameAsync(model.UserName!);
             if (user is null)
@@ -85,23 +125,38 @@ namespace College_API.Controllers
             var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password!, false);   //false is for lockoutonfailure .false meaning; we won't lock them out
 
             if (!result.Succeeded)
+                return Unauthorized("Wrong password");
+
+            // Attempt to sign in with password. (Can still fail if user is on lockout or account isn't verified etc.)
+            result = await _signInManager.PasswordSignInAsync(user, model.Password!, false, true);
+
+            if (!result.Succeeded)
                 return Unauthorized();
+            var userRoles = await _userManager.GetRolesAsync(user);
+            var userVM = _mapper.Map<SignInUserViewModel>(user);
+            // Create JW token.
+            userVM.Token = await CreateJwtToken(user);
+            userVM.Expires = DateTime.Now.AddDays(7);
+            userVM.Roles = userRoles.ToList();
 
-            var userData = new UserViewModel
-            {
-                UserName = user.UserName,
-                Token = await CreateJwtToken(user)
-            };
-
-            return Ok(userData);
-            // if (model.UserName == "Joe" && model.Password == "password!")
+            return Ok(userVM);
+            // var userData = new SignInUserViewModel
             // {
-            //     return Ok(new
-            //     {
-            //         access_token = CreateJwtToken(model.UserName)
-            //     });
-            // }
-            // return Unauthorized();
+            //     UserName = user.UserName,
+            //     Token = await CreateJwtToken(user)
+            // };
+
+            // return Ok(userData);
+
+
+            // // if (model.UserName == "Joe" && model.Password == "password!")
+            // // {
+            // //     return Ok(new
+            // //     {
+            // //         access_token = CreateJwtToken(model.UserName)
+            // //     });
+            // // }
+            // // return Unauthorized();
         }
         //[Authorize("Administrator")]
         private async Task<string> CreateJwtToken(IdentityUser user)
@@ -144,5 +199,22 @@ namespace College_API.Controllers
         //             SecurityAlgorithms.HmacSha512Signature));
         //     return new JwtSecurityTokenHandler().WriteToken(jwt);
         // }
+
+        [HttpGet("GetAllUsers")]
+        public async Task<ActionResult<IEnumerable<SignInUserViewModel>>> GetAllUsersAsync()
+        {
+            try
+            {
+                return Ok(await _context.Users.ProjectTo<SignInUserViewModel>(_mapper.ConfigurationProvider).ToListAsync());
+            }
+            catch (NotFoundException)
+            {
+                return StatusCode(404, "Table doesn't exsist in method GetAllusersAsync");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }
