@@ -30,9 +30,10 @@ namespace College_API.Repositories
             return await _context.Courses.ProjectTo<CourseViewModel>(_mapper.ConfigurationProvider).ToListAsync();
         }
 
-        public async Task<CourseViewModel> GetCourseAsync(int id)
+        public async Task<CourseViewModel?> GetCourseAsync(int id)
         {
-            return await _context.Courses.Where(c => c.Id == id)
+            // ?? not sure if this includes the registrations... How do I add a registration?
+            return await _context.Courses.Where(c => c.Id == id).Include(c => c.Registrations)
             .ProjectTo<CourseViewModel>(_mapper.ConfigurationProvider)
             .SingleOrDefaultAsync();
         }
@@ -60,6 +61,7 @@ namespace College_API.Repositories
             response.Description = model.Description;
             response.Details = model.Details;
             _context.Courses.Update(response);
+
         }
 
         public Task UpdateCourseAsync(int id, PatchCourseViewModel model)
@@ -68,11 +70,14 @@ namespace College_API.Repositories
         }
         public async Task DeleteCourseAsync(int id)
         {
-            var response = await _context.Courses.FindAsync(id);
-            if (response == null)
-                throw new NotFoundException();
 
-            _context.Courses.Remove(response);
+            var course = await _context.Courses.Include(c => c.Registrations).FirstOrDefaultAsync(c => c.Id == id);
+            if (course == null)
+                throw new NotFoundException();
+            // ?? Not sure if this works...
+            _context.Registrations.RemoveRange(course.Registrations);
+            _context.Courses.Remove(course);
+
         }
         public async Task<bool> SaveAllAsync()
         {
