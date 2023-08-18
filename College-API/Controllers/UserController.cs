@@ -49,7 +49,7 @@ namespace College_API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
-            var response = await _userRepo.GetUserAsync(id);
+            var response = await _userRepo.GetUserByIdAsync(id);
             if (response is null)
                 return NotFound($"couldn't find id: {id} in database");
 

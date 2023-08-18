@@ -32,7 +32,8 @@ namespace College_API.Repositories
 
         public async Task<CourseViewModel?> GetCourseAsync(int id)
         {
-            // ?? not sure if this includes the registrations... How do I add a registration?
+            // ?? not sure if this includes the registrations... 
+            //??? How do I add a registration?
             return await _context.Courses.Where(c => c.Id == id).Include(c => c.Registrations)
             .ProjectTo<CourseViewModel>(_mapper.ConfigurationProvider)
             .SingleOrDefaultAsync();

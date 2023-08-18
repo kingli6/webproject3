@@ -5,7 +5,7 @@ namespace College_API.Interfaces
     public interface IUserRepository
     {
         public Task<List<UserViewModel>> ListAllUsersAsync();
-        public Task<UserViewModel?> GetUserAsync(int id);
+        public Task<UserViewModel?> GetUserByIdAsync(int id);
         public Task<UserViewModel?> GetUserAsync(string userName);
         public Task<UserViewModel?> GetUserEmailAsync(string userEmail);
         public Task AddUserAsync(PostUserViewModel model);
