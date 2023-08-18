@@ -35,6 +35,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IRegistrationRepository, RegistrationRepository>();
 
 //Automapper
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
