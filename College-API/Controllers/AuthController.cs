@@ -78,6 +78,28 @@ namespace College_API.Controllers
             }
         }
 
+        [HttpGet("users-with-roles")]
+        public async Task<ActionResult<List<UserWithRolesViewModel>>> GetUsersWithRoles()
+        {
+            var users = await _userManager.Users.ToListAsync();
+
+            var usersWithRoles = new List<UserWithRolesViewModel>();
+
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                var userWithRoles = new UserWithRolesViewModel
+                {
+                    UserId = user.Id,
+                    UserName = user.UserName,
+                    Roles = roles.ToList()
+                };
+                usersWithRoles.Add(userWithRoles);
+            }
+
+            return Ok(usersWithRoles);
+        }
+
         [HttpDelete("{email}")]
         public async Task<IActionResult> DeleteUserByEmail(string email)
         {
@@ -124,6 +146,13 @@ namespace College_API.Controllers
                     await _userManager.AddToRoleAsync(user, "Administrator");  //220504_13.. 2:33:00
                     await _userManager.AddClaimAsync(user, new Claim("Administrator", "true"));
                 }
+                if (!await _roleManager.RoleExistsAsync("User"))
+                {
+                    var userRole = new IdentityRole("User");
+                    await _roleManager.CreateAsync(userRole);
+                }
+                // ??? Roles or claims?
+                await _userManager.AddToRoleAsync(user, "User");
                 await _userManager.AddClaimAsync(user, new Claim("User", "true"));
                 await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Name, user.UserName));
                 await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Email, user.Email));
@@ -191,6 +220,13 @@ namespace College_API.Controllers
             // //     });
             // // }
             // // return Unauthorized();
+        }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return NoContent(); // Return a successful response with no content
         }
 
         private async Task<string> CreateJwtToken(IdentityUser user)
