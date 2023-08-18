@@ -37,14 +37,13 @@ namespace College_API.Controllers
 
         // admin1@email.com PassWord!1
         // "user1@example.com",PassWord!1
-        //user@example.com, Password!1
-        //"userName": "joe@gmail.com", "password": "Password!1"
+
         [HttpGet("getAllAdmins")]
         public async Task<ActionResult<List<SignInUserViewModel>>> GetAllAdminsAsync()
         {
             try
             {
-                var admins = await _userManager.GetUsersInRoleAsync("Administrators");
+                var admins = await _userManager.GetUsersInRoleAsync("Administrator");
                 Console.WriteLine(admins);
                 var adminList = _mapper.ProjectTo<SignInUserViewModel>(admins.AsQueryable()).ToList();
                 return Ok(adminList);
@@ -64,7 +63,10 @@ namespace College_API.Controllers
         {
             try
             {
-                return Ok(await _context.Users.ProjectTo<SignInUserViewModel>(_mapper.ConfigurationProvider).ToListAsync());
+                //return Ok(await _context.Users.ProjectTo<SignInUserViewModel>(_mapper.ConfigurationProvider).ToListAsync());
+
+                //getting everyone in _userManager
+                return Ok(await _userManager.Users.ToListAsync());
             }
             catch (NotFoundException)
             {
@@ -76,9 +78,35 @@ namespace College_API.Controllers
             }
         }
 
+        [HttpDelete("{email}")]
+        public async Task<IActionResult> DeleteUserByEmail(string email)
+        {
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(email);
+                if (user == null) return StatusCode(404, email + " User not found");
+
+                await _userManager.DeleteAsync(user);
+                return NoContent();
+            }
+            catch (NotFoundException)
+            {
+                return StatusCode(404, email + " User not found");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [HttpPost("register")]
         public async Task<ActionResult<SignInUserViewModel>> RegisterUser(RegisterUserViewModel model)
         {
+            if (!await _roleManager.RoleExistsAsync("Administrator"))
+            {
+                var adminRole = new IdentityRole("Administrator");
+                await _roleManager.CreateAsync(adminRole);
+            }
             var user = new IdentityUser
             {
                 Email = model.Email!.ToLower(),
@@ -88,16 +116,12 @@ namespace College_API.Controllers
             var result = await _userManager.CreateAsync(user, model.Password!);
             if (result.Succeeded)
             {
-                if (!await _roleManager.RoleExistsAsync("Administrator"))
-                {
-                    var adminRole = new IdentityRole("Administrator");
-                    await _roleManager.CreateAsync(adminRole);
-                }
+
                 // creating a claim called Admin and setting IsAdmin to true    220504_13.. 1:25:00
                 if (model.IsAdmin)
                 {
                     await _userManager.AddClaimAsync(user, new Claim("Admin", "true"));
-                    await _userManager.AddToRoleAsync(user, "Administrators");  //220504_13.. 2:33:00
+                    await _userManager.AddToRoleAsync(user, "Administrator");  //220504_13.. 2:33:00
                     await _userManager.AddClaimAsync(user, new Claim("Administrator", "true"));
                 }
                 await _userManager.AddClaimAsync(user, new Claim("User", "true"));
@@ -127,6 +151,10 @@ namespace College_API.Controllers
             var user = await _userManager.FindByNameAsync(model.UserName!);
             if (user is null)
                 return Unauthorized("Wrong username or password???");
+
+            // Check if the user has the "Administrator" role
+            if (!await _userManager.IsInRoleAsync(user, "Administrator"))
+                return Unauthorized("Only users with the 'Administrator' role can log in.");
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password!, false);   //false is for lockoutonfailure .false meaning; we won't lock them out
 
