@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; //220519_09.. 1:53:00
 
-function Login() {
+function Login({ setUserRole }) {
   const navigate = useNavigate();
   const [useUserName, setUserName] = useState('');
   const [usePassword, setPassword] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   const onHandleUserNameTextChanged = (e) => {
     console.log(e.target.name);
     setUserName(e.target.value);
@@ -28,14 +30,33 @@ function Login() {
       },
       body: JSON.stringify(user),
     });
-    console.log(response);
+
+    // console.log(response);
     if (response.status >= 200 && response.status <= 299) {
       const result = await response.json();
+      //Capture information about the user: Wether admin or not.
+      const isAdmin = result.roles.includes('Administrator');
+
       localStorage.setItem('token', JSON.stringify(result.token)); //220519_09   2:16:00
-      navigate('/courseList');
+      setIsAuthenticated(true);
+
+      if (isAdmin) {
+        setUserRole('Administrator');
+        navigate('/adminDashboard');
+      } else {
+        setUserRole('User');
+        navigate('/userDashboard');
+      }
     } else {
       console.log("We couldn't log you in...");
     }
+  };
+  const handleLogout = () => {
+    // Clear token from local storage and reset isAuthenticated
+    localStorage.removeItem('token');
+    setIsAuthenticated(false);
+    // Perform any additional logout logic as needed
+    navigate('/login'); // Navigate to login page after logout
   };
   return (
     <>
@@ -65,8 +86,12 @@ function Login() {
               />
             </div>
 
-            <button type="submit" className="btn">
-              Log In
+            <button
+              type="button"
+              className="btn"
+              onClick={isAuthenticated ? handleLogout : handleLogin}
+            >
+              {isAuthenticated ? 'Log Out' : 'Log In'}
             </button>
           </form>
         </section>

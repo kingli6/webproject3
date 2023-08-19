@@ -1,11 +1,25 @@
 import { NavLink } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 function Navbar() {
+  const { isAuthenticated, setIsAuthenticated } = useAuth();
+
+  const handleLogout = () => {
+    // Clear token from local storage and reset isAuthenticated
+    localStorage.removeItem('token');
+    setIsAuthenticated(false);
+    // Perform any additional logout logic as needed
+  };
+
   return (
     <nav id="navbar">
       <ul>
         <li>
-          <NavLink to="/login">Log In</NavLink>
+          {isAuthenticated ? (
+            <button onClick={handleLogout}>Log Out</button>
+          ) : (
+            <NavLink to="/login">Log In</NavLink>
+          )}
           <NavLink to="/courseList">Courses</NavLink>
           <NavLink to="/addCourse">Add Course</NavLink>
         </li>
