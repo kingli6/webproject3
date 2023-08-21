@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import Navbar from './components/navbar/Navbar';
 import AddCourse from './components/Courses/AddCourse';
@@ -13,14 +13,14 @@ import AdminDashboard from './components/adminDashboard/AdminDashoard';
 import UserDashboard from './components/userDashboard/UserDashboard';
 
 import { AuthProvider } from './components/context/AuthContext';
-import React from 'react';
 
 function App() {
   const [userRole, setUserRole] = useState(null);
+
   return (
     <AuthProvider>
       <Router>
-        <Navbar />
+        <Navbar userRole={userRole} />
         <main>
           <Routes>
             <Route path="/" element={<Login setUserRole={setUserRole} />} />
@@ -34,7 +34,10 @@ function App() {
             <Route path="/courseList" element={<CoursesList />} />
             <Route path="/addCourse" element={<AddCourse />} />
             <Route path="/editCourse/:id" element={<EditCourse />} />
-            <Route path="/login" element={<Login />} />
+            <Route
+              path="/login"
+              element={<Login setUserRole={setUserRole} />}
+            />
           </Routes>
         </main>
       </Router>

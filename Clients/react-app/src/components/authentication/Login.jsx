@@ -1,18 +1,17 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; //220519_09.. 1:53:00
+import { useAuth } from '../context/AuthContext';
 
-function Login({ setUserRole }) {
+function Login() {
   const navigate = useNavigate();
   const [useUserName, setUserName] = useState('');
   const [usePassword, setPassword] = useState('');
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { setUserRole } = useAuth();
 
   const onHandleUserNameTextChanged = (e) => {
-    console.log(e.target.name);
     setUserName(e.target.value);
   };
   const onHandlePasswordTextChange = (e) => {
-    console.log(e.target.name);
     setPassword(e.target.value);
   };
   const handleLogin = async (e) => {
@@ -38,26 +37,28 @@ function Login({ setUserRole }) {
       const isAdmin = result.roles.includes('Administrator');
 
       localStorage.setItem('token', JSON.stringify(result.token)); //220519_09   2:16:00
-      setIsAuthenticated(true);
+      //TODO 1
+      console.log('Login successful! isAdmin:', isAdmin);
+
+      setUserRole(isAdmin ? 'Administrator' : 'User'); // Update userRole
 
       if (isAdmin) {
-        setUserRole('Administrator');
         navigate('/adminDashboard');
       } else {
-        setUserRole('User');
         navigate('/userDashboard');
       }
     } else {
       console.log("We couldn't log you in...");
     }
   };
-  const handleLogout = () => {
-    // Clear token from local storage and reset isAuthenticated
-    localStorage.removeItem('token');
-    setIsAuthenticated(false);
-    // Perform any additional logout logic as needed
-    navigate('/login'); // Navigate to login page after logout
-  };
+  // const handleLogout = () => {
+  //   // Clear token from local storage and reset isAuthenticated
+  //   localStorage.removeItem('token');
+  //   setIsAuthenticated(false);
+  //   setUserRole(null);
+  //   // Perform any additional logout logic as needed
+  //   navigate('/login'); // Navigate to login page after logout
+  // };
   return (
     <>
       <h1 className="page-title">Log In</h1>
@@ -86,12 +87,8 @@ function Login({ setUserRole }) {
               />
             </div>
 
-            <button
-              type="button"
-              className="btn"
-              onClick={isAuthenticated ? handleLogout : handleLogin}
-            >
-              {isAuthenticated ? 'Log Out' : 'Log In'}
+            <button type="submit" className="btn">
+              Log In
             </button>
           </form>
         </section>

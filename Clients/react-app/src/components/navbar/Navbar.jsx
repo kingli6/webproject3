@@ -1,13 +1,18 @@
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 function Navbar() {
-  const { isAuthenticated, setIsAuthenticated } = useAuth();
+  const { userRole, setUserRole } = useAuth();
+  const navigate = useNavigate();
+  //TODO 2
+  console.log('userRole in Navbar:', userRole);
 
   const handleLogout = () => {
     // Clear token from local storage and reset isAuthenticated
     localStorage.removeItem('token');
-    setIsAuthenticated(false);
+    setUserRole(null);
+    navigate('/');
     // Perform any additional logout logic as needed
   };
 
@@ -15,8 +20,10 @@ function Navbar() {
     <nav id="navbar">
       <ul>
         <li>
-          {isAuthenticated ? (
-            <button onClick={handleLogout}>Log Out</button>
+          {userRole ? (
+            <NavLink to="/" onClick={handleLogout}>
+              Log Out
+            </NavLink>
           ) : (
             <NavLink to="/login">Log In</NavLink>
           )}
