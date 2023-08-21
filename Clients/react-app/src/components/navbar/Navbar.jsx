@@ -20,19 +20,26 @@ function Navbar() {
     <nav id="navbar">
       <ul>
         <li>
-          {userRole ? (
-            <NavLink to="/" onClick={handleLogout}>
-              Log Out
-            </NavLink>
+          {userRole === 'Administrator' ? (
+            <>
+              <NavLink to="/" onClick={handleLogout}>
+                Log Out
+              </NavLink>
+              <NavLink to="/courseList">Courses</NavLink>
+              <NavLink to="/addCourse">Add Course</NavLink>
+            </>
           ) : (
             <NavLink to="/login">Log In</NavLink>
           )}
-          <NavLink to="/courseList">Courses</NavLink>
-          <NavLink to="/addCourse">Add Course</NavLink>
+          {/* <NavLink to="/courseList">Courses</NavLink>
+          <NavLink to="/addCourse">Add Course</NavLink> */}
         </li>
       </ul>
-      <NavLink to="/">
-        <h1 className="logo">
+      <NavLink
+        to={userRole === 'Administrator' ? '/adminDashboard' : '/userDashboard'}
+        className="logo"
+      >
+        <h1>
           <span className="text-primary">
             <i className="fa-solid fa-graduation-cap"></i> Westcoast
           </span>

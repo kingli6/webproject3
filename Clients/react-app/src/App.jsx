@@ -31,6 +31,8 @@ function App() {
               <Route path="/userDashboard" element={<UserDashboard />} />
             )}
 
+            <Route path="/userDashboard" element={<UserDashboard />} />
+            <Route path="/adminDashboard" element={<AdminDashboard />} />
             <Route path="/courseList" element={<CoursesList />} />
             <Route path="/addCourse" element={<AddCourse />} />
             <Route path="/editCourse/:id" element={<EditCourse />} />
