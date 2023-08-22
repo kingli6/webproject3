@@ -5,12 +5,15 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using College_API.CustomExceptions;
 using College_API.Data;
+using College_API.Models;
 using College_API.ViewModels.AuthViewModels;
 using College_API.ViewModels.RegisterUserViewModel;
+using College_API.ViewModels.UserCustomerViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+
 
 namespace College_API.Controllers
 {
@@ -78,6 +81,75 @@ namespace College_API.Controllers
             }
         }
 
+        [HttpPost("createUser")]
+        public async Task<ActionResult<SignInUserViewModel>> AddUserAsync([FromBody] SignInCustomerViewModel newUser)
+        {
+            try
+            { // if Administrator role doesn't exsist, create one.
+                if (!await _roleManager.RoleExistsAsync("User"))
+                {
+                    var adminRole = new IdentityRole("User");
+                    await _roleManager.CreateAsync(adminRole);
+                }
+                if (!await _roleManager.RoleExistsAsync("Administrator"))
+                {
+                    var adminRole = new IdentityRole("Administrator");
+                    await _roleManager.CreateAsync(adminRole);
+                }
+
+
+                var user = new ApplicationUser
+                {
+                    FirstName = newUser.FirstName!.ToLower(),
+                    LastName = newUser.LastName!.ToLower(),
+                    UserName = newUser.Email!.ToLower(),
+                    Email = newUser.Email,
+                    PhoneNumber = newUser.PhoneNumber,
+                    Address = newUser.Address!.ToLower(),
+                    UserRole = newUser.UserRole,
+                };
+
+                var result = await _userManager.CreateAsync(user, newUser.Password!);
+                if (result.Succeeded)
+                {
+                    if (newUser.UserRole == "Administrator")
+                    {
+                        await _userManager.AddClaimAsync(user, new Claim("Admin", "true"));
+                        await _userManager.AddToRoleAsync(user, "Administrator");  //220504_13.. 2:33:00
+                        await _userManager.AddClaimAsync(user, new Claim("Administrator", "true"));
+                    }
+                    if (newUser.UserRole == "Teacher")
+                    {
+                        await _userManager.AddToRoleAsync(user, "Teacher");
+                        await _userManager.AddClaimAsync(user, new Claim("Teacher", "true"));
+                    }
+                    await _userManager.AddToRoleAsync(user, "User");
+                    await _userManager.AddClaimAsync(user, new Claim("User", "true"));
+                    await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Name, user.UserName));
+                    await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Email, user.Email));
+                    await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.NameIdentifier, user.Id));
+                    var userData = new SignInUserViewModel
+                    {
+                        UserName = user.UserName,
+                        Token = await CreateJwtToken(user)
+                    };
+                    return StatusCode(201, userData);
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("User registration error. ", error.Description);
+                    }
+                    return StatusCode(500, ModelState);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [HttpGet("users-with-roles")]
         public async Task<ActionResult<List<UserWithRolesViewModel>>> GetUsersWithRoles()
         {
@@ -124,6 +196,7 @@ namespace College_API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<SignInUserViewModel>> RegisterUser(RegisterUserViewModel model)
         {
+            // if Administrator role doesn't exsist, create one.
             if (!await _roleManager.RoleExistsAsync("Administrator"))
             {
                 var adminRole = new IdentityRole("Administrator");
@@ -157,6 +230,7 @@ namespace College_API.Controllers
                 await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Name, user.UserName));
                 await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Email, user.Email));
                 await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.NameIdentifier, user.Id));
+
                 var userData = new SignInUserViewModel
                 {
                     UserName = user.UserName,

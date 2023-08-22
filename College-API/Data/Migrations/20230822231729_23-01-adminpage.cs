@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace College_API.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class addingregistration : Migration
+    public partial class _2301adminpage : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -211,7 +211,7 @@ namespace College_API.Data.Migrations
                 {
                     RegistrationId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    UserId = table.Column<int>(type: "INTEGER", nullable: false),
+                    UserId = table.Column<string>(type: "TEXT", nullable: true),
                     CourseId = table.Column<int>(type: "INTEGER", nullable: false),
                     RegistrationDate = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
@@ -219,15 +219,14 @@ namespace College_API.Data.Migrations
                 {
                     table.PrimaryKey("PK_Registrations", x => x.RegistrationId);
                     table.ForeignKey(
+                        name: "FK_Registrations_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_Registrations_Courses_CourseId",
                         column: x => x.CourseId,
                         principalTable: "Courses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Registrations_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -305,6 +304,9 @@ namespace College_API.Data.Migrations
                 name: "Registrations");
 
             migrationBuilder.DropTable(
+                name: "Users");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -312,9 +314,6 @@ namespace College_API.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Courses");
-
-            migrationBuilder.DropTable(
-                name: "Users");
         }
     }
 }
