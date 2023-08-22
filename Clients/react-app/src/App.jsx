@@ -11,7 +11,7 @@ import './utilities.css';
 import './styles.css';
 import AdminDashboard from './components/adminDashboard/AdminDashoard';
 import UserDashboard from './components/userDashboard/UserDashboard';
-
+import AdminCourseList from './components/adminDashboard/AdminCourseList';
 import { AuthProvider } from './components/context/AuthContext';
 
 function App() {
@@ -33,6 +33,7 @@ function App() {
 
             <Route path="/userDashboard" element={<UserDashboard />} />
             <Route path="/adminDashboard" element={<AdminDashboard />} />
+            <Route path="/admin/courses" element={<AdminCourseList />} />
             <Route path="/courseList" element={<CoursesList />} />
             <Route path="/addCourse" element={<AddCourse />} />
             <Route path="/editCourse/:id" element={<EditCourse />} />

@@ -19,21 +19,28 @@ function Navbar() {
   return (
     <nav id="navbar">
       <ul>
-        <li>
-          {userRole === 'Administrator' ? (
-            <>
-              <NavLink to="/" onClick={handleLogout}>
-                Log Out
-              </NavLink>
-              <NavLink to="/courseList">Courses</NavLink>
-              <NavLink to="/addCourse">Add Course</NavLink>
-            </>
-          ) : (
-            <NavLink to="/login">Log In</NavLink>
-          )}
-          {/* <NavLink to="/courseList">Courses</NavLink>
-          <NavLink to="/addCourse">Add Course</NavLink> */}
-        </li>
+        {userRole && (
+          <li>
+            <NavLink to="/" onClick={handleLogout}>
+              Log Out
+            </NavLink>
+          </li>
+        )}
+        {userRole === 'Administrator' && (
+          <>
+            <li>
+              <NavLink to="/adminDashboard">Dashboard</NavLink>
+            </li>
+          </>
+        )}
+        {userRole === 'User' && (
+          <>
+            <li>
+              <NavLink to="/userDashboard">Dashboard</NavLink>
+            </li>
+            {/* Add more links specific to the User role */}
+          </>
+        )}
       </ul>
       <NavLink
         to={userRole === 'Administrator' ? '/adminDashboard' : '/userDashboard'}
@@ -50,6 +57,22 @@ function Navbar() {
   );
 }
 export default Navbar;
+// {/*<li>
+//  {userRole === 'Administrator' ? (
+//   <>
+//     <NavLink to="/" onClick={handleLogout}>
+//       Log Out
+//     </NavLink>
+//     <NavLink to="/courseList">Courses</NavLink>
+//     <NavLink to="/addCourse">Add Course</NavLink>
+//   </>
+// ) : (
+//   <NavLink to="/login">Log In</NavLink>
+// )}
+//  <NavLink to="/courseList">Courses</NavLink>
+// <NavLink to="/addCourse">Add Course</NavLink>
+// </li>
+// */}
 
 // <li>
 //           <a href="...">Start</a>

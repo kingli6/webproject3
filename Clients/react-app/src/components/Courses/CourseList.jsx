@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import CoursesItem from './CoursesItem';
 
-function CourseList() {
+function CourseList({ userRole }) {
   // const [courseData, setCourseData] = useState([]);
   const [courses, setCourses] = useState([]);
 
@@ -27,23 +28,6 @@ function CourseList() {
     else {
       setCourses(await response.json());
     }
-    // const data = await response.json();
-    //console.log(data);
-    // try {
-    //   const response = await fetch(url);
-
-    //   if (!response.ok) {
-    //     console.log('Response not OK:', response);
-    //     console.log('Response status:', response.status);
-    //   }
-
-    //   const data = await response.json();
-    //   console.log('Data:', data);
-
-    //   setCourseData(data);
-    // } catch (error) {
-    //   console.error('Error:', error);
-    // }
   };
 
   const deleteCourse = async (id) => {
@@ -61,34 +45,43 @@ function CourseList() {
   };
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Item1</th>
-          <th>Item2</th>
-          <th>Item3</th>
-          <th>Item4</th>
-        </tr>
-      </thead>
-      <tbody>
-        {/* <CoursesItem thing="Here is something" name="Jonathan" place="Övik" />
+    <>
+      {userRole === 'Administrator' && (
+        <div className="course-actions">
+          <Link to="/addCourse" className="btn">
+            Add New Course
+          </Link>
+        </div>
+      )}
+      <table>
+        <thead>
+          <tr>
+            <th>Item1</th>
+            <th>Item2</th>
+            <th>Item3</th>
+            <th>Item4</th>
+          </tr>
+        </thead>
+        <tbody>
+          {/* <CoursesItem thing="Here is something" name="Jonathan" place="Övik" />
         <CoursesItem
           thing="here is another item"
           name="Björn"
           place="Stockholm"
         /> */}
-        {courses.map((items) => (
-          <CoursesItem
-            course={items}
-            // CourseNumber={course.CourseNumber}
-            // Name={course.Name}
-            // Duration={course.Duration}
-            key={items.courseId}
-            handleDeleteCourse={deleteCourse}
-          />
-        ))}
-      </tbody>
-    </table>
+          {courses.map((items) => (
+            <CoursesItem
+              course={items}
+              // CourseNumber={course.CourseNumber}
+              // Name={course.Name}
+              // Duration={course.Duration}
+              key={items.courseId}
+              handleDeleteCourse={deleteCourse}
+            />
+          ))}
+        </tbody>
+      </table>
+    </>
   );
 }
 export default CourseList;
