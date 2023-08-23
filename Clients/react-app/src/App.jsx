@@ -14,6 +14,7 @@ import UserDashboard from './components/userDashboard/UserDashboard';
 import AdminCourseList from './components/adminDashboard/AdminCourseList';
 import { AuthProvider } from './components/context/AuthContext';
 import UserList from './components/users/UserList';
+import AddUser from './components/users/AddUser';
 
 function App() {
   const [userRole, setUserRole] = useState(null);
@@ -43,6 +44,7 @@ function App() {
               element={<Login setUserRole={setUserRole} />}
             />
             <Route path="/admin/users" element={<UserList />} />
+            <Route path="/addUser" element={<AddUser />} />
           </Routes>
         </main>
       </Router>

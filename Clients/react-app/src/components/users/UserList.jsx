@@ -11,7 +11,7 @@ function UserList({ userRole }) {
 
   const loadUsers = async () => {
     const token = JSON.parse(localStorage.getItem('token'));
-    const url = process.env.REACT_APP_BASEURL + '/auth/GetAllUsers';
+    const url = process.env.REACT_APP_BASEURL + '/auth/getallusersByAdmin';
     const response = await fetch(url, {
       method: 'GET',
       headers: {
@@ -40,34 +40,38 @@ function UserList({ userRole }) {
   };
 
   return (
-    //TODO Add User button Link
-    <table>
-      <thead>
-        <tr>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Email</th>
-          <th>Phone Number</th>
-          <th>Address</th>
-          <th>Role</th>
-        </tr>
-      </thead>
-      <tbody>
-        {/* //TODO
-          // .map functtion to display everything */}
-        {users.map((items) => (
-          <UserItem user={items} key={items.id} handleDeleteUser={deleteUser} />
-          //   <tr key={user.id}>
-          //     <td>{user.firstName}</td>
-          //     <td>{user.lastName}</td>
-          //     <td>{user.email}</td>
-          //     <td>{user.phoneNumber}</td>
-          //     <td>{user.address}</td>
-          //     <td>{user.role}</td>
-          //   </tr>
-        ))}
-      </tbody>
-    </table>
+    <>
+      {userRole === 'Administrator' && (
+        <div className="course-actions">
+          <Link to="/addUser" className="btn">
+            Add New Course
+          </Link>
+        </div>
+      )}
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Address</th>
+            <th>Role</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((items) => (
+            <UserItem
+              user={items}
+              key={items.id}
+              handleDeleteUser={deleteUser}
+            />
+          ))}
+        </tbody>
+      </table>
+    </>
   );
 }
 export default UserList;
