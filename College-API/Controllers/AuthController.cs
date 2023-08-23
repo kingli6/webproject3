@@ -106,7 +106,7 @@ namespace College_API.Controllers
                     Email = newUser.Email,
                     PhoneNumber = newUser.PhoneNumber,
                     Address = newUser.Address!.ToLower(),
-                    UserRole = newUser.UserRole,
+                    UserRole = newUser.UserRole!,
                 };
 
                 var result = await _userManager.CreateAsync(user, newUser.Password!);

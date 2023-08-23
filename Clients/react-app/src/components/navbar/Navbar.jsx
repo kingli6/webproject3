@@ -43,7 +43,13 @@ function Navbar() {
         )}
       </ul>
       <NavLink
-        to={userRole === 'Administrator' ? '/adminDashboard' : '/userDashboard'}
+        to={
+          userRole === 'Administrator'
+            ? '/adminDashboard'
+            : userRole === 'User'
+            ? '/userDashboard'
+            : '/login'
+        }
         className="logo"
       >
         <h1>
