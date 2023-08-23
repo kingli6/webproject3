@@ -1,11 +1,11 @@
 import React from 'react';
-import CourseList from '../Courses/CourseList';
+import UserList from '../users/UserList';
 
 function AdminCourseList() {
   return (
     <div>
-      <h2>Admin Course List</h2>
-      <CourseList userRole="Administrator" />
+      <h2>Users List</h2>
+      <UserList userRole="Administrator" />
     </div>
   );
 }

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
 import CoursesItem from './CoursesItem';
 
 function CourseList({ userRole }) {
@@ -63,12 +62,6 @@ function CourseList({ userRole }) {
           </tr>
         </thead>
         <tbody>
-          {/* <CoursesItem thing="Here is something" name="Jonathan" place="Övik" />
-        <CoursesItem
-          thing="here is another item"
-          name="Björn"
-          place="Stockholm"
-        /> */}
           {courses.map((items) => (
             <CoursesItem
               course={items}

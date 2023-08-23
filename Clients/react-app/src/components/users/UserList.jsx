@@ -44,7 +44,7 @@ function UserList({ userRole }) {
       {userRole === 'Administrator' && (
         <div className="course-actions">
           <Link to="/addUser" className="btn">
-            Add New Course
+            Add User
           </Link>
         </div>
       )}
