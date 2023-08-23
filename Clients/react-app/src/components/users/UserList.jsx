@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import UserItem from './UserItems';
 
 function UserList({ userRole }) {
   const [users, setUsers] = useState([]);
@@ -19,9 +20,22 @@ function UserList({ userRole }) {
     });
 
     if (!response.ok) {
-      console.log("Oops.. couldn't find any users or something went wrong!");
+      console.log("Oops.. couldn't find any USERS or something went wrong!");
     } else {
       setUsers(await response.json());
+    }
+  };
+  const deleteUser = async (email) => {
+    console.log('deletes user with email' + email);
+    const url = `${process.env.REACT_APP_BASEURL}/auth/${email}`;
+    const response = await fetch(url, {
+      method: 'DELETE',
+    });
+    if (response.status >= 200 && response.status <= 299) {
+      console.log('User is deleted');
+      loadUsers();
+    } else {
+      console.log('Something went wrong while deleting');
     }
   };
 
@@ -39,18 +53,19 @@ function UserList({ userRole }) {
         </tr>
       </thead>
       <tbody>
-        {users.map((user) => (
-          <tr key={user.id}>
-            <td>{user.firstName}</td>
-            <td>{user.lastName}</td>
-            <td>{user.email}</td>
-            <td>{user.phoneNumber}</td>
-            <td>{user.address}</td>
-            <td>{user.role}</td>
-          </tr>
-        ))}
         {/* //TODO
-        // .map functtion to display everything */}
+          // .map functtion to display everything */}
+        {users.map((items) => (
+          <UserItem user={items} key={items.id} handleDeleteUser={deleteUser} />
+          //   <tr key={user.id}>
+          //     <td>{user.firstName}</td>
+          //     <td>{user.lastName}</td>
+          //     <td>{user.email}</td>
+          //     <td>{user.phoneNumber}</td>
+          //     <td>{user.address}</td>
+          //     <td>{user.role}</td>
+          //   </tr>
+        ))}
       </tbody>
     </table>
   );

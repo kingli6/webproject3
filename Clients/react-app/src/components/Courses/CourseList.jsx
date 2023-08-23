@@ -13,7 +13,7 @@ function CourseList({ userRole }) {
 
   const loadCourses = async () => {
     const token = JSON.parse(localStorage.getItem('token')); //220519_09   2:17:00
-    console.log(token);
+    // console.log(token);
 
     const url = process.env.REACT_APP_BASEURL + '/courses/GetAllCourses';
     const response = await fetch(url, {
