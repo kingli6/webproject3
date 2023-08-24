@@ -26,6 +26,8 @@ Feel free to contact me for information.
     -npm install 		// to install npm locally so you can start the project
     -npm start			// to start the project
 
+    You'll find your webpage here: http://localhost:3000/
+
 Following tutorials on ".Net Web API" should let you get a good start
 As an example: https://www.youtube.com/watch?v=Fbf_ua2t6v4&t=97s
 

@@ -30,7 +30,7 @@ function CourseList({ userRole }) {
   };
 
   const deleteCourse = async (id) => {
-    console.log('deletes course with id' + id);
+    console.log('deletes course with email' + id);
     const url = `${process.env.REACT_APP_BASEURL}/courses/${id}`;
     const response = await fetch(url, {
       method: 'DELETE',

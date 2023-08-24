@@ -10,7 +10,15 @@ function AddUser() {
   const [userRole, setUserRole] = useState('');
 
   const [isSuccess, setIsSuccess] = useState(false);
-
+  const clearForm = () => {
+    setEmail('');
+    setPassword('');
+    setFirstName('');
+    setLastName('');
+    setPhoneNumber('');
+    setAddress('');
+    setUserRole('');
+  };
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
@@ -52,15 +60,6 @@ function AddUser() {
     } else {
       setIsSuccess(false);
     }
-  };
-  const clearForm = () => {
-    setEmail('');
-    setPassword('');
-    setFirstName('');
-    setLastName('');
-    setPhoneNumber('');
-    setAddress('');
-    setUserRole('');
   };
 
   const saveUser = async (user) => {
