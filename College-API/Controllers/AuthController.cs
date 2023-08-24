@@ -81,6 +81,36 @@ namespace College_API.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+        [HttpGet("getUserById/{id}")]
+        public async Task<ActionResult<CustomerUserViewModel>> GetUserById(string id)
+        {
+            try
+            {
+                var user = await _context.ApplicationUsers.FindAsync(id);
+
+                if (user == null)
+                {
+                    return NotFound("User not found");
+                }
+
+                var userViewModel = new CustomerUserViewModel
+                {
+                    Id = user.Id,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    PhoneNumber = user.PhoneNumber,
+                    Address = user.Address,
+                    Role = user.UserRole
+                };
+
+                return Ok(userViewModel);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
         [HttpPost("register")]
         public async Task<ActionResult<SignInUserViewModel>> RegisterUser(RegisterUserViewModel model)
         {
@@ -223,6 +253,78 @@ namespace College_API.Controllers
                     foreach (var error in result.Errors)
                     {
                         ModelState.AddModelError("User registration error. ", error.Description);
+                    }
+                    return StatusCode(500, ModelState);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+        [HttpPut("updateUserById/{id}")]
+        public async Task<ActionResult> UpdateUserByIdAsync(string id, SignInCustomerViewModel model)
+        {
+            try
+            {
+                if (model is null)
+                    throw new BadRequestException();
+
+                var user = await _context.ApplicationUsers.SingleOrDefaultAsync(u => u.Id == id) ?? throw new NotFoundException();
+
+                user.FirstName = model.FirstName!;
+                user.LastName = model.LastName!;
+                user.PhoneNumber = model.PhoneNumber!;
+                user.Address = model.Address!;
+                user.UserRole = model.UserRole!;
+
+                var result = await _userManager.UpdateAsync(user);
+
+                if (result.Succeeded)
+                {
+                    return Ok("User updated successfully");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("User update error. ", error.Description);
+                    }
+                    return StatusCode(500, ModelState);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+        [HttpPut("updateUserByEmail/{email}")]
+        public async Task<ActionResult> UpdateUserByEmail(string email, SignInCustomerViewModel model)
+        {
+            try
+            {
+                if (model is null)
+                    throw new BadRequestException();
+
+                var user = await _context.ApplicationUsers.SingleOrDefaultAsync(u => u.Email == email) ?? throw new NotFoundException();
+
+                user.FirstName = model.FirstName!;
+                user.LastName = model.LastName!;
+                user.PhoneNumber = model.PhoneNumber!;
+                user.Address = model.Address!;
+                user.UserRole = model.UserRole!;
+
+                var result = await _userManager.UpdateAsync(user);
+
+                if (result.Succeeded)
+                {
+                    return Ok("User updated successfully");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("User update error. ", error.Description);
                     }
                     return StatusCode(500, ModelState);
                 }

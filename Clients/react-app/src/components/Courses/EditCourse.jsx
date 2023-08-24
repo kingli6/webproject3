@@ -23,7 +23,7 @@ function EditCourse() {
       console.log("Couldn't find course, or something went wrong...");
     }
     const course = await response.json(); //<-- here we have the entire object, with id...
-    console.log(course);
+    // console.log(course);
     setCourseId(course.courseId);
     setCourseNum(course.courseNumber);
     setCourseName(course.name);

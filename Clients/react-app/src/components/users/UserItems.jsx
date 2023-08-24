@@ -5,7 +5,7 @@ function UserItem({ user, handleDeleteUser }) {
   const navigate = useNavigate();
 
   function onEditClickHandler() {
-    //navigate
+    navigate(`/editUser/${user.id}`);
   }
   const onDeleteClickHandler = () => {
     console.log(`We will delete course${user.email}`);
