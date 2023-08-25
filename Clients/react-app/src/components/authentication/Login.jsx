@@ -33,15 +33,14 @@ function Login() {
     // console.log(response);
     if (response.status >= 200 && response.status <= 299) {
       const result = await response.json();
+      localStorage.setItem('token', JSON.stringify(result.token)); //220519_09   2:16:00
+
       //Capture information about the user: Wether admin or not.
       const isAdmin = result.roles.includes('Administrator');
-
-      localStorage.setItem('token', JSON.stringify(result.token)); //220519_09   2:16:00
       //TODO 1
       console.log('Login successful! isAdmin:', isAdmin);
 
       setUserRole(isAdmin ? 'Administrator' : 'User'); // Update userRole
-
       if (isAdmin) {
         navigate('/adminDashboard');
       } else {
