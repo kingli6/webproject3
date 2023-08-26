@@ -9,6 +9,7 @@ function UserList({ userRole }) {
     loadUsers();
   }, []);
 
+  //
   const loadUsers = async () => {
     const token = JSON.parse(localStorage.getItem('token'));
     const url = process.env.REACT_APP_BASEURL + '/auth/getallusersByAdmin';

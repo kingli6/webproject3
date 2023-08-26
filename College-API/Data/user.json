@@ -1,16 +1,50 @@
 [
   {
-    "FirstName": "John",
-    "LastName": "Doe",
-    "Email": "johndoe@test.com",
-    "PhoneNumber": "888 999 888",
-    "Address": "Street 298, Stockholm"
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "phoneNumber": "123-456-7890",
+    "address": "123 Main St, Cityville",
+    "roles": "User"
   },
   {
-    "FirstName": "Linda",
-    "LastName": "Lane",
-    "Email": "linda.lane@fakemail.com",
-    "PhoneNumber": "888 999 888",
-    "Address": "Street 298, London"
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "email": "jane.smith@example.com",
+    "phoneNumber": "987-654-3210",
+    "address": "456 Elm Rd, Townburg",
+    "roles": ["User"]
+  },
+  {
+    "firstName": "Michael",
+    "lastName": "Johnson",
+    "email": "michael.johnson@example.com",
+    "phoneNumber": "555-123-4567",
+    "address": "789 Oak Ave, Villageton",
+    "roles": ["User"]
+  },
+  {
+    "firstName": "Emily",
+    "lastName": "Williams",
+    "email": "emily.williams@example.com",
+    "phoneNumber": "333-555-7777",
+    "address": "101 Pine Ln, Hamletville",
+    "roles": ["User"]
+  },
+  {
+    "firstName": "Admin",
+    "lastName": "Adminsson",
+    "email": "admin@example.com",
+    "phoneNumber": "555-888-9999",
+    "address": "789 Admin St, Adminville",
+    "roles": ["Administrator", "User"]
+  },
+  {
+    "firstName": "Teacher",
+    "lastName": "Teacherson",
+    "email": "teacher@example.com",
+    "phoneNumber": "444-777-2222",
+    "address": "222 School Rd, Teacherville",
+    "roles": ["Administrator", "User"]
   }
 ]
