@@ -378,8 +378,6 @@ namespace College_API.Controllers
             }
         }
 
-
-
         [HttpPost("login")]
         public async Task<ActionResult<SignInUserViewModel>> Login(LoginViewModel model)
         {
@@ -388,9 +386,13 @@ namespace College_API.Controllers
                 return Unauthorized("Wrong username or password???");
 
             // Check if the user has the "Administrator" role
-            if (!await _userManager.IsInRoleAsync(user, "Administrator"))
-                return Unauthorized("Only users with the 'Administrator' role can log in.");
-
+            if (!await _userManager.IsInRoleAsync(user, "Administrator") && !await _userManager.IsInRoleAsync(user, "User"))
+                return Unauthorized("Only users with the 'Administrator' or 'User'[Hack] role can log in.");
+            // if (!await _userManager.IsInRoleAsync(user, "Administrator"))
+            //         return Unauthorized("Only users with the 'Administrator' role can log in.");
+            //if (!await _userManager.GetRolesAsync(user).Any(role => role == "Administrator" || role == "User"))
+            //      return Unauthorized("Only users with the 'Administrator' or 'User' role can log in.");
+            //
             var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password!, false);   //false is for lockoutonfailure .false meaning; we won't lock them out
 
             if (!result.Succeeded)
@@ -409,23 +411,6 @@ namespace College_API.Controllers
             userVM.Roles = userRoles.ToList();
 
             return Ok(userVM);
-            // var userData = new SignInUserViewModel
-            // {
-            //     UserName = user.UserName,
-            //     Token = await CreateJwtToken(user)
-            // };
-
-            // return Ok(userData);
-
-
-            // // if (model.UserName == "Joe" && model.Password == "password!")
-            // // {
-            // //     return Ok(new
-            // //     {
-            // //         access_token = CreateJwtToken(model.UserName)
-            // //     });
-            // // }
-            // // return Unauthorized();
         }
 
         [HttpPost("logout")]
