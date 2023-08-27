@@ -11,7 +11,7 @@
 
 .search-button {
   padding: 5px 10px;
-  background-color: #007bff;
+  background-color: var(--primary-color);
   color: white;
   border: none;
   cursor: pointer;
@@ -19,7 +19,7 @@
 }
 
 .search-button:hover {
-  background-color: #0056b3;
+  background-color: var(--secondary-color);
 }
 
 /* s */
@@ -53,7 +53,7 @@
 
 .register-button {
   padding: 5px 10px;
-  background-color: #007bff;
+  background-color: var(--primary-color);
   color: white;
   border: none;
   cursor: pointer;
@@ -61,14 +61,17 @@
 }
 
 .register-button:hover {
-  background-color: #0056b3;
+  background-color: var(--secondary-color);
 }
 
 .course-expand-details {
-  display: none;
+  max-height: 0;
+  overflow: hidden;
   margin-top: 10px;
+  transition: max-height 0.3s ease;
 }
 
 .course-container.active .course-expand-details {
-  display: block;
+  max-height: 1000px; /* Adjust the value based on your content */
+  transition: max-height 0.3s ease;
 }

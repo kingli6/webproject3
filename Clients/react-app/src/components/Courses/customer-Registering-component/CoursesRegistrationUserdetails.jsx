@@ -5,6 +5,18 @@ import './CourseListPage.css';
 function CoursesRegistrationUserdetails() {
   const [courses, setCourses] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [expandedCourseId, setExpandedCourseId] = useState(null);
+
+  console.log(courses);
+  const handleCourseClick = (courseId) => {
+    if (expandedCourseId === courseId) {
+      // If the clicked course is already expanded, close it
+      setExpandedCourseId(null);
+    } else {
+      // Otherwise, expand the clicked course
+      setExpandedCourseId(courseId);
+    }
+  };
 
   useEffect(() => {
     loadCourses();
@@ -37,6 +49,10 @@ function CoursesRegistrationUserdetails() {
       );
 
       setCourses(filteredCourses);
+      console.log('Here are the details');
+      courses.map((c) => {
+        console.log(c.details);
+      });
     }
   };
 
@@ -59,7 +75,13 @@ function CoursesRegistrationUserdetails() {
       </div>
       <div className="course-list">
         {courses.map((course) => (
-          <div className="course-container" key={course.id}>
+          <div
+            className={`course-container ${
+              expandedCourseId === course.courseId ? 'active' : ''
+            }`}
+            key={course.courseId}
+            onClick={() => handleCourseClick(course.courseId)}
+          >
             <div className="course-header">
               <h3>{course.name}</h3>
               <p>{course.description}</p>
@@ -73,14 +95,17 @@ function CoursesRegistrationUserdetails() {
               </p>
               <button className="register-button">Register</button>
             </div>
-            <div className="course-expand-details">
-              <p>
-                <strong>Details:</strong> {course.details}
-              </p>
-              <p>
-                <strong>Enrolled Students:</strong> {course.enrolledStudents}
-              </p>
-            </div>
+            {expandedCourseId === course.courseId && (
+              <div className="course-expand-details">
+                <p>
+                  <strong>Details:</strong> {course.details}
+                </p>
+                <p>
+                  {/* TODO change it to enrolled students */}
+                  <strong>Enrolled Students:</strong> {course.courseId}
+                </p>
+              </div>
+            )}
           </div>
         ))}
       </div>
