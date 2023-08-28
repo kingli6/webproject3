@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'; // Import Link component
 import './CourseListPage.css';
 
 function CoursesRegistrationUserdetails() {
@@ -7,6 +7,7 @@ function CoursesRegistrationUserdetails() {
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedCourseId, setExpandedCourseId] = useState(null);
 
+  //TODO
   console.log(courses);
   const handleCourseClick = (courseId) => {
     if (expandedCourseId === courseId) {
@@ -17,6 +18,11 @@ function CoursesRegistrationUserdetails() {
       setExpandedCourseId(courseId);
     }
   };
+
+  // const handleRegisterClick = (courseId) => {
+  //   // Navigate to the course details page with the courseId as a URL parameter
+  //   history.push(`/courses/${courseId}`); <-using history. showed error
+  // };
 
   useEffect(() => {
     loadCourses();
@@ -49,12 +55,27 @@ function CoursesRegistrationUserdetails() {
       );
 
       setCourses(filteredCourses);
-      console.log('Here are the details');
-      courses.map((c) => {
-        console.log(c.details);
-      });
     }
   };
+  //TODO
+  courses.forEach((course) => {
+    console.log(':::::::::::::::::::::');
+    console.log(course.courseId);
+    console.log(typeof course.courseId);
+  });
+  // const transformedCourses = courses.map((course) => {
+  //   console.log(':::::::::::::::::::::');
+  //   console.log(course.courseId);
+  //   console.log(course.courseId.type());
+
+  //   // Return a transformed value
+  //   return {
+  //     ...course,
+  //     transformedField: course.courseId + '_transformed',
+  //   };
+  // });
+  console.log('Courses::::: ' + courses);
+  console.log('expandedCourseId:: ' + expandedCourseId);
 
   useEffect(() => {
     loadCourses();
@@ -87,18 +108,23 @@ function CoursesRegistrationUserdetails() {
               <p>{course.description}</p>
             </div>
             <div className="course-details">
-              <p>
-                <strong>Course Number:</strong> {course.courseNumber}
-              </p>
-              <p>
-                <strong>Duration:</strong> {course.duration}
-              </p>
-              <button className="register-button">Register</button>
+              <Link
+                to={`/courses/${course.courseId}`}
+                className="register-link"
+              >
+                Register
+              </Link>
             </div>
             {expandedCourseId === course.courseId && (
               <div className="course-expand-details">
-                <p>
+                {/* <p>
                   <strong>Details:</strong> {course.details}
+                </p> */}
+                <p>
+                  <strong>Course Number:</strong> {course.courseNumber}
+                </p>
+                <p>
+                  <strong>Duration:</strong> {course.duration}
                 </p>
                 <p>
                   {/* TODO change it to enrolled students */}

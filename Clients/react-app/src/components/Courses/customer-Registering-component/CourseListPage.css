@@ -1,3 +1,14 @@
+h2 {
+  color: var(--primary-color);
+}
+
+strong {
+  color: var(--secondary-color);
+}
+
+p {
+  margin: 10px 0;
+}
 .search-container {
   display: flex;
   margin-bottom: 20px;
@@ -50,12 +61,20 @@
   align-items: center;
   margin-top: 10px;
 }
+.course-details-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid var(--primary-color);
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
 .register-button {
-  padding: 5px 10px;
   background-color: var(--primary-color);
-  color: white;
+  color: #fff;
   border: none;
+  padding: 10px 20px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
