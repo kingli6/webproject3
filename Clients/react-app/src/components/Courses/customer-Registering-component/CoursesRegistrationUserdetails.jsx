@@ -7,6 +7,13 @@ function CoursesRegistrationUserdetails() {
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedCourseId, setExpandedCourseId] = useState(null);
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
   //TODO
   console.log(courses);
   const handleCourseClick = (courseId) => {
@@ -83,6 +90,9 @@ function CoursesRegistrationUserdetails() {
 
   return (
     <>
+      <Link to="/userDashboard" className="profile-button">
+        Profile
+      </Link>
       <div className="search-container">
         <input
           type="text"
@@ -94,6 +104,7 @@ function CoursesRegistrationUserdetails() {
           Search
         </button>
       </div>
+
       <div className="course-list">
         {courses.map((course) => (
           <div
@@ -135,6 +146,9 @@ function CoursesRegistrationUserdetails() {
           </div>
         ))}
       </div>
+      <button className="scroll-to-top-button" onClick={scrollToTop}>
+        Move to Top
+      </button>
     </>
   );
 }

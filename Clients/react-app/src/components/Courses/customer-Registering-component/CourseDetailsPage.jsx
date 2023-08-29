@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom'; // Import useParams hook
+import { useParams, Link } from 'react-router-dom'; // Import useParams hook
 import './CourseListPage.css';
+
 function CourseDetailsPage() {
   const { courseId } = useParams(); // Get courseId from URL parameter
   const [course, setCourse] = useState(null);
@@ -21,7 +22,6 @@ function CourseDetailsPage() {
         const courseData = await response.json();
         //TODO
         console.log('Course data::::' + courseData);
-
         setCourse(courseData);
       }
     };
@@ -43,7 +43,12 @@ function CourseDetailsPage() {
       <p>
         <strong>Duration:</strong> {course.duration}
       </p>
-      <button className="register-button">Register</button>
+      <div className="button-container">
+        <button className="register-link">Register</button>
+        <Link to="/userDashboard" className="back-button">
+          Back
+        </Link>
+      </div>
     </div>
   );
 }

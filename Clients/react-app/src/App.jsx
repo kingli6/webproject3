@@ -39,10 +39,11 @@ function App() {
             {userRole === 'User' && (
               <Route path="/userDashboard" element={<UserDashboard />} />
             )}
-            <Route path="/userDashboard" element={<UserDashboard />} />
             <Route path="/adminDashboard" element={<AdminDashboard />} />
             <Route path="/admin/courses" element={<AdminCourseList />} />
-            <Route path="/courseList" element={<CoursesList />} />
+            {/* //WHERE DOES THIS GO!? */}
+            {/* <Route path="/courseList" element={<CoursesList />} /> */}
+            {/* /////////////////////// */}
             <Route path="/addCourse" element={<AddCourse />} />
             <Route path="/editCourse/:id" element={<EditCourse />} />
             <Route
@@ -50,6 +51,9 @@ function App() {
               element={<Login setUserRole={setUserRole} />}
             />
             <Route path="/admin/users" element={<AdminUserList />} />
+
+            {/* USER LINKS */}
+            <Route path="/userDashboard" element={<UserDashboard />} />
             <Route path="/addUser" element={<AddUser />} />
             <Route path="/editUser/:id" element={<EditUser />} />
             <Route path="/courses/:courseId" element={<CourseDetailsPage />} />
