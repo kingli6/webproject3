@@ -7,6 +7,7 @@ function CoursesRegistrationUserdetails() {
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedCourseId, setExpandedCourseId] = useState(null);
 
+  //this doesn't work //TODO
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -14,8 +15,6 @@ function CoursesRegistrationUserdetails() {
     });
   };
 
-  //TODO
-  console.log(courses);
   const handleCourseClick = (courseId) => {
     if (expandedCourseId === courseId) {
       // If the clicked course is already expanded, close it
@@ -60,29 +59,9 @@ function CoursesRegistrationUserdetails() {
             .includes(searchQuery.toLowerCase()) ||
           course.courseNumber.toLowerCase().includes(searchQuery.toLowerCase())
       );
-
       setCourses(filteredCourses);
     }
   };
-  //TODO
-  courses.forEach((course) => {
-    console.log(':::::::::::::::::::::');
-    console.log(course.courseId);
-    console.log(typeof course.courseId);
-  });
-  // const transformedCourses = courses.map((course) => {
-  //   console.log(':::::::::::::::::::::');
-  //   console.log(course.courseId);
-  //   console.log(course.courseId.type());
-
-  //   // Return a transformed value
-  //   return {
-  //     ...course,
-  //     transformedField: course.courseId + '_transformed',
-  //   };
-  // });
-  console.log('Courses::::: ' + courses);
-  console.log('expandedCourseId:: ' + expandedCourseId);
 
   useEffect(() => {
     loadCourses();
@@ -126,7 +105,7 @@ function CoursesRegistrationUserdetails() {
                 to={`/courses/${course.courseId}`}
                 className="register-link"
               >
-                Register
+                View
               </Link>
             </div>
             {expandedCourseId === course.courseId && (
@@ -139,8 +118,8 @@ function CoursesRegistrationUserdetails() {
                   <strong>Duration:</strong> {course.duration}
                 </p>
                 <p>
-                  {/* TODO change it to enrolled students */}
-                  <strong>Enrolled Students:</strong> {course.courseId}
+                  {/* TODO Add Teachers name? */}
+                  <strong>Enrolled Students:</strong> {course.enrolledStudents}
                 </p>
               </div>
             )}

@@ -21,11 +21,11 @@ function CourseDetailsPage() {
       if (response.ok) {
         const courseData = await response.json();
         //TODO
-        console.log('Course data::::' + courseData);
+        console.log('Course data:', courseData);
         setCourse(courseData);
 
         // Check if user is already registered for the course
-        const registrationStatusUrl = `${process.env.REACT_APP_BASEURL}/registration/check-registration?courseId=${courseId}`;
+        const registrationStatusUrl = `${process.env.REACT_APP_BASEURL}/registration/check-registration/${courseId}`;
         const registrationResponse = await fetch(registrationStatusUrl, {
           method: 'GET',
           headers: {
@@ -35,6 +35,8 @@ function CourseDetailsPage() {
 
         if (registrationResponse.ok) {
           const registrationData = await registrationResponse.json();
+          //TODO
+          console.log('Registration data:', registrationData);
           setIsRegistered(registrationData.isRegistered);
         }
       }
@@ -84,6 +86,7 @@ function CourseDetailsPage() {
     <div className="course-details-container">
       <h2>{course.name}</h2>
       <p>{course.description}</p>
+      <p>{course.details}</p>
       <p>
         <strong>Course Number:</strong> {course.courseNumber}
       </p>
@@ -91,10 +94,20 @@ function CourseDetailsPage() {
         <strong>Duration:</strong> {course.duration}
       </p>
       <div className="button-container">
-        {!isRegistered ? (
+        {/* {!isRegistered ? (
           <p>You are already registered for this course.</p>
         ) : (
           // Show "Delete Registration" button if registered or while deleting
+          <button className="register-link" onClick={handleRegisterClick}>
+            Register for Course
+          </button>
+        )} */}
+
+        {/* <p>Is Registered: {isRegistered ? 'Yes' : 'No'}</p> */}
+        {isRegistered ? (
+          // <p>You are already registered for this course.</p>
+          <p>Is Registered: {isRegistered ? 'Yes' : 'No'}</p>
+        ) : (
           <button className="register-link" onClick={handleRegisterClick}>
             Register for Course
           </button>

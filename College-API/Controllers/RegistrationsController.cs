@@ -29,7 +29,7 @@ namespace College_API.Controllers
             _userManager = userManager;
         }
 
-        [HttpGet("check-registration")]
+        [HttpGet("check-registration/{courseId}")]
         public async Task<IActionResult> CheckRegistration(int courseId)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -61,6 +61,7 @@ namespace College_API.Controllers
                 // Remove the user from the registration and save changes
                 _context.Registrations.Remove(registration); // Remove the user association
                 await _context.SaveChangesAsync();
+                await UpdateEnrolledStudentsCount(registration.CourseId);
 
                 return Ok("Registration deleted successfully.");
             }
@@ -121,8 +122,9 @@ namespace College_API.Controllers
                 };
 
                 _context.Registrations.Add(registration);
-                course.EnrolledStudents++;
+                // course.EnrolledStudents++;
                 await _context.SaveChangesAsync();
+                await UpdateEnrolledStudentsCount(id);
 
                 return Ok("User registered for the course successfully.");
 
@@ -132,9 +134,18 @@ namespace College_API.Controllers
                 return StatusCode(500, "An error occurred: " + ex.Message);
             }
         }
+        private async Task UpdateEnrolledStudentsCount(int courseId)
+        {
+            var course = await _context.Courses.FindAsync(courseId);
 
-
+            if (course != null)
+            {
+                course.EnrolledStudents = await _context.Registrations.CountAsync(r => r.CourseId == courseId);
+                await _context.SaveChangesAsync();
+            }
+        }
     }
+
 }
 // var course = await _context.Courses.FindAsync(courseId);
 // if (course == null)
