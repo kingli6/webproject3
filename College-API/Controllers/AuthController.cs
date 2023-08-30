@@ -476,6 +476,40 @@ namespace College_API.Controllers
             return NoContent(); // Return a successful response with no content
         }
 
+        [HttpPut("update-user/{userId}")]
+        public async Task<IActionResult> UpdateUser(string userId, [FromBody] UserProfileUpdateModel model)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(userId);
+
+                if (user == null)
+                    return NotFound("User not found.");
+
+                var userModel = (ApplicationUser)user;
+
+                // Update user profile fields based on the model data
+                userModel.FirstName = model.FirstName;
+                userModel.LastName = model.LastName;
+                userModel.PhoneNumber = model.PhoneNumber;
+                userModel.Address = model.Address;
+
+                var updateResult = await _userManager.UpdateAsync(userModel);
+
+                if (!updateResult.Succeeded)
+                {
+                    var errorMessage = string.Join(", ", updateResult.Errors.Select(error => error.Description));
+                    return BadRequest(errorMessage);
+                }
+
+                return Ok("User profile updated successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred: " + ex.Message);
+            }
+        }
+
         private async Task<string> CreateJwtToken(IdentityUser user)
         {// jwt.io  to control the token
             var key = Encoding.ASCII.GetBytes(_config.GetValue<string>("apiKey")!);

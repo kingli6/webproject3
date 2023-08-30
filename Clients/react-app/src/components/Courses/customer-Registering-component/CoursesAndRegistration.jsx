@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'; // Import Link component
 import './CourseListPage.css';
 
-function CoursesRegistrationUserdetails() {
+function CoursesAndRegistration() {
   const [courses, setCourses] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedCourseId, setExpandedCourseId] = useState(null);
@@ -69,8 +69,8 @@ function CoursesRegistrationUserdetails() {
 
   return (
     <>
-      <Link to="/userDashboard" className="profile-button">
-        X
+      <Link to="/userProfile" className="profile-button">
+        Profile
       </Link>
       <div className="search-container">
         <input
@@ -133,4 +133,4 @@ function CoursesRegistrationUserdetails() {
   );
 }
 
-export default CoursesRegistrationUserdetails;
+export default CoursesAndRegistration;

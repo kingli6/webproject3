@@ -1,15 +1,9 @@
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Switch,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import React, { useState } from 'react';
 
 import Navbar from './components/navbar/Navbar';
 import AddCourse from './components/Courses/AddCourse';
 //My first component - App.jsx
-import CoursesList from './components/Courses/CourseList';
 import EditCourse from './components/Courses/EditCourse';
 import Login from './components/authentication/Login';
 import './utilities.css';
@@ -22,6 +16,7 @@ import AddUser from './components/users/AddUser';
 import AdminUserList from './components/adminDashboard/AdminUserList';
 import EditUser from './components/users/EditUser';
 import CourseDetailsPage from './components/Courses/customer-Registering-component/CourseDetailsPage';
+import UserProfile from './components/userDashboard/UserProfile';
 
 function App() {
   const [userRole, setUserRole] = useState(null);
@@ -57,6 +52,7 @@ function App() {
             <Route path="/addUser" element={<AddUser />} />
             <Route path="/editUser/:id" element={<EditUser />} />
             <Route path="/courses/:courseId" element={<CourseDetailsPage />} />
+            <Route path="/userProfile" element={<UserProfile />} />
           </Routes>
         </main>
       </Router>

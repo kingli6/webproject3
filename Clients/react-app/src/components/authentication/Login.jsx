@@ -6,7 +6,7 @@ function Login() {
   const navigate = useNavigate();
   const [useUserName, setUserName] = useState('');
   const [usePassword, setPassword] = useState('');
-  const { setUserRole } = useAuth();
+  const { setUserRole, setUserDetails } = useAuth();
 
   const onHandleUserNameTextChanged = (e) => {
     setUserName(e.target.value);
@@ -32,7 +32,8 @@ function Login() {
 
     if (response.status >= 200 && response.status <= 299) {
       const result = await response.json();
-      console.log('result: ', result);
+      //TODO
+      console.log('User Object:: ', result);
       localStorage.setItem('token', JSON.stringify(result.token)); //220519_09   2:16:00
 
       //Capture information about the user: Wether admin or not.
@@ -40,6 +41,14 @@ function Login() {
       //TODO 1
       console.log('Login successful! isAdmin:', isAdmin);
       setUserRole(isAdmin ? 'Administrator' : 'User'); // Update userRole
+
+      // Set user details in the context
+      setUserDetails({
+        id: result.id,
+        email: result.email,
+        // ...other fields you may have
+      });
+
       if (isAdmin) {
         navigate('/adminDashboard');
       } else {

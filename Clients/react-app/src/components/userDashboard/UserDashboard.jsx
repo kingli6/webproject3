@@ -1,13 +1,12 @@
 import React from 'react';
-import CoursesRegistrationUserdetails from '../Courses/customer-Registering-component/CoursesRegistrationUserdetails';
+import CoursesAndRegistration from '../Courses/customer-Registering-component/CoursesAndRegistration';
 
 function UserDashboard() {
   return (
     <div>
       {/* //TODO User name? */}
-      <h2>Welcome to the User Dashboard!</h2>
       {/* Load the Courses RegistationUserdetails page here */}
-      <CoursesRegistrationUserdetails />
+      <CoursesAndRegistration />
     </div>
   );
 }
