@@ -289,7 +289,12 @@ namespace College_API.Data.Migrations
                     b.Property<string>("RoleId")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("RoleId");
 
@@ -320,15 +325,17 @@ namespace College_API.Data.Migrations
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
                     b.Property<string>("Address")
+                        .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UserRole")
+                        .IsRequired()
+                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.HasDiscriminator().HasValue("ApplicationUser");
@@ -380,6 +387,10 @@ namespace College_API.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
+                    b.HasOne("College_API.Models.ApplicationUser", null)
+                        .WithMany("UserRoles")
+                        .HasForeignKey("ApplicationUserId");
+
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
@@ -405,6 +416,11 @@ namespace College_API.Data.Migrations
             modelBuilder.Entity("College_API.Models.Course", b =>
                 {
                     b.Navigation("Registrations");
+                });
+
+            modelBuilder.Entity("College_API.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

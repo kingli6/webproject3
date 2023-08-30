@@ -19,7 +19,6 @@ namespace College_API.Models
         public string? Address { get; set; }
         [Required]
         [RegularExpression("^(Administrator|User|Teacher)$", ErrorMessage = "Invalid UserRole")]
-        public string? UserRole { get; set; }
-
+        public ICollection<IdentityUserRole<string>> UserRoles { get; } = new List<IdentityUserRole<string>>();
     }
 }

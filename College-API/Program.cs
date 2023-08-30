@@ -2,6 +2,7 @@ using System.Text;
 using College_API.Data;
 using College_API.Helpers;
 using College_API.Interfaces;
+using College_API.Models;
 using College_API.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -116,9 +117,11 @@ var services = scope.ServiceProvider;
 try
 {
     var context = services.GetRequiredService<CollegeDatabaseContext>();
+    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
     await context.Database.MigrateAsync();
     await LoadData.LoadCourses(context);
-    await LoadData.LoadUsers(context);
+    await LoadData.LoadUsers(userManager, roleManager);
 }
 catch (Exception ex)
 {

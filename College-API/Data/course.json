@@ -6,6 +6,7 @@
     "duration": "Two weeks",
     "description": "Learn the basics of programming and coding.",
     "details": "This course is designed to introduce beginners to the fundamentals of programming. Whether you're new to coding or looking to refresh your skills, this course will cover essential concepts such as variables, loops, and functions. By the end of the course, you'll be able to write simple programs and understand basic coding principles.",
+    "enrolledStudents": "",
     "registrations": []
   },
   {
@@ -15,6 +16,7 @@
     "duration": "Four weeks",
     "description": "Build a solid foundation in web development.",
     "details": "Want to create websites and web applications? This course will teach you the fundamental technologies and techniques needed to get started in web development. You'll learn about HTML, CSS, and JavaScript, and how to combine them to build interactive and responsive websites. Whether you're a beginner or looking to expand your skills, this course is a great starting point.",
+    "enrolledStudents": "",
     "registrations": []
   },
   {
@@ -24,6 +26,7 @@
     "duration": "Six weeks",
     "description": "Explore the world of data science and analysis.",
     "details": "Data science is a rapidly growing field with applications in various industries. In this course, you'll learn how to analyze and interpret data using statistical techniques and programming languages. From data visualization to machine learning, this course will give you the tools you need to dive into the world of data science and make informed decisions based on data.",
+    "enrolledStudents": "",
     "registrations": []
   },
   {
@@ -33,6 +36,7 @@
     "duration": "Eight weeks",
     "description": "Create mobile apps for iOS and Android platforms.",
     "details": "Mobile app development is in high demand, and this course will teach you how to create apps for both iOS and Android platforms. You'll learn about app design, user interfaces, and programming languages such as Swift and Kotlin. By the end of the course, you'll have the skills to develop your own mobile apps and bring your ideas to life.",
+    "enrolledStudents": "",
     "registrations": []
   },
   {
@@ -42,6 +46,7 @@
     "duration": "Four weeks",
     "description": "Learn the basics of cybersecurity and online safety.",
     "details": "In a digital age, cybersecurity is crucial to protect sensitive information and prevent cyber threats. This course will cover the fundamentals of cybersecurity, including encryption, network security, and best practices for online safety. Whether you're a tech enthusiast or simply want to learn how to stay safe online, this course is a valuable resource.",
+    "enrolledStudents": "",
     "registrations": []
   }
 ]

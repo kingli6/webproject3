@@ -31,6 +31,20 @@ Feel free to contact me for information.
 Following tutorials on ".Net Web API" should let you get a good start
 As an example: https://www.youtube.com/watch?v=Fbf_ua2t6v4&t=97s
 
+#### Logging IN
+
+    Create a user with API: /api/v3/auth/createUser
+    {
+    	"email": "user@example.com",
+    	"password": "Password!1",
+    	"firstName": "John",
+    	"lastName": "Doe",
+    	"phoneNumber": "123",
+    	"address": "Adress 123 Street",
+    	"userRole": "User"
+    }
+    Or Create an Admin role by chaning the "userRole": Administrator
+
 <!--
 https://www.notion.so/07f326a24db34eec8f9f7bea2c7f22b4?v=6a8d9729ff0a46a48758fbc489275087&p=d171fd63d9bd4e10b7bf631023d0f7f0&pm=s
 

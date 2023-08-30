@@ -29,20 +29,61 @@ namespace College_API.Controllers
             _userManager = userManager;
         }
 
-        [HttpGet("registrations")]
+        [HttpGet("check-registration")]
+        public async Task<IActionResult> CheckRegistration(int courseId)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+                return Unauthorized("User not authenticated.");
+
+            var isRegistered = _context.Registrations
+                .Any(r => r.UserId == user.Id && r.CourseId == courseId);
+
+            return Ok(new { IsRegistered = isRegistered });
+        }
+
+        [HttpDelete("delete-registration/{registrationId}")]
+        public async Task<IActionResult> DeleteRegistration(int registrationId)
+        {
+            try
+            {
+                var registration = await _context.Registrations.FindAsync(registrationId);
+
+                if (registration == null)
+                    return NotFound("No registration with id:" + registrationId + " was found.");
+
+                // Check if the currently authenticated user is the one who registered
+                var currentUser = await _userManager.GetUserAsync(User); // Assuming you're using UserManager
+
+                if (registration.UserId != currentUser.Id)
+                    return Forbid("You are not authorized to delete this registration.");
+
+                // Remove the user from the registration and save changes
+                _context.Registrations.Remove(registration); // Remove the user association
+                await _context.SaveChangesAsync();
+
+                return Ok("Registration deleted successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred: " + ex.Message);
+            }
+        }
+
+        [HttpGet("getAllRegistrations")]
         public async Task<IActionResult> GetAllRegistrations()
         {
             try
             {
                 var registrations = await _context.Registrations
+                    .Include(r => r.User) // Include the User navigation property
+                    .Include(r => r.Course) // Include the Course navigation property
                     .Select(r => new
                     {
                         r.RegistrationId,
-                        r.UserId,
-                        r.CourseId,
-                        r.RegistrationDate,
-                        UserFullName = r.User.Email,
-                        CourseTitle = r.Course.Name
+                        UserFullName = r.User.Email, // Assuming User has an Email property
+                        CourseTitle = r.Course.Name, // Assuming Course has a Name property
+                        r.RegistrationDate
                     })
                     .ToListAsync();
 
@@ -54,98 +95,44 @@ namespace College_API.Controllers
             }
         }
 
-        [HttpPost("register-course")]
-        public async Task<IActionResult> RegisterCourse(int courseId)
+        [HttpPost("register-course/{id}")]
+        public async Task<IActionResult> RegisterCourse(int id)
         {
             try
             {
-                var course = await _context.Courses.FindAsync(courseId);
+                var course = await _context.Courses.FindAsync(id);
 
                 if (course == null)
-                    return NotFound("No course with id:" + courseId + " was found.");
+                    return NotFound("No course with id:" + id + " was found.");
 
                 var user = await _userManager.GetUserAsync(User);
 
                 if (user == null)
                     return Unauthorized("User not authenticated.");
 
-                if (_context.Registrations.Any(r => r.UserId == user.Id && r.CourseId == courseId))
+                if (_context.Registrations.Any(r => r.UserId == user.Id && r.CourseId == id))
                     return BadRequest("User is already registered for this course.");
 
                 var registration = new Registration
                 {
-                    UserId = user.Id,
-                    CourseId = courseId,
+                    User = user,
+                    Course = course,
                     RegistrationDate = DateTime.UtcNow
                 };
-                // This used to initiate a database transaction. A database transaction is a way to group multiple database operations together into a single unit of work that is executed as a whole.
-                //Either all the operations within the transaction are completed successfully, or none of them are.
-                using var transaction = await _context.Database.BeginTransactionAsync();
 
-                try
-                {
-                    _context.Registrations.Add(registration);
-                    await _context.SaveChangesAsync();
-                    course.EnrolledStudents++;
-                    course.Registrations.Add(registration);
-                    await _context.SaveChangesAsync();
+                _context.Registrations.Add(registration);
+                course.EnrolledStudents++;
+                await _context.SaveChangesAsync();
 
-                    await transaction.CommitAsync();
+                return Ok("User registered for the course successfully.");
 
-                    return Ok("User registered for the course successfully.");
-                }
-                catch (Exception ex)
-                {
-                    await transaction.RollbackAsync();
-                    return StatusCode(500, "An error occurred: " + ex.Message);
-                }
             }
             catch (Exception ex)
             {
                 return StatusCode(500, "An error occurred: " + ex.Message);
             }
         }
-        // [HttpPost("register-course")]
-        // public async Task<IActionResult> RegisterCourse(int courseId)
-        // {
-        //     try
-        //     {
-        //         var course = await _context.Courses.Include(c => c.Registrations).FirstOrDefaultAsync(c => c.Id == courseId);
-        //         if (course == null)
-        //             return NotFound("No course with id:" + courseId + " was found.");
 
-        //         var user = await _userManager.GetUserAsync(User);
-        //         // return Ok(user);
-
-        //         if (user == null)
-        //             return Unauthorized("User not authenticated.");
-
-        //         // Check if the user is already registered for the course
-        //         if (_context.Registrations.Any(r => r.UserId == user.Id && r.CourseId == courseId))
-        //             return BadRequest("User is already registered for this course.");
-
-        //         // Create a new registration
-        //         var registration = new Registration
-        //         {
-        //             UserId = user.Id,
-        //             CourseId = courseId,
-        //             RegistrationDate = DateTime.UtcNow
-        //         };
-
-        //         _context.Registrations.Add(registration);
-        //         await _context.SaveChangesAsync();
-
-        //         //update the course's Registrations property
-        //         course.Registrations.Add(registration);
-        //         await _context.SaveChangesAsync();
-
-        //         return Ok("User registered for the course successfully.");
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         return StatusCode(500, "An error occurred: " + ex.Message);
-        //     }
-        // }
 
     }
 }

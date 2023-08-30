@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom'; // Import useParams hook
+import { useParams, Link } from 'react-router-dom';
 import './CourseListPage.css';
 
 function CourseDetailsPage() {
   const { courseId } = useParams(); // Get courseId from URL parameter
   const [course, setCourse] = useState(null);
+  const [isRegistered, setIsRegistered] = useState(false);
 
   useEffect(() => {
-    // Fetch course details using courseId
     const fetchCourseDetails = async () => {
       const token = JSON.parse(localStorage.getItem('token'));
       const url = `${process.env.REACT_APP_BASEURL}/courses/${courseId}`;
@@ -23,11 +23,58 @@ function CourseDetailsPage() {
         //TODO
         console.log('Course data::::' + courseData);
         setCourse(courseData);
+
+        // Check if user is already registered for the course
+        const registrationStatusUrl = `${process.env.REACT_APP_BASEURL}/registration/check-registration?courseId=${courseId}`;
+        const registrationResponse = await fetch(registrationStatusUrl, {
+          method: 'GET',
+          headers: {
+            Authorization: `bearer ${token}`,
+          },
+        });
+
+        if (registrationResponse.ok) {
+          const registrationData = await registrationResponse.json();
+          setIsRegistered(registrationData.isRegistered);
+        }
       }
     };
-
     fetchCourseDetails();
   }, [courseId]);
+
+  // useEffect(() => {
+  //   const fetchRegistrationStatus = async () => {
+  //     const token = JSON.parse(localStorage.getItem('token'));
+  //     const url = `${process.env.REACT_APP_BASEURL}/registration/check-registration?courseId=${courseId}`;
+  //     const response = await fetch(url, {
+  //       method: 'GET',
+  //       headers: {
+  //         Authorization: `bearer ${token}`,
+  //       },
+  //     });
+
+  //     if (response.ok) {
+  //       const registrationData = await response.json();
+  //       setIsRegistered(registrationData.isRegistered);
+  //     }
+  //   };
+  //   fetchRegistrationStatus();
+  // }, [courseId]);
+
+  const handleRegisterClick = async () => {
+    const token = JSON.parse(localStorage.getItem('token'));
+    const url = `${process.env.REACT_APP_BASEURL}/registration/register-course/${course.courseId}`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        Authorization: `bearer ${token}`,
+      },
+    });
+
+    if (response.ok) {
+      setIsRegistered(true);
+    }
+  };
 
   if (!course) {
     return <p>Loading...</p>;
@@ -44,7 +91,14 @@ function CourseDetailsPage() {
         <strong>Duration:</strong> {course.duration}
       </p>
       <div className="button-container">
-        <button className="register-link">Register</button>
+        {!isRegistered ? (
+          <p>You are already registered for this course.</p>
+        ) : (
+          // Show "Delete Registration" button if registered or while deleting
+          <button className="register-link" onClick={handleRegisterClick}>
+            Register for Course
+          </button>
+        )}
         <Link to="/userDashboard" className="back-button">
           Back
         </Link>

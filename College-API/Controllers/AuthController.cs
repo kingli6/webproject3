@@ -62,7 +62,7 @@ namespace College_API.Controllers
             }
         }
 
-        [HttpGet("GetAllUsers")]
+        [HttpGet("GetAllUsers")]    //Get Identity information
         public async Task<ActionResult<IEnumerable<SignInUserViewModel>>> GetAllUsersAsync()
         {
             try
@@ -93,6 +93,8 @@ namespace College_API.Controllers
                     return NotFound("User not found");
                 }
 
+                var roles = await _userManager.GetRolesAsync(user);
+
                 var userViewModel = new CustomerUserViewModel
                 {
                     Id = user.Id,
@@ -101,7 +103,7 @@ namespace College_API.Controllers
                     Email = user.Email,
                     PhoneNumber = user.PhoneNumber,
                     Address = user.Address,
-                    Role = user.UserRole
+                    Roles = roles.ToList()
                 };
 
                 return Ok(userViewModel);
@@ -172,16 +174,25 @@ namespace College_API.Controllers
             try
             {
                 var users = await _context.ApplicationUsers.ToListAsync();
-                var userViewModels = users.Select(u => new CustomerUserViewModel
+
+                var userViewModels = new List<CustomerUserViewModel>();
+
+                foreach (var user in users)
                 {
-                    Id = u.Id,
-                    FirstName = u.FirstName,
-                    LastName = u.LastName,
-                    Email = u.Email,
-                    PhoneNumber = u.PhoneNumber,
-                    Address = u.Address,
-                    Role = u.UserRole
-                }).ToList();
+                    var roles = await _userManager.GetRolesAsync(user);
+
+                    var userViewModel = new CustomerUserViewModel
+                    {
+                        Id = user.Id,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Email = user.Email,
+                        PhoneNumber = user.PhoneNumber,
+                        Address = user.Address,
+                        Roles = roles.ToList()
+                    };
+                    userViewModels.Add(userViewModel);
+                }
                 return Ok(userViewModels);
             }
             catch (NotFoundException)
@@ -198,11 +209,11 @@ namespace College_API.Controllers
         public async Task<ActionResult<SignInUserViewModel>> AddUserAsync([FromBody] SignInCustomerViewModel newUser)
         {
             try
-            { // if Administrator role doesn't exsist, create one.
+            { // Creating roles if it doesn't exists
                 if (!await _roleManager.RoleExistsAsync("User"))
                 {
-                    var adminRole = new IdentityRole("User");
-                    await _roleManager.CreateAsync(adminRole);
+                    var userRole = new IdentityRole("User");
+                    await _roleManager.CreateAsync(userRole);
                 }
                 if (!await _roleManager.RoleExistsAsync("Administrator"))
                 {
@@ -210,6 +221,11 @@ namespace College_API.Controllers
                     await _roleManager.CreateAsync(adminRole);
                 }
 
+                if (!await _roleManager.RoleExistsAsync("Teacher")) // Add this block for the "Teacher" role
+                {
+                    var teacherRole = new IdentityRole("Teacher");
+                    await _roleManager.CreateAsync(teacherRole);
+                }
 
                 var user = new ApplicationUser
                 {
@@ -219,28 +235,30 @@ namespace College_API.Controllers
                     Email = newUser.Email,
                     PhoneNumber = newUser.PhoneNumber,
                     Address = newUser.Address!.ToLower(),
-                    UserRole = newUser.UserRole!,
                 };
 
                 var result = await _userManager.CreateAsync(user, newUser.Password!);
                 if (result.Succeeded)
-                {
-                    if (newUser.UserRole == "Administrator")
+                {//Adding User roles
+                    if (newUser.UserRole.Contains("Administrator"))
                     {
-                        await _userManager.AddClaimAsync(user, new Claim("Admin", "true"));
                         await _userManager.AddToRoleAsync(user, "Administrator");  //220504_13.. 2:33:00
                         await _userManager.AddClaimAsync(user, new Claim("Administrator", "true"));
                     }
-                    if (newUser.UserRole == "Teacher")
+                    if (newUser.UserRole.Contains("Teacher"))
                     {
                         await _userManager.AddToRoleAsync(user, "Teacher");
                         await _userManager.AddClaimAsync(user, new Claim("Teacher", "true"));
                     }
-                    await _userManager.AddToRoleAsync(user, "User");
-                    await _userManager.AddClaimAsync(user, new Claim("User", "true"));
+                    if (newUser.UserRole.Contains("User")) // Add this block to handle the "User" role
+                    {
+                        await _userManager.AddToRoleAsync(user, "User");
+                        await _userManager.AddClaimAsync(user, new Claim("User", "true"));
+                    }
                     await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Name, user.UserName));
                     await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Email, user.Email));
                     await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.NameIdentifier, user.Id));
+
                     var userData = new SignInUserViewModel
                     {
                         UserName = user.UserName,
@@ -276,15 +294,11 @@ namespace College_API.Controllers
                 user.LastName = model.LastName!;
                 user.PhoneNumber = model.PhoneNumber!;
                 user.Address = model.Address!;
-                user.UserRole = model.UserRole!;
 
+                // Update user properties
                 var result = await _userManager.UpdateAsync(user);
 
-                if (result.Succeeded)
-                {
-                    return Ok("User updated successfully");
-                }
-                else
+                if (!result.Succeeded)
                 {
                     foreach (var error in result.Errors)
                     {
@@ -292,12 +306,23 @@ namespace College_API.Controllers
                     }
                     return StatusCode(500, ModelState);
                 }
+
+                // Update user roles
+                var existingRoles = await _userManager.GetRolesAsync(user);
+                var rolesToAdd = model.UserRole.Except(existingRoles);
+                var rolesToRemove = existingRoles.Except(model.UserRole);
+
+                await _userManager.AddToRolesAsync(user, rolesToAdd);
+                await _userManager.RemoveFromRolesAsync(user, rolesToRemove);
+
+                return Ok("User updated successfully");
             }
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
         }
+
         [HttpPut("updateUserByEmail/{email}")]
         public async Task<ActionResult> UpdateUserByEmail(string email, SignInCustomerViewModel model)
         {
@@ -312,15 +337,10 @@ namespace College_API.Controllers
                 user.LastName = model.LastName!;
                 user.PhoneNumber = model.PhoneNumber!;
                 user.Address = model.Address!;
-                user.UserRole = model.UserRole!;
 
                 var result = await _userManager.UpdateAsync(user);
 
-                if (result.Succeeded)
-                {
-                    return Ok("User updated successfully");
-                }
-                else
+                if (!result.Succeeded)
                 {
                     foreach (var error in result.Errors)
                     {
@@ -328,6 +348,42 @@ namespace College_API.Controllers
                     }
                     return StatusCode(500, ModelState);
                 }
+
+                // Update user roles
+                var existingRoles = await _userManager.GetRolesAsync(user);
+                var rolesToAdd = model.UserRole.Except(existingRoles);
+                var rolesToRemove = existingRoles.Except(model.UserRole);
+
+                foreach (var roleToAdd in rolesToAdd)
+                {
+                    var role = await _roleManager.FindByNameAsync(roleToAdd);
+                    if (role != null)
+                    {
+                        user.UserRoles.Add(new IdentityUserRole<string>
+                        {
+                            RoleId = role.Id,
+                            UserId = user.Id
+                        });
+                    }
+                }
+
+                foreach (var roleToRemove in rolesToRemove)
+                {
+                    var role = await _roleManager.FindByNameAsync(roleToRemove);
+                    if (role != null)
+                    {
+                        var userRole = user.UserRoles.FirstOrDefault(ur => ur.RoleId == role.Id);
+                        if (userRole != null)
+                        {
+                            user.UserRoles.Remove(userRole);
+                        }
+                    }
+                }
+
+                // Save changes
+                await _context.SaveChangesAsync();
+
+                return Ok("User updated successfully");
             }
             catch (Exception ex)
             {

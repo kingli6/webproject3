@@ -33,7 +33,6 @@ p {
   background-color: var(--secondary-color);
 }
 
-/* s */
 .course-list {
   display: grid;
   gap: 20px;
@@ -81,7 +80,7 @@ p {
   max-height: 1000px; /* Adjust the value based on your content */
   transition: max-height 0.3s ease;
 }
-/* 
+
 .register-button {
   background-color: var(--primary-color);
   color: #fff;
@@ -106,7 +105,7 @@ p {
 
 .back-link:hover {
   background-color: var(--secondary-color);
-} */
+}
 
 .register-link {
   background-color: var(--primary-color);
@@ -168,4 +167,24 @@ p {
   text-decoration: none;
   border-radius: 5px;
   transition: background-color 0.3s ease;
+}
+
+.register-link.completed {
+  background-color: var(--secondary-color);
+  cursor: default;
+}
+
+.delete-registration-button {
+  background-color: red !important; /* Change the background color */
+  color: white !important; /* Change the text color */
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.delete-registration-button:hover {
+  background-color: darkred !important; /* Change the background color on hover */
 }

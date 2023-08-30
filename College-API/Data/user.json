@@ -5,7 +5,7 @@
     "email": "john.doe@example.com",
     "phoneNumber": "123-456-7890",
     "address": "123 Main St, Cityville",
-    "roles": "User"
+    "userRole": ["User"]
   },
   {
     "firstName": "Jane",
@@ -13,7 +13,7 @@
     "email": "jane.smith@example.com",
     "phoneNumber": "987-654-3210",
     "address": "456 Elm Rd, Townburg",
-    "roles": ["User"]
+    "userRole": ["User"]
   },
   {
     "firstName": "Michael",
@@ -21,7 +21,7 @@
     "email": "michael.johnson@example.com",
     "phoneNumber": "555-123-4567",
     "address": "789 Oak Ave, Villageton",
-    "roles": ["User"]
+    "userRole": ["User"]
   },
   {
     "firstName": "Emily",
@@ -29,7 +29,7 @@
     "email": "emily.williams@example.com",
     "phoneNumber": "333-555-7777",
     "address": "101 Pine Ln, Hamletville",
-    "roles": ["User"]
+    "userRole": ["User"]
   },
   {
     "firstName": "Admin",
@@ -37,7 +37,7 @@
     "email": "admin@example.com",
     "phoneNumber": "555-888-9999",
     "address": "789 Admin St, Adminville",
-    "roles": ["Administrator", "User"]
+    "userRole": ["Administrator", "User"]
   },
   {
     "firstName": "Teacher",
@@ -45,6 +45,6 @@
     "email": "teacher@example.com",
     "phoneNumber": "444-777-2222",
     "address": "222 School Rd, Teacherville",
-    "roles": ["Administrator", "User"]
+    "userRole": ["Administrator", "User"]
   }
 ]

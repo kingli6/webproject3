@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace College_API.Data.Migrations
 {
     [DbContext(typeof(CollegeDatabaseContext))]
-    [Migration("20230822231729_23-01-adminpage")]
-    partial class _2301adminpage
+    [Migration("20230830062703_registrations")]
+    partial class registrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -179,6 +179,10 @@ namespace College_API.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
@@ -229,6 +233,10 @@ namespace College_API.Data.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -284,7 +292,12 @@ namespace College_API.Data.Migrations
                     b.Property<string>("RoleId")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("RoleId");
 
@@ -308,6 +321,27 @@ namespace College_API.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("College_API.Models.ApplicationUser", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<string>("Address")
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.HasDiscriminator().HasValue("ApplicationUser");
                 });
 
             modelBuilder.Entity("College_API.Models.Registration", b =>
@@ -356,6 +390,10 @@ namespace College_API.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
+                    b.HasOne("College_API.Models.ApplicationUser", null)
+                        .WithMany("UserRoles")
+                        .HasForeignKey("ApplicationUserId");
+
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
@@ -381,6 +419,11 @@ namespace College_API.Data.Migrations
             modelBuilder.Entity("College_API.Models.Course", b =>
                 {
                     b.Navigation("Registrations");
+                });
+
+            modelBuilder.Entity("College_API.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

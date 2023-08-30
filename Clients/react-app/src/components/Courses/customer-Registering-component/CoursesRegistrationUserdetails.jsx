@@ -91,7 +91,7 @@ function CoursesRegistrationUserdetails() {
   return (
     <>
       <Link to="/userDashboard" className="profile-button">
-        Profile
+        X
       </Link>
       <div className="search-container">
         <input
@@ -115,7 +115,10 @@ function CoursesRegistrationUserdetails() {
             onClick={() => handleCourseClick(course.courseId)}
           >
             <div className="course-header">
-              <h3>{course.name}</h3>
+              <h3>{course.name}</h3>{' '}
+              <p>
+                <strong>Course Number:</strong> {course.courseNumber}
+              </p>
               <p>{course.description}</p>
             </div>
             <div className="course-details">
@@ -131,9 +134,7 @@ function CoursesRegistrationUserdetails() {
                 {/* <p>
                   <strong>Details:</strong> {course.details}
                 </p> */}
-                <p>
-                  <strong>Course Number:</strong> {course.courseNumber}
-                </p>
+
                 <p>
                   <strong>Duration:</strong> {course.duration}
                 </p>
