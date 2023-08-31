@@ -22,32 +22,47 @@ namespace College_API.Controllers
         }
 
         [HttpGet("GetAllCategories")]
-        public async Task<ActionResult<List<Category>>> ListAllCategory()
+        public async Task<ActionResult<List<Category>>> GetAllCategories()
         {
             try
             {
-                return Ok(await _categoryRepo.ListAllCategoryAsync());
-            }
-            catch (NotFoundException)
-            {
-                return StatusCode(404, "Tabel doesn't exsist");
+                var categories = await _categoryRepo.GetAllCategoriesAsync();
+                return Ok(categories);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
         }
+        // public async Task<ActionResult<List<Category>>> ListAllCategory()
+        // {
+        //     try
+        //     {
+        //         return Ok(await _categoryRepo.ListAllCategoryAsync());
+        //     }
+        //     catch (NotFoundException)
+        //     {
+        //         return StatusCode(404, "Tabel doesn't exsist");
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         return StatusCode(500, ex.Message);
+        //     }
+        // }
         [AllowAnonymous]
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetCategoryById(int id)
+        public async Task<ActionResult<Category>> GetCategoryById(int id)
         {
             try
             {
-                return Ok(await _categoryRepo.GetCategoryAsync(id));
-            }
-            catch (NotFoundException)
-            {
-                return StatusCode(404, $"Category with id = {id} doesn't exist");
+                var category = await _categoryRepo.GetCategoryAsync(id);
+
+                if (category == null)
+                {
+                    return NotFound($"Category with id = {id} doesn't exist");
+                }
+
+                return Ok(category);
             }
             catch (Exception ex)
             {
@@ -56,92 +71,137 @@ namespace College_API.Controllers
         }
 
         [HttpPost("AddCategory")]
-        public async Task<ActionResult<Category>> AddCategory(PostCategoryViewModel model)
+        public async Task<ActionResult<Category>> AddCategory(Category category)
         {
             try
             {
-                await _categoryRepo.AddCategoryAsync(model);
-
+                await _categoryRepo.AddCategoryAsync(category);
                 if (await _categoryRepo.SaveAllAsync())
                 {
                     return StatusCode(201);
                 }
-
-                return StatusCode(500, "Failed to save category");
+                return StatusCode(500, "Error occurred during saving of category");
             }
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
         }
-        [HttpPut("ReplaceCategory/{id}")]
-        public async Task<IActionResult> ReplaceCategory(int id, PutCategoryViewModel model) //testing IActionResult
+        [HttpDelete("DeleteCategory/{id}")]
+        public async Task<ActionResult> DeleteCategory(int id)
         {
             try
             {
-                await _categoryRepo.UpdateCategoryAsync(id, model);
+                var categoryToDelete = await _categoryRepo.GetCategoryAsync(id);
+
+                if (categoryToDelete == null)
+                {
+                    return NotFound($"Category with ID {id} not found.");
+                }
+
+                await _categoryRepo.DeleteCategoryAsync(categoryToDelete);
 
                 if (await _categoryRepo.SaveAllAsync())
                 {
-                    return NoContent();
+                    return NoContent(); // Successfully deleted
                 }
 
-                return StatusCode(500, $"Failed to save category with (id = {id})");
-            }
-            catch (NotFoundException)
-            {
-                return StatusCode(404, $"Category with id = {id} doesn't exist");
+                return StatusCode(500, "Failed to delete category.");
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode(500, $"An error occurred: {ex.Message}");
             }
         }
-        [HttpPatch("UpdateCategory/{id}")]
-        public async Task<IActionResult> UpdateCategory(int id, PostCategoryViewModel model)
-        {
-            try
-            {
-                await _categoryRepo.UpdateCategoryAsync(id, model);
 
-                if (await _categoryRepo.SaveAllAsync())
-                {
-                    return StatusCode(200, $"Category {id} updated!");
-                }
+        // public async Task<ActionResult<Category>> AddCategory(PostCategoryViewModel model)
+        // {
+        //     try
+        //     {
+        //         await _categoryRepo.AddCategoryAsync(model);
 
-                return StatusCode(500, $"Failed to save changes (id = {id})");
-            }
-            catch (NotFoundException)
-            {
-                return StatusCode(404, $"Category with id = {id} doesn't exist");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteCategory(int id)// //testing IActionResult
-        {
-            try
-            {
-                await _categoryRepo.DeleteCategoryAsync(id);
+        //         if (await _categoryRepo.SaveAllAsync())
+        //         {
+        //             return StatusCode(201);
+        //         }
 
-                if (await _categoryRepo.SaveAllAsync())
-                {
-                    return NoContent();
-                }
+        //         return StatusCode(500, "Failed to save category");
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         return StatusCode(500, ex.Message);
+        //     }
+        // }
+        // [HttpPut("ReplaceCategory/{id}")]
+        // public async Task<IActionResult> ReplaceCategory(int id, PutCategoryViewModel model) //testing IActionResult
+        // {
+        //     try
+        //     {
+        //         await _categoryRepo.UpdateCategoryAsync(id, model);
 
-                return StatusCode(500, $"Failed to delete category (id = {id})");
-            }
-            catch (NotFoundException)
-            {
-                return StatusCode(404, $"Category with id = {id} doesn't exist");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
+        //         if (await _categoryRepo.SaveAllAsync())
+        //         {
+        //             return NoContent();
+        //         }
+
+        //         return StatusCode(500, $"Failed to save category with (id = {id})");
+        //     }
+        //     catch (NotFoundException)
+        //     {
+        //         return StatusCode(404, $"Category with id = {id} doesn't exist");
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         return StatusCode(500, ex.Message);
+        //     }
+        // }
+        // [HttpPatch("UpdateCategory/{id}")]
+        // public async Task<IActionResult> UpdateCategory(int id, PostCategoryViewModel model)
+        // {
+        //     try
+        //     {
+        //         await _categoryRepo.UpdateCategoryAsync(id, model);
+
+        //         if (await _categoryRepo.SaveAllAsync())
+        //         {
+        //             return StatusCode(200, $"Category {id} updated!");
+        //         }
+
+        //         return StatusCode(500, $"Failed to save changes (id = {id})");
+        //     }
+        //     catch (NotFoundException)
+        //     {
+        //         return StatusCode(404, $"Category with id = {id} doesn't exist");
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         return StatusCode(500, ex.Message);
+        //     }
+        // }
+        // [HttpDelete("{id}")]
+        // public async Task<ActionResult> DeleteCategory(int id)// //testing IActionResult
+        // {
+        //     try
+        //     {
+        //         await _categoryRepo.DeleteCategoryAsync(id);
+
+        //         if (await _categoryRepo.SaveAllAsync())
+        //         {
+        //             return NoContent();
+        //         }
+
+        //         return StatusCode(500, $"Failed to delete category (id = {id})");
+        //     }
+        //     catch (NotFoundException)
+        //     {
+        //         return StatusCode(404, $"Category with id = {id} doesn't exist");
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         return StatusCode(500, ex.Message);
+        //     }
+        // }
+        //}
     }
+
 }

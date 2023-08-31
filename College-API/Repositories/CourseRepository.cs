@@ -21,7 +21,17 @@ namespace College_API.Repositories
 
         public async Task AddCourseAsync(PostCourseViewModel model)
         {
-            var course = _mapper.Map<Course>(model);
+            var course = new Course
+            {
+                CourseNumber = model.CourseNumber,
+                Name = model.Name,
+                Duration = model.Duration,
+                Description = model.Description,
+                Details = model.Details,
+                CategoryId = model.CategoryId, // Set the CategoryId
+                                               // ... other properties ...
+            };
+            // var course = _mapper.Map<Course>(model);
             await _context.Courses.AddAsync(course);
         }
 
@@ -48,20 +58,26 @@ namespace College_API.Repositories
         {
             throw new NotImplementedException();
         }
-
-        public async Task UpdateCourseAsync(int id, PostCourseViewModel model)
+        public async Task UpdateCourseAsync(int courseId, PutCourseViewModel courseViewModel)
         {
-            if (model is null)
-                throw new BadRequestException();
+            var existingCourse = await _context.Courses.FindAsync(courseId) ?? throw new NotFoundException($"Course with id {courseId} not found.");
 
-            var response = await _context.Courses.FindAsync(id) ?? throw new NotFoundException();
+            // Map properties from the view model to the existing course entity
+            existingCourse.CourseNumber = courseViewModel.CourseNumber;
+            existingCourse.Name = courseViewModel.Name;
+            existingCourse.Duration = courseViewModel.Duration;
+            existingCourse.Description = courseViewModel.Description;
+            existingCourse.Details = courseViewModel.Details;
+            existingCourse.CategoryId = courseViewModel.CategoryId;
+            existingCourse.EnrolledStudents = courseViewModel.EnrolledStudents;
 
-            response.CourseNumber = model.CourseNumber!;
-            response.Name = model.Name;
-            response.Duration = model.Duration;
-            response.Description = model.Description;
-            response.Details = model.Details;
-            _context.Courses.Update(response);
+            _context.Courses.Update(existingCourse); // Attach the updated course to the DbContext for updating
+            await _context.SaveChangesAsync(); // Save the changes to the database
+        }
+        public async Task UpdateCourseAsync(Course course)
+        {
+            _context.Courses.Update(course);
+            await _context.SaveChangesAsync();
 
         }
 

@@ -72,6 +72,7 @@ namespace College_API.Controllers
         {
             try
             {
+
                 await _courseRepo.AddCourseAsync(model);
                 if (await _courseRepo.SaveAllAsync())
                     return StatusCode(201);
@@ -120,7 +121,7 @@ namespace College_API.Controllers
         }
 
         [HttpPut("ReplaceCourse/{id}")]
-        public async Task<ActionResult> UpdateCourse(int id, PostCourseViewModel model)
+        public async Task<ActionResult> UpdateCourse(int id, PutCourseViewModel model)
         {
             try
             {
@@ -133,7 +134,6 @@ namespace College_API.Controllers
             }
             catch (NotFoundException)
             {
-
                 return StatusCode(404, $"Course with id = {id} doesn't exist");
             }
             catch (Exception ex)

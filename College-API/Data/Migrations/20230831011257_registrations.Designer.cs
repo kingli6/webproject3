@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace College_API.Data.Migrations
 {
     [DbContext(typeof(CollegeDatabaseContext))]
-    [Migration("20230830062703_registrations")]
+    [Migration("20230831011257_registrations")]
     partial class registrations
     {
         /// <inheritdoc />
@@ -41,6 +41,9 @@ namespace College_API.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("CourseNumber")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -61,6 +64,8 @@ namespace College_API.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Courses");
                 });
@@ -342,6 +347,17 @@ namespace College_API.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasDiscriminator().HasValue("ApplicationUser");
+                });
+
+            modelBuilder.Entity("College_API.Models.Course", b =>
+                {
+                    b.HasOne("College_API.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("College_API.Models.Registration", b =>

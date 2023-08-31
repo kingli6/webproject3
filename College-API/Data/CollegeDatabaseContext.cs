@@ -13,5 +13,6 @@ namespace College_API.Data
         public DbSet<Registration> Registrations => Set<Registration>();
 
         public CollegeDatabaseContext(DbContextOptions options) : base(options) { }
+
     }
 }

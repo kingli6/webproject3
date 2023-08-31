@@ -5,6 +5,8 @@ import './CourseListPage.css';
 function CoursesAndRegistration() {
   const [courses, setCourses] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('');
   const [expandedCourseId, setExpandedCourseId] = useState(null);
 
   //this doesn't work //TODO
@@ -32,6 +34,7 @@ function CoursesAndRegistration() {
 
   useEffect(() => {
     loadCourses();
+    loadCategories();
   }, []);
 
   const loadCourses = async (query) => {
@@ -52,14 +55,37 @@ function CoursesAndRegistration() {
       // Filter courses based on the search query
       const filteredCourses = coursesData.filter(
         (course) =>
-          // Check if the search query is present in course name, description, or course number
-          course.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          // Filter courses based on the selected category and search query
+          ((selectedCategory === '' ||
+            course.categoryId === selectedCategory) &&
+            // Check if the search query is present in course name, description, or course number
+            course.name.toLowerCase().includes(searchQuery.toLowerCase())) ||
           course.description
             .toLowerCase()
             .includes(searchQuery.toLowerCase()) ||
           course.courseNumber.toLowerCase().includes(searchQuery.toLowerCase())
       );
       setCourses(filteredCourses);
+    }
+  };
+
+  const loadCategories = async () => {
+    try {
+      const token = JSON.parse(localStorage.getItem('token'));
+      const url = `${process.env.REACT_APP_BASEURL}/categories`; // Change the URL to your API endpoint for categories
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const categoriesData = await response.json();
+        setCategories(categoriesData);
+      }
+    } catch (error) {
+      console.error('Error fetching categories:', error);
     }
   };
 
@@ -82,6 +108,20 @@ function CoursesAndRegistration() {
         <button className="search-button" onClick={loadCourses}>
           Search
         </button>
+      </div>
+      <div className="category-select">
+        <label>Select Category:</label>
+        <select
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+        >
+          <option value="">All Categories</option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="course-list">
