@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;// READ this in documentation
 
 namespace College_API.Models
 {
