@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 function AddCourse() {
+  const [isSuccess, setIsSuccess] = useState(false);
   const [useCourseNum, setCourseNum] = useState('');
   const [useCourseName, setCourseName] = useState('');
   const [useDuration, setDuration] = useState('');
@@ -51,6 +52,7 @@ function AddCourse() {
     console.log('Here is the response:');
     console.log(response);
     if (response.status >= 200 && response.status <= 299) {
+      setIsSuccess(true);
       console.log('Course is saved');
     } else {
       console.log('something went wrong while saving course');
@@ -59,6 +61,7 @@ function AddCourse() {
   return (
     <>
       <h1 className="page-title">Add Course</h1>
+      {isSuccess && <h3 className="page-title">Course added successfully!</h3>}
       <section className="form-container">
         <h4>Create New Course</h4>
         <section className="form-wrapper">
