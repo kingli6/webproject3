@@ -11,9 +11,15 @@ function Login() {
   const onHandleUserNameTextChanged = (e) => {
     setUserName(e.target.value);
   };
+
   const onHandlePasswordTextChange = (e) => {
     setPassword(e.target.value);
   };
+
+  const handleCreateAccount = () => {
+    navigate('/addUser');
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -96,6 +102,9 @@ function Login() {
 
             <button type="submit" className="btn">
               Log In
+            </button>
+            <button type="button" className="btn" onClick={handleCreateAccount}>
+              Create Account
             </button>
           </form>
         </section>

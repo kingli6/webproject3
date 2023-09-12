@@ -250,18 +250,18 @@ namespace College_API.Controllers
                         await _userManager.AddToRoleAsync(user, "Teacher");
                         await _userManager.AddClaimAsync(user, new Claim("Teacher", "true"));
                     }
-                    if (newUser.UserRole.Contains("User")) // Add this block to handle the "User" role
+                    if (newUser.UserRole.Contains("User"))
                     {
                         await _userManager.AddToRoleAsync(user, "User");
                         await _userManager.AddClaimAsync(user, new Claim("User", "true"));
                     }
-                    await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Name, user.UserName));
+                    await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Name, user.UserName)); //changing Email, from Name, 
                     await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Email, user.Email));
                     await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.NameIdentifier, user.Id));
 
                     var userData = new SignInUserViewModel
                     {
-                        UserName = user.UserName,
+                        UserName = user.Email,  //or change this to Email? from UserName
                         Token = await CreateJwtToken(user)
                     };
                     return StatusCode(201, userData);
