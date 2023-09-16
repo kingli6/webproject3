@@ -62,24 +62,23 @@ namespace College_API.Repositories
         {
             var existingCourse = await _context.Courses.FindAsync(courseId) ?? throw new NotFoundException($"Course with id {courseId} not found.");
 
-            // Map properties from the view model to the existing course entity
             existingCourse.CourseNumber = courseViewModel.CourseNumber;
             existingCourse.Name = courseViewModel.Name;
             existingCourse.Duration = courseViewModel.Duration;
             existingCourse.Description = courseViewModel.Description;
             existingCourse.Details = courseViewModel.Details;
             existingCourse.Category = courseViewModel.Category;
-            existingCourse.EnrolledStudents = courseViewModel.EnrolledStudents;
+            // existingCourse.EnrolledStudents = courseViewModel.EnrolledStudents;
 
             _context.Courses.Update(existingCourse); // Attach the updated course to the DbContext for updating
-            await _context.SaveChangesAsync(); // Save the changes to the database
-        }
-        public async Task UpdateCourseAsync(Course course)
-        {
-            _context.Courses.Update(course);
-            await _context.SaveChangesAsync();
 
         }
+        // public async Task UpdateCourseAsync(Course course)
+        // {
+        //     _context.Courses.Update(course);
+        //     await _context.SaveChangesAsync();
+
+        // }
 
         // public Task UpdateCourseAsync(int id, PatchCourseViewModel model)
         // {

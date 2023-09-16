@@ -10,6 +10,8 @@ function EditCourse() {
   const [useDuration, setDuration] = useState('');
   const [useDescription, setDescription] = useState('');
   const [useDetails, setDetails] = useState('');
+  const [useCategory, setCategory] = useState('');
+  const [isSuccess, setIsSuccess] = useState(null);
 
   useEffect(() => {
     fetchCourse(params.id);
@@ -28,6 +30,7 @@ function EditCourse() {
     setCourseNum(course.courseNumber);
     setCourseName(course.name);
     setDuration(course.duration);
+    setCategory(course.category);
     setDescription(course.description);
     setDetails(course.details);
   };
@@ -45,6 +48,9 @@ function EditCourse() {
   const onHandlerDurationTextChange = (e) => {
     setDuration(e.target.value);
   };
+  const onHandlerCategoryTextChange = (e) => {
+    setCategory(e.target.value);
+  };
   const onHandlerDescriptionTextChange = (e) => {
     setDescription(e.target.value);
   };
@@ -57,6 +63,7 @@ function EditCourse() {
       courseNumber: useCourseNum, //if both variables have the same name, you can simply use it once 220518_13 1:45:00
       name: useCourseName,
       duration: useDuration,
+      category: useCategory,
       description: useDescription,
       details: useDetails,
     };
@@ -77,8 +84,16 @@ function EditCourse() {
     console.log('Here is the response:');
     console.log(response);
     if (response.status >= 200 && response.status <= 299) {
+      setIsSuccess(true);
+      setTimeout(() => {
+        setIsSuccess(null);
+      }, 10000);
       console.log('Course is saved');
     } else {
+      setIsSuccess(false);
+      setTimeout(() => {
+        setIsSuccess(null);
+      }, 10000);
       console.log('something went wrong while saving course');
     }
   };
@@ -86,6 +101,11 @@ function EditCourse() {
   return (
     <>
       <h1 className="page-title">Update Course</h1>
+      {isSuccess === true ? (
+        <div className="success-message">Successfully updated!</div>
+      ) : isSuccess === false ? (
+        <div className="error-message">Error: Couldn't update course.</div>
+      ) : null}
       <section className="form-container">
         <h4>Create New Course</h4>
         <section className="form-wrapper">
@@ -115,6 +135,16 @@ function EditCourse() {
                 type="text"
                 id="name"
                 name="name"
+              />
+            </div>
+            <div className="form-control">
+              <label htmlFor="duration">Category</label>
+              <input
+                onChange={onHandlerCategoryTextChange}
+                value={useCategory}
+                type="text"
+                id="category"
+                name="category"
               />
             </div>
             <div className="form-control">

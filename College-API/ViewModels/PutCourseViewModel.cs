@@ -14,7 +14,7 @@ namespace College_API.ViewModels
         public string? Description { get; set; }
         public string? Details { get; set; }
         public string? Category { get; set; }
-        public int EnrolledStudents { get; set; }
+        // public int EnrolledStudents { get; set; }
 
     }
 }
