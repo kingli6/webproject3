@@ -49,15 +49,15 @@ namespace College_API.Repositories
             .SingleOrDefaultAsync();
         }
 
-        public Task<CourseViewModel?> GetCourseAsync(string CourseName)
-        {
-            throw new NotImplementedException();
-        }
+        // public Task<CourseViewModel?> GetCourseAsync(string CourseName)
+        // {
+        //     throw new NotImplementedException();
+        // }
 
-        public Task<CourseViewModel?> GetCourseNumberAsync(string CourseNumber)
-        {
-            throw new NotImplementedException();
-        }
+        // public Task<CourseViewModel?> GetCourseNumberAsync(string CourseNumber)
+        // {
+        //     throw new NotImplementedException();
+        // }
         public async Task UpdateCourseAsync(int courseId, PutCourseViewModel courseViewModel)
         {
             var existingCourse = await _context.Courses.FindAsync(courseId) ?? throw new NotFoundException($"Course with id {courseId} not found.");
@@ -81,10 +81,10 @@ namespace College_API.Repositories
 
         }
 
-        public Task UpdateCourseAsync(int id, PatchCourseViewModel model)
-        {
-            throw new NotImplementedException();
-        }
+        // public Task UpdateCourseAsync(int id, PatchCourseViewModel model)
+        // {
+        //     throw new NotImplementedException();
+        // }
         public async Task DeleteCourseAsync(int id)
         {
 

@@ -136,7 +136,12 @@ function CoursesAndRegistration() {
             <div className="course-header">
               <h3>{course.name}</h3>{' '}
               <p>
-                <strong>Course Number:</strong> {course.courseNumber}
+                <strong className="label-and-value">Course Number:</strong>
+                <span className="label-and-value">{course.courseNumber}</span>
+              </p>
+              <p>
+                <strong className="label-and-value">Category:</strong>
+                <span className="label-and-value">{course.category}</span>
               </p>
               <p>{course.description}</p>
             </div>

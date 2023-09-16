@@ -11,9 +11,9 @@ namespace College_API.ViewModels
         public string? Description { get; set; }
         public string? Details { get; set; }
         public int EnrolledStudents { get; set; }
-        public int CategoryId { get; set; }
+        public string? Category { get; set; }
 
-        public List<Registration> Registrations { get; set; }
+        public List<Registration>? Registrations { get; set; }
         // public string? ImagePath { get; set; }
         // public ICollection<User>? Users { get; set; } = new List<User>();
     }

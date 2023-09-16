@@ -188,3 +188,8 @@ p {
 .delete-registration-button:hover {
   background-color: darkred !important; /* Change the background color on hover */
 }
+
+.label-and-value {
+  display: inline-block;
+  margin-right: 10px;
+}

@@ -7,6 +7,7 @@ function AddCourse() {
   const [useDuration, setDuration] = useState('');
   const [useDescription, setDescription] = useState('');
   const [useDetails, setDetails] = useState('');
+  const [useCategory, setCategory] = useState('');
 
   const onHandlerCourseNumTextChange = (e) => {
     //220518_13 1:45:00
@@ -25,6 +26,10 @@ function AddCourse() {
   const onHandlerDetailsTextChange = (e) => {
     setDetails(e.target.value);
   };
+  const onHandlerCategoryTextChange = (e) => {
+    setCategory(e.target.value);
+  };
+
   const handleSaveCourse = (e) => {
     //220518_13 1:45:00
     e.preventDefault(); //don't act (form) in the standard way when we submit(to empty field, reload page, etc).
@@ -34,9 +39,9 @@ function AddCourse() {
       duration: useDuration,
       description: useDescription,
       details: useDetails,
+      category: useCategory,
     };
 
-    console.log(course);
     saveCourse(course);
   };
 
@@ -49,11 +54,11 @@ function AddCourse() {
       },
       body: JSON.stringify(course),
     });
-    console.log('Here is the response:');
-    console.log(response);
     if (response.status >= 200 && response.status <= 299) {
       setIsSuccess(true);
       console.log('Course is saved');
+      console.log('Here is the response:');
+      console.log(response);
     } else {
       console.log('something went wrong while saving course');
     }
@@ -92,6 +97,16 @@ function AddCourse() {
                 type="text"
                 id="duration"
                 name="duration"
+              />
+            </div>
+            <div className="form-control">
+              <label htmlFor="category">Category</label>
+              <input
+                onChange={onHandlerCategoryTextChange}
+                value={useCategory}
+                type="text"
+                id="category"
+                name="category"
               />
             </div>
             <div className="form-control">
