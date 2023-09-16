@@ -7,7 +7,7 @@ namespace College_API.ViewModels
         public string? Duration { get; set; }
         public string? Description { get; set; }
         public string? Details { get; set; }
-        public int CategoryId { get; set; } // Add this property for CategoryId
+        public string? Category { get; set; }
         // public string? ImagePath { get; set; }
     }
 }

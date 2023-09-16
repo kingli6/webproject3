@@ -28,8 +28,8 @@ namespace College_API.Repositories
                 Duration = model.Duration,
                 Description = model.Description,
                 Details = model.Details,
-                CategoryId = model.CategoryId, // Set the CategoryId
-                                               // ... other properties ...
+                Category = model.Category, // Set the CategoryId
+                                           // ... other properties ...
             };
             // var course = _mapper.Map<Course>(model);
             await _context.Courses.AddAsync(course);
@@ -68,7 +68,7 @@ namespace College_API.Repositories
             existingCourse.Duration = courseViewModel.Duration;
             existingCourse.Description = courseViewModel.Description;
             existingCourse.Details = courseViewModel.Details;
-            existingCourse.CategoryId = courseViewModel.CategoryId;
+            existingCourse.Category = courseViewModel.Category;
             existingCourse.EnrolledStudents = courseViewModel.EnrolledStudents;
 
             _context.Courses.Update(existingCourse); // Attach the updated course to the DbContext for updating

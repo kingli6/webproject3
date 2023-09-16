@@ -14,11 +14,7 @@ namespace College_API.Models
         public string? Details { get; set; }
         public int EnrolledStudents { get; set; }
         public List<Registration>? Registrations { get; set; }
-        public int CategoryId { get; set; }
-        public Category Category { get; set; } = new Category();
-        // public string? ImagePath { get; set; }
-        // public string? ImageUrl { get; set; }
-        // public ICollection<EnrolledStudents> EnrolledStudents { get; set; } = new List<EnrolledStudents>();
-        // [ForeignKey("CategoryId")]
+        public string? Category { get; set; }
+
     }
 }

@@ -24,9 +24,10 @@ namespace College_API.Helpers
             CreateMap<Course, CourseViewModel>()
             .ForMember(dest => dest.CourseId, options => options.MapFrom(src => src.Id));
 
-            CreateMap<PostCategoryViewModel, Category>();
-            CreateMap<Category, CategoryViewModel>()
-                .ForMember(dest => dest.CategoryId, options => options.MapFrom(src => src.Id));
+            // CreateMap<PostCategoryViewModel, Category>();
+            // CreateMap<Category, CategoryViewModel>()
+            //     .ForMember(dest => dest.CategoryId, options => options.MapFrom(src => src.Id));
+            // this is throwing issue.we need to edit automapper on functions(repo) OR CHANGE THE WHOLE LOGIC! for ALL CONTROLLERS?
         }
     }
 }
