@@ -1,17 +1,17 @@
 # .Net Backend & React frontend Project
 
-A school website that allows users to create account, join courses, an admin site that can edit users.
+A school website that allows users to create account, register to courses, an admin section that can administer (CRUD) users and courses registered in the database.
 Feel free to contact me for information.
 
 ### To get started
 
 #### .Net API Backend
 
-    After downloading the repo, place yourself in the terminal at ../webproject3/College-API> , type: "dotnet restore"
+    After downloading the Git-repo, place yourself in the terminal at "../webproject3/College-API>", type: "dotnet restore"
 
-    -dotnet restore						//to recreate system required files locally.
-    -dotnet build						// to test if there are errors in the project.
-    -dotnet run or -dotnet watch run 	//to start the api project
+    - dotnet restore						//to recreate system required files locally.
+    - dotnet build					// to test if there are errors in the project.
+    - "dotnet run" or "dotnet watch run" 	//to start the api project
 
 #### To view all the backend api endpoints with Swagger.
 
@@ -20,18 +20,24 @@ Feel free to contact me for information.
 
 #### React Frontend
 
-    In the terminal, place yourself in ../Clients/react-app>
+    In the terminal, place yourself in "../Clients/react-app>"
     and type: "npm install" (Obs; you need to have Node installed prior to this. Check out a guide on react to install all the prerequisites)
 
-    -npm install 		// to install npm locally so you can start the project
-    -npm start			// to start the project
+    - npm install 		// to install npm locally so you can start the project
+    - npm start			// to start the project
 
     You'll find your webpage here: http://localhost:3000/
 
 Following tutorials on ".Net Web API" should let you get a good start
 As an example: https://www.youtube.com/watch?v=Fbf_ua2t6v4&t=97s
 
-#### Logging IN
+## Testing the application
+
+### Create an Admin and User account to log into the application.
+
+    Either use Swagger or the "Create Account" in the front page to log in.
+
+#### http://localhost:5223/swagger
 
     Create a user with API: /api/v3/auth/createUser
     {
@@ -39,11 +45,11 @@ As an example: https://www.youtube.com/watch?v=Fbf_ua2t6v4&t=97s
     	"password": "Password!1",
     	"firstName": "John",
     	"lastName": "Doe",
-    	"phoneNumber": "123",
+    	"phoneNumber": "123456789",
     	"address": "Adress 123 Street",
     	"userRole": "User"
     }
-    Or Create an Admin role by chaning the "userRole": Administrator
+    Or Create an Admin role by changing the "userRole": Administrator
 
 <!--
 https://www.notion.so/07f326a24db34eec8f9f7bea2c7f22b4?v=6a8d9729ff0a46a48758fbc489275087&p=d171fd63d9bd4e10b7bf631023d0f7f0&pm=s

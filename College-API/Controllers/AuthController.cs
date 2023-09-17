@@ -39,48 +39,49 @@ namespace College_API.Controllers
             _context = context;
         }
 
-        // admin1@email.com PassWord!1
-        // "user1@example.com",PassWord!1
+        // admin@email.com PassWord!1
+        // "user@email.com",PassWord!1
 
-        [HttpGet("getAllAdmins")]
-        public async Task<ActionResult<List<SignInUserViewModel>>> GetAllAdminsAsync()
-        {
-            try
-            {
-                var admins = await _userManager.GetUsersInRoleAsync("Administrator");
-                Console.WriteLine(admins);
-                var adminList = _mapper.ProjectTo<SignInUserViewModel>(admins.AsQueryable()).ToList();
-                return Ok(adminList);
-            }
-            catch (NotFoundException)
-            {
-                return StatusCode(404, "Table doesn't exsist for method GetAllAdminsAsync");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
+        // [HttpGet("getAllAdmins")]
+        // public async Task<ActionResult<List<SignInUserViewModel>>> GetAllAdminsAsync()
+        // {
+        //     try
+        //     {
+        //         var admins = await _userManager.GetUsersInRoleAsync("Administrator");
+        //         Console.WriteLine(admins);
+        //         var adminList = _mapper.ProjectTo<SignInUserViewModel>(admins.AsQueryable()).ToList();
+        //         return Ok(adminList);
+        //     }
+        //     catch (NotFoundException)
+        //     {
+        //         return StatusCode(404, "Table doesn't exsist for method GetAllAdminsAsync");
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         return StatusCode(500, ex.Message);
+        //     }
+        // }
 
-        [HttpGet("GetAllUsers")]    //Get Identity information
-        public async Task<ActionResult<IEnumerable<SignInUserViewModel>>> GetAllUsersAsync()
-        {
-            try
-            {
-                //return Ok(await _context.Users.ProjectTo<SignInUserViewModel>(_mapper.ConfigurationProvider).ToListAsync());
+        // [HttpGet("GetAllUsers")]    //Get Identity information
+        // public async Task<ActionResult<IEnumerable<SignInUserViewModel>>> GetAllUsersAsync()
+        // {
+        //     try
+        //     {
+        //         //return Ok(await _context.Users.ProjectTo<SignInUserViewModel>(_mapper.ConfigurationProvider).ToListAsync());
 
-                //getting everyone in _userManager
-                return Ok(await _userManager.Users.ToListAsync());
-            }
-            catch (NotFoundException)
-            {
-                return StatusCode(404, "Table doesn't exsist in method GetAllusersAsync");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
+        //         //getting everyone in _userManager
+        //         return Ok(await _userManager.Users.ToListAsync());
+        //     }
+        //     catch (NotFoundException)
+        //     {
+        //         return StatusCode(404, "Table doesn't exsist in method GetAllusersAsync");
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         return StatusCode(500, ex.Message);
+        //     }
+        // }
+
         [HttpGet("getUserById/{id}")]
         public async Task<ActionResult<CustomerUserViewModel>> GetUserById(string id)
         {
@@ -113,60 +114,60 @@ namespace College_API.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-        [HttpPost("register")]
-        public async Task<ActionResult<SignInUserViewModel>> RegisterUser(RegisterUserViewModel model)
-        {
-            // if Administrator role doesn't exsist, create one.
-            if (!await _roleManager.RoleExistsAsync("Administrator"))
-            {
-                var adminRole = new IdentityRole("Administrator");
-                await _roleManager.CreateAsync(adminRole);
-            }
-            var user = new IdentityUser
-            {
-                Email = model.Email!.ToLower(),
-                UserName = model.Email.ToLower(),
+        // [HttpPost("register")]
+        // public async Task<ActionResult<SignInUserViewModel>> RegisterUser(RegisterUserViewModel model)
+        // {
+        //     // if Administrator role doesn't exsist, create one.
+        //     if (!await _roleManager.RoleExistsAsync("Administrator"))
+        //     {
+        //         var adminRole = new IdentityRole("Administrator");
+        //         await _roleManager.CreateAsync(adminRole);
+        //     }
+        //     var user = new IdentityUser
+        //     {
+        //         Email = model.Email!.ToLower(),
+        //         UserName = model.Email.ToLower(),
 
-            };
-            var result = await _userManager.CreateAsync(user, model.Password!);
-            if (result.Succeeded)
-            {
+        //     };
+        //     var result = await _userManager.CreateAsync(user, model.Password!);
+        //     if (result.Succeeded)
+        //     {
 
-                // creating a claim called Admin and setting IsAdmin to true    220504_13.. 1:25:00
-                if (model.IsAdmin)
-                {
-                    await _userManager.AddClaimAsync(user, new Claim("Admin", "true"));
-                    await _userManager.AddToRoleAsync(user, "Administrator");  //220504_13.. 2:33:00
-                    await _userManager.AddClaimAsync(user, new Claim("Administrator", "true"));
-                }
-                if (!await _roleManager.RoleExistsAsync("User"))
-                {
-                    var userRole = new IdentityRole("User");
-                    await _roleManager.CreateAsync(userRole);
-                }
-                // ??? Roles or claims?
-                await _userManager.AddToRoleAsync(user, "User");
-                await _userManager.AddClaimAsync(user, new Claim("User", "true"));
-                await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Name, user.UserName));
-                await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Email, user.Email));
-                await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.NameIdentifier, user.Id));
+        //         // creating a claim called Admin and setting IsAdmin to true    220504_13.. 1:25:00
+        //         if (model.IsAdmin)
+        //         {
+        //             await _userManager.AddClaimAsync(user, new Claim("Admin", "true"));
+        //             await _userManager.AddToRoleAsync(user, "Administrator");  //220504_13.. 2:33:00
+        //             await _userManager.AddClaimAsync(user, new Claim("Administrator", "true"));
+        //         }
+        //         if (!await _roleManager.RoleExistsAsync("User"))
+        //         {
+        //             var userRole = new IdentityRole("User");
+        //             await _roleManager.CreateAsync(userRole);
+        //         }
+        //         // ??? Roles or claims?
+        //         await _userManager.AddToRoleAsync(user, "User");
+        //         await _userManager.AddClaimAsync(user, new Claim("User", "true"));
+        //         await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Name, user.UserName));
+        //         await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Email, user.Email));
+        //         await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.NameIdentifier, user.Id));
 
-                var userData = new SignInUserViewModel
-                {
-                    UserName = user.UserName,
-                    Token = await CreateJwtToken(user)
-                };
-                return StatusCode(201, userData);
-            }
-            else
-            {
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("User registration error. ", error.Description);
-                }
-                return StatusCode(500, ModelState);
-            }
-        }
+        //         var userData = new SignInUserViewModel
+        //         {
+        //             UserName = user.UserName,
+        //             Token = await CreateJwtToken(user)
+        //         };
+        //         return StatusCode(201, userData);
+        //     }
+        //     else
+        //     {
+        //         foreach (var error in result.Errors)
+        //         {
+        //             ModelState.AddModelError("User registration error. ", error.Description);
+        //         }
+        //         return StatusCode(500, ModelState);
+        //     }
+        // }
 
         [HttpGet("getallusersByAdmin")]
         public async Task<ActionResult<IEnumerable<CustomerUserViewModel>>> GetAllUsers()
@@ -280,6 +281,7 @@ namespace College_API.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
         [HttpPut("updateUserById/{id}")]
         public async Task<ActionResult> UpdateUserByIdAsync(string id, SignInCustomerViewModel model)
         {
@@ -391,27 +393,27 @@ namespace College_API.Controllers
             }
         }
 
-        [HttpGet("users-with-roles")]
-        public async Task<ActionResult<List<UserWithRolesViewModel>>> GetUsersWithRoles()
-        {
-            var users = await _userManager.Users.ToListAsync();
+        // [HttpGet("users-with-roles")]
+        // public async Task<ActionResult<List<UserWithRolesViewModel>>> GetUsersWithRoles()
+        // {
+        //     var users = await _userManager.Users.ToListAsync();
 
-            var usersWithRoles = new List<UserWithRolesViewModel>();
+        //     var usersWithRoles = new List<UserWithRolesViewModel>();
 
-            foreach (var user in users)
-            {
-                var roles = await _userManager.GetRolesAsync(user);
-                var userWithRoles = new UserWithRolesViewModel
-                {
-                    UserId = user.Id,
-                    UserName = user.UserName,
-                    Roles = roles.ToList()
-                };
-                usersWithRoles.Add(userWithRoles);
-            }
+        //     foreach (var user in users)
+        //     {
+        //         var roles = await _userManager.GetRolesAsync(user);
+        //         var userWithRoles = new UserWithRolesViewModel
+        //         {
+        //             UserId = user.Id,
+        //             UserName = user.UserName,
+        //             Roles = roles.ToList()
+        //         };
+        //         usersWithRoles.Add(userWithRoles);
+        //     }
 
-            return Ok(usersWithRoles);
-        }
+        //     return Ok(usersWithRoles);
+        // }
 
         [HttpDelete("{email}")]
         public async Task<IActionResult> DeleteUserByEmail(string email)
