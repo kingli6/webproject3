@@ -32,11 +32,6 @@ function CoursesAndRegistration() {
   //   history.push(`/courses/${courseId}`); <-using history. showed error
   // };
 
-  useEffect(() => {
-    loadCourses();
-    loadCategories();
-  }, []);
-
   const loadCourses = async (query) => {
     const token = JSON.parse(localStorage.getItem('token'));
     const url = process.env.REACT_APP_BASEURL + '/courses/GetAllCourses';
@@ -52,46 +47,35 @@ function CoursesAndRegistration() {
     } else {
       const coursesData = await response.json();
 
-      // Filter courses based on the search query
-      const filteredCourses = coursesData.filter(
-        (course) =>
-          // Filter courses based on the selected category and search query
-          ((selectedCategory === '' ||
-            course.categoryId === selectedCategory) &&
-            // Check if the search query is present in course name, description, or course number
-            course.name.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      console.log('selectedCategory: ' + selectedCategory);
+
+      // Extract unique categories from the courses and set them in the state
+      const uniqueCategories = [
+        ...new Set(coursesData.map((course) => course.category)),
+      ];
+      setCategories(uniqueCategories);
+      console.log('Categories:', categories); // Debugging line
+
+      // Filter courses based on the selected category and search query
+      const filteredCourses = coursesData.filter((course) => {
+        const categoryMatches =
+          selectedCategory === '' || course.category === selectedCategory;
+        const searchMatches =
+          course.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
           course.description
             .toLowerCase()
             .includes(searchQuery.toLowerCase()) ||
-          course.courseNumber.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-      setCourses(filteredCourses);
-    }
-  };
+          course.courseNumber.toLowerCase().includes(searchQuery.toLowerCase());
 
-  const loadCategories = async () => {
-    try {
-      const token = JSON.parse(localStorage.getItem('token'));
-      const url = `${process.env.REACT_APP_BASEURL}/categories`; // Change the URL to your API endpoint for categories
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          Authorization: `bearer ${token}`,
-        },
+        return categoryMatches && searchMatches;
       });
-
-      if (response.ok) {
-        const categoriesData = await response.json();
-        setCategories(categoriesData);
-      }
-    } catch (error) {
-      console.error('Error fetching categories:', error);
+      setCourses(filteredCourses);
     }
   };
 
   useEffect(() => {
     loadCourses();
-  }, [searchQuery]);
+  }, [selectedCategory, searchQuery]);
 
   return (
     <>
@@ -117,8 +101,8 @@ function CoursesAndRegistration() {
         >
           <option value="">All Categories</option>
           {categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.name}
+            <option key={category} value={category}>
+              {category}
             </option>
           ))}
         </select>
@@ -134,7 +118,7 @@ function CoursesAndRegistration() {
             onClick={() => handleCourseClick(course.courseId)}
           >
             <div className="course-header">
-              <h3>{course.name}</h3>{' '}
+              <h3>{course.name}</h3>
               <p>
                 <strong className="label-and-value">Course Number:</strong>
                 <span className="label-and-value">{course.courseNumber}</span>
