@@ -18,6 +18,7 @@ function Login() {
 
   const handleCreateAccount = () => {
     navigate('/addUser');
+    alert('HEY dejen');
   };
 
   const handleLogin = async (e) => {
@@ -80,7 +81,7 @@ function Login() {
         <section className="form-wrapper">
           <form className="form" onSubmit={handleLogin}>
             <div className="form-control">
-              <label htmlFor="userName">Username/E-mail</label>
+              <label htmlFor="userName">Username</label>
               <input
                 onChange={onHandleUserNameTextChanged}
                 value={useUserName}

@@ -8,14 +8,15 @@ function CoursesAndRegistration() {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [expandedCourseId, setExpandedCourseId] = useState(null);
-
+  const [isVisible, setIsVisible] = useState(false);
   //this doesn't work //TODO
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
+  window.addEventListener('scroll', function () {
+    if (window.scrollY > 100) {
+      setIsVisible(true);
+    } else {
+      setIsVisible(false);
+    }
+  });
 
   const handleCourseClick = (courseId) => {
     if (expandedCourseId === courseId) {
@@ -155,8 +156,11 @@ function CoursesAndRegistration() {
           </div>
         ))}
       </div>
-      <button className="scroll-to-top-button" onClick={scrollToTop}>
-        Move to Top
+      <button
+        className={`scroll-to-top-button ${isVisible ? 'visible' : ''}`}
+        onClick={() => window.scrollTo(0, 0)}
+      >
+        Scroll to Top
       </button>
     </>
   );

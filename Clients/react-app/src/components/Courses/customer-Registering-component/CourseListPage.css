@@ -142,7 +142,7 @@ p {
   bottom: 20px;
   right: 20px;
   background-color: var(--primary-color);
-  color: white;
+  color: rgb(0, 0, 0);
   border: none;
   padding: 10px 15px;
   border-radius: 5px;
