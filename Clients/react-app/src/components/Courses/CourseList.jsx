@@ -55,10 +55,12 @@ function CourseList({ userRole }) {
       <table>
         <thead>
           <tr>
-            <th>Item1</th>
-            <th>Item2</th>
-            <th>Item3</th>
-            <th>Item4</th>
+            <th></th>
+            <th>ID</th>
+            <th>CourseNr</th>
+            <th>Title</th>
+            <th>Duration</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>

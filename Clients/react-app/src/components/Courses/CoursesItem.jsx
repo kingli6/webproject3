@@ -19,10 +19,10 @@ function CoursesItem({ course, handleDeleteCourse }) {
           <i className="fa-solid fa-pencil edit"></i>
         </span>
       </td>
+      <td>{course.courseId}</td>
       <td>{course.courseNumber}</td>
       <td>{course.name}</td>
       <td>{course.duration}</td>
-      <td>Things</td>
       <td>
         <span onClick={onDeleteClickHandler}>
           <i className="fa-solid fa-trash-can delete"></i>

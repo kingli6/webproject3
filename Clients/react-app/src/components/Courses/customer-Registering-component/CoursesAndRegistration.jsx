@@ -18,6 +18,7 @@ function CoursesAndRegistration() {
     }
   });
 
+  //expand function
   const handleCourseClick = (courseId) => {
     if (expandedCourseId === courseId) {
       // If the clicked course is already expanded, close it
@@ -28,11 +29,7 @@ function CoursesAndRegistration() {
     }
   };
 
-  // const handleRegisterClick = (courseId) => {
-  //   // Navigate to the course details page with the courseId as a URL parameter
-  //   history.push(`/courses/${courseId}`); <-using history. showed error
-  // };
-
+  //LOAD COURSE, Category search
   const loadCourses = async (query) => {
     const token = JSON.parse(localStorage.getItem('token'));
     const url = process.env.REACT_APP_BASEURL + '/courses/GetAllCourses';
@@ -50,6 +47,7 @@ function CoursesAndRegistration() {
 
       console.log('selectedCategory: ' + selectedCategory);
 
+      // SEARCH function
       // Extract unique categories from the courses and set them in the state
       const uniqueCategories = [
         ...new Set(coursesData.map((course) => course.category)),
