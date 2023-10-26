@@ -45,8 +45,9 @@ function Login() {
 
       //Capture information about the user: Wether admin or not.
       const isAdmin = result.roles.includes('Administrator');
-      //TODO 1
-      console.log('Login successful! isAdmin:', isAdmin);
+
+      // console.log('Login successful! isAdmin:', isAdmin);
+
       setUserRole(isAdmin ? 'Administrator' : 'User'); // Update userRole
 
       // Set user details in the context
