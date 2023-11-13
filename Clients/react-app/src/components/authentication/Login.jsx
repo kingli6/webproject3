@@ -18,7 +18,6 @@ function Login() {
 
   const handleCreateAccount = () => {
     navigate('/addUser');
-    alert('HEY dejen');
   };
 
   const handleLogin = async (e) => {
@@ -39,17 +38,13 @@ function Login() {
 
     if (response.status >= 200 && response.status <= 299) {
       const result = await response.json();
-      //TODO
-      console.log('User Object:: ', result);
+      // console.log('User Object:: ', result);
       localStorage.setItem('token', JSON.stringify(result.token)); //220519_09   2:16:00
 
       //Capture information about the user: Wether admin or not.
       const isAdmin = result.roles.includes('Administrator');
-
       // console.log('Login successful! isAdmin:', isAdmin);
-
       setUserRole(isAdmin ? 'Administrator' : 'User'); // Update userRole
-
       // Set user details in the context
       setUserDetails({
         id: result.id,

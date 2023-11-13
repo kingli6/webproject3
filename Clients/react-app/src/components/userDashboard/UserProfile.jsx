@@ -84,81 +84,83 @@ function UserProfile() {
 
   return (
     <>
-      <h2>User Profile</h2>
-      <p>
-        Name:{' '}
-        {isEditing === 'firstName' ? (
-          <input
-            type="text"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-          />
-        ) : (
-          firstName
-        )}
-        {isEditing !== 'firstName' && (
-          <button onClick={() => handleEditField('firstName')}>Edit</button>
-        )}
-        {isEditing === 'firstName' && (
-          <button onClick={handleSaveField}>Save</button>
-        )}
-      </p>
-      <p>
-        Last Name:{' '}
-        {isEditing === 'lastName' ? (
-          <input
-            type="text"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-          />
-        ) : (
-          lastName
-        )}
-        {isEditing !== 'lastName' && (
-          <button onClick={() => handleEditField('lastName')}>Edit</button>
-        )}
-        {isEditing === 'lastName' && (
-          <button onClick={handleSaveField}>Save</button>
-        )}
-      </p>
-      <p>
-        Phone Number:{' '}
-        {isEditing === 'phoneNumber' ? (
-          <input
-            type="text"
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-          />
-        ) : (
-          phoneNumber
-        )}
-        {isEditing !== 'phoneNumber' && (
-          <button onClick={() => handleEditField('phoneNumber')}>Edit</button>
-        )}
-        {isEditing === 'phoneNumber' && (
-          <button onClick={handleSaveField}>Save</button>
-        )}
-      </p>
-      <p>
-        Address:{' '}
-        {isEditing === 'address' ? (
-          <input
-            type="text"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          />
-        ) : (
-          address
-        )}
-        {isEditing !== 'address' && (
-          <button onClick={() => handleEditField('address')}>Edit</button>
-        )}
-        {isEditing === 'address' && (
-          <button onClick={handleSaveField}>Save</button>
-        )}
-      </p>
-      <button onClick={handleDeleteAccount}>Delete Account</button>
-      <Link to="/userDashboard">Back to Dashboard</Link>
+      <div className="user-profile">
+        <h2>User Profile</h2>
+        <p>
+          Name:{' '}
+          {isEditing === 'firstName' ? (
+            <input
+              type="text"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+            />
+          ) : (
+            firstName
+          )}
+          {isEditing !== 'firstName' && (
+            <button onClick={() => handleEditField('firstName')}>Edit</button>
+          )}
+          {isEditing === 'firstName' && (
+            <button onClick={handleSaveField}>Save</button>
+          )}
+        </p>
+        <p>
+          Last Name:{' '}
+          {isEditing === 'lastName' ? (
+            <input
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+            />
+          ) : (
+            lastName
+          )}
+          {isEditing !== 'lastName' && (
+            <button onClick={() => handleEditField('lastName')}>Edit</button>
+          )}
+          {isEditing === 'lastName' && (
+            <button onClick={handleSaveField}>Save</button>
+          )}
+        </p>
+        <p>
+          Phone Number:{' '}
+          {isEditing === 'phoneNumber' ? (
+            <input
+              type="text"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+            />
+          ) : (
+            phoneNumber
+          )}
+          {isEditing !== 'phoneNumber' && (
+            <button onClick={() => handleEditField('phoneNumber')}>Edit</button>
+          )}
+          {isEditing === 'phoneNumber' && (
+            <button onClick={handleSaveField}>Save</button>
+          )}
+        </p>
+        <p>
+          Address:{' '}
+          {isEditing === 'address' ? (
+            <input
+              type="text"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+          ) : (
+            address
+          )}
+          {isEditing !== 'address' && (
+            <button onClick={() => handleEditField('address')}>Edit</button>
+          )}
+          {isEditing === 'address' && (
+            <button onClick={handleSaveField}>Save</button>
+          )}
+        </p>
+        <button onClick={handleDeleteAccount}>Delete Account</button>
+        <Link to="/userDashboard">Back to Dashboard</Link>
+      </div>
     </>
   );
 }
